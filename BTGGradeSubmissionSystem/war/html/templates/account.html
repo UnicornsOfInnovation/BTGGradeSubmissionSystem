@@ -1,6 +1,6 @@
 <div class="col-lg-12">
 	<h1 class="Account">Manage Account
-	<button style="float: right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerAccount" >ADD</button>
+	<button style="float: right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerAccount" ng-click="setStrand()">ADD</button>
 	
 	</h1>
 	</div>
@@ -71,7 +71,7 @@
 					                                            <label ng-bind="studentModel.school"  style="font-weight:normal;"></label>					                               
 					                                            </td>
 					                                        	<td>
-					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editStudentAccount{{$index}}" ng-click="initEdit(studentModel)">Edit</button>
+					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" ng-click="initEdit(studentModel)" data-target="#editStudentAccount{{$index}}" >Edit</button>
 					                                        		<button type="button" class="btn btn-danger" ng-click="deleteAccount(studentModel.id)">Delete</button>
 					                                        	</td>
 					                                        </tr>
@@ -102,8 +102,8 @@
 						                      			<label class="contentLabel"> emailAddress: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.emailAddress" required><br>
 						                      			<label class="contentLabel"> Year Level: </label><br>
-														<select name="type" class="form-control" ng-model="studentModel.yearLevel" ng-options="year for year in yearArray" required>
-        												</select><br>
+														<select name="type" class="form-control" ng-init="studentModel.yearLevel=yearArray[selectedYear]" ng-model="studentModel.yearLevel" ng-options="year for year in yearArray" required>
+										        		</select><br>
 								                  		<label class="contentLabel"> Strand: </label><br> 
 														<select name="type" class="form-control" ng-model="studentModel.strand" ng-options="strand as strand.strandName for strand in strandList" required>
 											      		</select><br>
@@ -265,10 +265,11 @@
 								        				<div class="animate-switch-container" ng-switch on="Account.userType">
 														      <div class="animate-switch" ng-switch-when="student">
 												      			 <label class="contentLabel"> YearLevel: </label><br> 
-																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[0]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
+																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[selectedYear]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
 										        				</select><br>
 																<label class="contentLabel"> Strand: </label><br> 
-																<select name="type" ng-init="Account.strand=strandList[1].strandName" class="form-control" ng-model="Account.strand" ng-options="strand as strand.strandName for strand in strandList" required>
+																<select name="type"  class="form-control" ng-model="Account.strand" ng-options="strand.strandName for strand in strandList track by strand.strandName" required>
+													      			 <option value="">-- Select an option--</option>
 													      		</select><br>
 													      		<label class="contentLabel"> Parent Name: </label><br> 
 																<input class ="form-control" type="text" ng-model="Account.parentName" required><br>
@@ -285,10 +286,11 @@
 														      </div>
 														      <div class="animate-switch" ng-switch-default>
 														      	<label class="contentLabel"> YearLevel: </label><br> 
-																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[0]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
+																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[selectedYear]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
 										        				</select><br>
 																<label class="contentLabel"> Strand: </label><br> 
-																<select name="type" ng-init="Account.strand=strandList[1].strandName" class="form-control" ng-model="Account.strand" ng-options="strand as strand.strandName for strand in strandList" required>
+																<select name="type"  class="form-control" ng-model="Account.strand" ng-options="strand.strandName for strand in strandList track by strand.strandName" required>
+													      			 <option value="">-- Select an option--</option>
 													      		</select><br>
 													      		<label class="contentLabel"> Parent Name: </label><br> 
 																<input class ="form-control" type="text" ng-model="Account.parentName" required><br>
