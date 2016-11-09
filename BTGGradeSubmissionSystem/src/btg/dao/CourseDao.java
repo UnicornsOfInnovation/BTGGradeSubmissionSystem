@@ -33,12 +33,14 @@ public class CourseDao {
         System.out.println("CourseDao.insertCourse():"+ "start");
 
         Transaction tx;     //used to create transaction for insert
+        Key parentKey;      //used to create a parentKey for the entry
+        Key key;            //used to create a Key of that entry derived from parentKey
         
         tx = Datastore.beginTransaction();
         
         // creating key and ID for the new entity
-        Key parentKey = KeyFactory.createKey("Course", inputCourse.getCourseName());
-        Key key = Datastore.allocateId(parentKey, "CourseModel");
+        parentKey = KeyFactory.createKey("Course", inputCourse.getCourseName());
+        key = Datastore.allocateId(parentKey, "CourseModel");
         
         // setting the 'key' and 'id' of the model
         inputCourse.setKey(key);
