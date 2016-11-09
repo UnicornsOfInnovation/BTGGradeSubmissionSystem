@@ -10,6 +10,8 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	$scope.strandEdit = null;
 	$scope.strandNames = [];
 	$scope.courseList = [];
+	$scope.selectedCourse = 0;
+	$scope.courseEdit = null;
 	
 	$scope.course = {
 		id: 0,
@@ -97,6 +99,16 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 				$scope.course.strand = $scope.strandNames[$scope.selectedStrand];
 				$scope.strandEdit =  $scope.strandNames[$scope.selectedStrand];
 				console.log("STRAND-->>>>>>"+$scope.strandEdit);
+			}
+		}
+		console.log("course edited is" +model.courseType);
+		for(var z = 0; z<$scope.courseType.length;z++){
+			if(model.courseType==$scope.courseType[z]){
+				console.log("SELECTED COURSE TYPE IS -->> " +z);
+				$scope.selectedCourse = z;
+				$scope.course.courseType = $scope.courseType[$scope.selectedCourse];
+				$scope.courseEdit =  $scope.courseType[$scope.selectedCourse];
+				console.log("Course-->>>>>>"+$scope.courseEdit);
 			}
 		}
 		
@@ -190,7 +202,12 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	}
 	
 
-	
+	$scope.validateType = function(courseType){
+		if(courseType == "major"){
+			return true;
+		}
+		return false;	
+	}
 	
 	
 	$scope.updateCourse = function(course,yearLevel,strandEdit){
