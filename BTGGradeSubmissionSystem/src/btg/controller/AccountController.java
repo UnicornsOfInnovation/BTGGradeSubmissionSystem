@@ -8,7 +8,7 @@
  *     October 24, 2016 - getStudentsByStrandController() (Dave)
  *     October 25, 2016 - updated the error messages of all catch statements.
  *                      - getAllTeacherAccounts() (Dave)
- *                        
+ *     November 9, 2016 - review the Coding Standards of this file (Russell)                   
  *     
  */
 
@@ -29,10 +29,10 @@ import btg.service.AccountService;
 
 public class AccountController extends Controller{
         
-        /*
-         * Purpose: holds the methods of the AccountService Class.
-         */
-        AccountService accountService = new AccountService();
+        
+        AccountService accountService = new AccountService();   //used to access methods in AccountService or database
+        
+        
         
         
         
@@ -45,10 +45,12 @@ public class AccountController extends Controller{
          */
         @Override
         protected Navigation run() throws Exception {
+            System.out.println("AccountController.run():" + "start");
+            
             String action;
-            JSONObject jsonObject;
-            AccountDto accountDto;
-            List<AccountDto> accountDtoList;
+            JSONObject jsonObject;              //holds the data passed from the front-end
+            AccountDto accountDto;              //holds the account passed from the back-end
+            List<AccountDto> accountDtoList;    //holds the list of accounts passed from the back-end
             
             jsonObject = null;
             accountDto = new AccountDto();
@@ -98,8 +100,11 @@ public class AccountController extends Controller{
             // send the response back to the JS file.
             response.getWriter().write(jsonObject.toString());
             
+            System.out.println("AccountController.run():" + "end");
             return null;
         }
+        
+        
         
         
         
@@ -110,10 +115,13 @@ public class AccountController extends Controller{
          * @return AccountDto - holds the error list if there are any errors
          */
         public AccountDto insertAccountController(JSONObject jsonObject){
-            AccountDto accountDto;
+            System.out.println("AccountController.insertAccountController():" + "start");
+            
+            AccountDto accountDto;      //holds the account passed from the back-end
             String userType;
             
-            accountDto = new AccountDto();            
+            accountDto = new AccountDto(); 
+            
             try {
                 userType = jsonObject.getString("userType");
                 accountDto.setFirstName(jsonObject.getString("firstName"));
@@ -139,8 +147,12 @@ public class AccountController extends Controller{
                 e.printStackTrace();
                 accountDto.addError(e.toString());
             }
+            
+            System.out.println("AccountController.insertAccountController():" + "end");
             return accountDto;
         }
+        
+        
         
         
         
@@ -151,10 +163,13 @@ public class AccountController extends Controller{
          * @return: AccountDto - holds the error list if there are any errors
          */
         public AccountDto updateAccountController(JSONObject jsonObject){
-            AccountDto accountDto;
+            System.out.println("AccountController.updateAccountController():" + "start");
+
+            AccountDto accountDto;      //holds the account passed from the back-end
             String userType;
             
-            accountDto = new AccountDto();            
+            accountDto = new AccountDto();   
+            
             try {
                 userType = jsonObject.getString("userType");
                 accountDto.setAccountId(Long.parseLong(jsonObject.getString("accountId")));
@@ -184,8 +199,13 @@ public class AccountController extends Controller{
                 e.printStackTrace();
                 accountDto.addError(e.toString());
             }
+            
+            System.out.println("AccountController.updateAccountController():" + "end");
             return accountDto;
         }
+        
+        
+        
         
         
         /*
@@ -195,9 +215,12 @@ public class AccountController extends Controller{
          * @return: AccountDto - holds the error list if there are any errors
          */
         public AccountDto deleteAccountController(JSONObject jsonObject){
-            AccountDto accountDto;
+            System.out.println("AccountController.deleteAccountController():" + "start");
+
+            AccountDto accountDto;      //holds the account passed from the back-end
             
             accountDto = new AccountDto();
+            
             try {
                 accountDto.setId(Long.parseLong(jsonObject.getString("id")));
                 accountDto = accountService.deleteAccount(accountDto);
@@ -206,8 +229,13 @@ public class AccountController extends Controller{
                 e.printStackTrace();
                 accountDto.addError(e.toString());
             }
+            
+            System.out.println("AccountController.deleteAccountController():" + "end");
             return accountDto;
         }
+        
+        
+        
         
         
         /*
@@ -218,9 +246,12 @@ public class AccountController extends Controller{
          *                      or holds the error list if there are any errors
          */
         public AccountDto getAccountByIdController(JSONObject jsonObject){
-            AccountDto accountDto;
+            System.out.println("AccountController.getAccountByIdController():" + "start");
+
+            AccountDto accountDto;      //holds the account passed from the back-end
             
             accountDto = new AccountDto();
+            
             try {
                 accountDto.setId(Long.parseLong(jsonObject.getString("id")));
                 accountDto = accountService.getAccountById(accountDto);
@@ -230,8 +261,12 @@ public class AccountController extends Controller{
                 accountDto.addError(e.toString());
             }
         
+            System.out.println("AccountController.getAccountByIdController():" + "end");
             return accountDto;
         }
+        
+        
+        
         
         
         /*
@@ -241,12 +276,20 @@ public class AccountController extends Controller{
          * @return AccountDto - holds the details of the account if successful
          *                      or holds the error list if there are any errors
          */
-        
         public List<AccountDto> getAllStudentAccountsController(){
-            List<AccountDto> accountDtoList;
-            accountDtoList = accountService.getAllStudentAccounts();            
+            System.out.println("AccountController.getAllStudentAccountsController():" + "start");
+
+            List<AccountDto> accountDtoList;    //holds the list of accounts passed from the back-end
+            
+            accountDtoList = accountService.getAllStudentAccounts();   
+            
+            System.out.println("AccountController.getAllStudentAccountsController():" + "end");
             return accountDtoList;
         }
+        
+        
+        
+        
         
         /*
          * Purpose: Receives the jsonObject when it is the function to be called. It is used to
@@ -255,15 +298,21 @@ public class AccountController extends Controller{
          * @return AccountDto - holds the details of the account if successful
          *                      or holds the error list if there are any errors
          */
-        
         public List<AccountDto> getAllTeacherAccountsController(){
-            List<AccountDto> accountDtoList;
-            accountDtoList = accountService.getAllTeacherAccounts();            
+            System.out.println("AccountController.getAllTeacherAccountsController():" + "start");
+
+            List<AccountDto> accountDtoList;    //holds the list of accounts passed from the back-end
+            
+            accountDtoList = accountService.getAllTeacherAccounts();  
+            
+            System.out.println("AccountController.getAllTeacherAccountsController():" + "end");
             return accountDtoList;
         }
         
         
 
+        
+        
         /*
          * Purpose: Receives the jsonObject when it is the function to be called. It is used to
          *          change the password of an account
@@ -271,8 +320,10 @@ public class AccountController extends Controller{
          * @return: AccountDto - holds the error list if there are any errors
          */
         public AccountDto changePasswordController(JSONObject jsonObject){
+            System.out.println("AccountController.changePasswordController():" + "start");
+
             String newPassword;
-            AccountDto accountDto;
+            AccountDto accountDto;  //holds the account passed from the back-end
             
             accountDto = new AccountDto();
            
@@ -291,17 +342,31 @@ public class AccountController extends Controller{
                 e.printStackTrace();
                 accountDto.addError(e.toString());
             }
-            return accountDto;
             
+            System.out.println("AccountController.changePasswordController():" + "end");
+            return accountDto;            
         }
         
         
+        
+        
+        
+        /*
+         * Purpose: Receives the jsonObject when it is the function to be called. It is used to
+         *          retrieve all student accounts in a strand by calling the getStudentsByStrand in Service.
+         * @param: JSONObject - the jsonObject passed by the client
+         * @return: AccountDto - holds the details of the accounts if successful
+         *                      or holds the error list if there are any errors
+         */
         public List<AccountDto> getStudentsByStrandController(JSONObject jsonObject){
-            List<AccountDto> accountDtoList;
-            AccountDto accountDto;
+            System.out.println("AccountController.getStudentsByStrandController():" + "start");
+
+            List<AccountDto> accountDtoList;    //holds the list of accounts passed from the back-end
+            AccountDto accountDto;              //holds the account passed from the back-end
             
             accountDto = new AccountDto();
             accountDtoList = null;
+            
             try{
                 accountDto.setStrand(jsonObject.getString("strand"));
                 accountDtoList = accountService.getStudentsByStrand(accountDto);
@@ -310,6 +375,7 @@ public class AccountController extends Controller{
                 e.printStackTrace();
             }
             
+            System.out.println("AccountController.getStudentsByStrandController():" + "end");
             return accountDtoList;
         }
 }
