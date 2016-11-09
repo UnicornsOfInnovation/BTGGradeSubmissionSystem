@@ -51,7 +51,7 @@ public class CourseController extends Controller{
         
         String action;
         JSONObject jsonObject;              //holds the data passed from the front-end
-        CourseDto courseDto;                //holds the data retrieved from the back-end
+        CourseDto courseDto;                //holds the course retrieved from the back-end
         List<CourseDto> courseDtoList;      //holds the list of courses retrieved from the database
         
         jsonObject = null;
