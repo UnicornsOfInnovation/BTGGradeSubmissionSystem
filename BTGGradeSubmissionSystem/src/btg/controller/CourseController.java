@@ -9,6 +9,7 @@
  *     October 23, 2016 - created the getAllCoursesController() (Dave)
  *     October 26, 2016 - added "start" "end" in all methods (Dave)
  *                      - modified Error handling messages (Dave)
+ *     November 9, 2016 - reviewed the Coding Standards for this file (Dave)
  */
 
 package btg.controller;
@@ -29,7 +30,11 @@ import btg.service.CourseService;
 public class CourseController extends Controller{
 
     
-    CourseService courseService = new CourseService();
+    CourseService courseService = new CourseService();      //used to access methods in CourseService or database
+    
+    
+    
+    
     /*
      * (non-Javadoc)
      * @see org.slim3.controller.Controller#run()
@@ -42,11 +47,12 @@ public class CourseController extends Controller{
      */
     @Override
     protected Navigation run() throws Exception {
-        System.out.println("CourseController.run:"+ "start");
+        System.out.println("CourseController.run():"+ "start");
+        
         String action;
-        JSONObject jsonObject;
-        CourseDto courseDto;
-        List<CourseDto> courseDtoList;
+        JSONObject jsonObject;              //holds the data passed from the front-end
+        CourseDto courseDto;                //holds the data retrieved from the back-end
+        List<CourseDto> courseDtoList;      //holds the list of courses retrieved from the database
         
         jsonObject = null;
         courseDto = new CourseDto();
@@ -91,7 +97,7 @@ public class CourseController extends Controller{
         // send the response back to the JS file.
         response.getWriter().write(jsonObject.toString());
         
-        System.out.println("CourseController.run:"+ "end");
+        System.out.println("CourseController.run():"+ "end");
         return null;
     }
 
@@ -107,10 +113,12 @@ public class CourseController extends Controller{
      */
     public CourseDto insertCourseController(JSONObject jsonObject){
         System.out.println("CourseController.insertCourseController():"+ "start");
-        CourseDto courseDto;
+        
+        CourseDto courseDto;        //holds the course that will be inserted to the database
         String courseType;
         
-        courseDto = new CourseDto();            
+        courseDto = new CourseDto();    
+        
         try {
             courseType = jsonObject.getString("courseType");
             courseDto.setCourseCode(jsonObject.getString("courseCode"));             
@@ -142,6 +150,8 @@ public class CourseController extends Controller{
     
     
     
+    
+    
     /*
      * Purpose: Receives the jsonObject when it is the function to be called. It is used to
      *          store update an account by calling the updateAccount in Service.
@@ -151,10 +161,11 @@ public class CourseController extends Controller{
     public CourseDto updateCourseController(JSONObject jsonObject){
         System.out.println("CourseController.updateCourseController():"+ "start");
 
-        CourseDto courseDto;
+        CourseDto courseDto;        //holds the course that will be updated from the database
         String courseType;
         
         courseDto = new CourseDto();
+        
         try{
             courseType = jsonObject.getString("courseType");
             courseDto.setCourseId(Long.parseLong(jsonObject.getString("id")));
@@ -176,9 +187,13 @@ public class CourseController extends Controller{
             e.printStackTrace();
             courseDto.addError(e.toString());
         }
+        
         System.out.println("CourseController.updateCourseController():"+ "end");
         return courseDto;
     }
+    
+    
+    
     
     
     /*
@@ -189,9 +204,11 @@ public class CourseController extends Controller{
      */
     public CourseDto deleteCourseController(JSONObject jsonObject){
         System.out.println("CourseController.deleteCourseController():"+ "start");
-        CourseDto courseDto;
+        
+        CourseDto courseDto;        //holds the course that will be deleted from the database
         
         courseDto = new CourseDto();
+        
         try {
             courseDto.setId(Long.parseLong(jsonObject.getString("id")));
             courseDto = courseService.deleteCourse(courseDto);
@@ -200,10 +217,13 @@ public class CourseController extends Controller{
             e.printStackTrace();
             courseDto.addError(e.toString());
         }
+        
         System.out.println("CourseController.deleteCourseController():"+ "end");
-
         return courseDto;
     }
+    
+    
+    
     
     
     /*
@@ -216,9 +236,10 @@ public class CourseController extends Controller{
     public CourseDto getCourseByIdController(JSONObject jsonObject){
         System.out.println("CourseController.getCourseByIdController():"+ "start");
 
-        CourseDto courseDto;
+        CourseDto courseDto;        //holds the course that will be retrieved from the database
         
         courseDto = new CourseDto();
+        
         try {
             courseDto.setId(Long.parseLong(jsonObject.getString("id")));
             courseDto = courseService.getCourseById(courseDto);
@@ -227,9 +248,15 @@ public class CourseController extends Controller{
             e.printStackTrace();
             courseDto.addError(e.toString());
         }
+        
         System.out.println("CourseController.getCourseByIdController():"+ "end");
         return courseDto;
     }
+    
+    
+    
+    
+    
     /*
      * Purpose: It is used to return the list of all courses in the database by calling the 
      *          getAllCourses method in the Service.
@@ -239,7 +266,8 @@ public class CourseController extends Controller{
      */
     public List<CourseDto> getAllCoursesController(){
         System.out.println("CourseController.getAllCoursesController():"+ "start");
-        List<CourseDto> courseDtoList;
+        
+        List<CourseDto> courseDtoList;      //holds the list of courses that will is retrieved from the database
         
         courseDtoList = null;
         try{
@@ -248,6 +276,7 @@ public class CourseController extends Controller{
             System.out.println("Exception found in getAllCoursesController() in CourseController:");
             System.out.println(e.toString());            
         }
+        
         System.out.println("CourseController.getAllCoursesController():"+ "end");
         return courseDtoList;
     }
