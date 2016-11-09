@@ -5,10 +5,14 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 	$scope.strandList = [];
 	$scope.strandNames = [];
 	$scope.courseList = [];
+	$scope.courseNames = [];
 	$scope.selectedYear = 0;
+	$scope.selectedCourse = 0;
 	$scope.selectedStrand = 0;
 	$scope.yearLevel = null;
+	$scope.courseEdit = null;
 	$scope.strandEdit = null;
+	
 	$scope.studentAccount = {
 			id: 0,
 			username:"",
@@ -108,6 +112,10 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			if (response.data.errorList.length == 0) {
 				$scope.courseList = response.data.courseDtoList;
 				console.log("Course-->>"+$scope.courseList[0].yearLevel);
+				for(var x = 0; x <$scope.courseList.length;x++){
+					$scope.courseNames.push($scope.courseList[x].courseName);
+					console.log("Course NAMES -->> " +$scope.courseList[x].courseName);
+				}
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -350,6 +358,12 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 
 		}
 	}
+	
+	
+	
+	
+	
+	
 	$scope.initEdit = function(model){
 		console.log("year level edited is" +model.yearLevel);
 		for(var x = 0; x<$scope.yearArray.length;x++){
@@ -372,6 +386,29 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 		}
 		
 	}
+	
+	
+	
+	
+	$scope.initEditTeacher = function(model){
+		console.log("course edited is" +model.courseCode);
+		for(var y = 0; y<$scope.courseNames.length;y++){
+			if(model.courseCode==$scope.courseNames[y]){
+				console.log("SELECTED Course IS -->> " +y);
+				$scope.selectedCourse = y;
+				$scope.teacherAccount.courseCode = $scope.courseNames[$scope.selectedCourse];
+				$scope.courseEdit =  $scope.courseNames[$scope.selectedCourse];
+				console.log("COURSE-->>>>>>"+$scope.courseEdit);
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	$scope.registerAccount = function(){
 		var confirmation = window.confirm("Are you sure you want to add account?");
@@ -497,7 +534,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 		}
 	}
 	
-	$scope.updateTeacherAccount = function(Account){
+	$scope.updateTeacherAccount = function(Account, courseEdit){
 		var confirmation = window.confirm("Are you sure you want to save changes?");
 		if (true == confirmation) {	
 				var teacher = {
@@ -509,7 +546,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						lastName: Account.lastName,
 						contactNumber: Account.contactNumber,
 						emailAddress: Account.emailAddress,
-						courseCode: Account.courseCode.courseName,
+						courseCode: courseEdit,
 						userType:"teacher",
 						status: Account.status,
 						action:"UpdateAccount"

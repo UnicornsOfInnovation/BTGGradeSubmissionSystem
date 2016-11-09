@@ -186,7 +186,7 @@
 					                                        <tr >
 					                                        	<td></td>
 					                                        	<td>
-					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTeacherAccount{{$index}}" >Edit</button>
+					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTeacherAccount{{$index}}" ng-click="initEditTeacher(teacherModel)">Edit</button>
 					                                        		<button type="button" class="btn btn-danger" ng-click="deleteAccount(teacherModel.id)">Delete</button>
 					                                        	</td>
 					                                        </tr>
@@ -214,14 +214,14 @@
 		                                                <label class="contentLabel"> Contact Number: </label><br> 
 		                                                <input class ="form-control" type="text" ng-model="teacherModel.contactNumber" required><br>
 		                                                <label class="contentLabel"> emailAddress: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.emailAddress" required><br>		    
-		                                                <label class="contentLabel"> Course Code: </label><br> 
-                                                		<select name="type" class="form-control" ng-model="teacherModel.courseCode" ng-options="course.courseName for course in courseList" required>
-											      		</select>
+		                                                <input class ="form-control" type="text" ng-model="teacherModel.emailAddress" required><br>
+ 										                 <label class="contentLabel"> Course Code: </label><br> 
+														<select name="type" class="form-control" ng-model="courseEdit" ng-options="course for course in courseNames" required>
+											      		</select><br>
 												  </div>
 		                                          <div class="modal-footer">
 		                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		                                              <button type="button" class="btn btn-primary" ng-click="updateTeacherAccount(teacherModel)" >Save changes</button>
+		                                              <button type="button" class="btn btn-primary" ng-click="updateTeacherAccount(teacherModel,courseEdit)" >Save changes</button>
 		                                          </div>
 		                                      </div>
 		                                      <!-- /.modal-content -->
