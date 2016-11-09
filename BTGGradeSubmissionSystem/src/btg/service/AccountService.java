@@ -5,6 +5,7 @@
  *                      - Created the insertAccount(), updateAccount(), deleteAccount(), getAccountById() (Dave)
  *     October 23, 2016 - Created computeGPA() (Dave)
  *     October 24, 2016 - Created getStudentsByStrand() (Dave)
+ *     November 9, 2016 - reviewed the Coding Standards for this file (Dave)
  */
 
 package btg.service;
@@ -24,7 +25,7 @@ import btg.common.GlobalConstants;
 
 public class AccountService {
 
-    AccountDao accountDao = new AccountDao();
+    AccountDao accountDao = new AccountDao();   //used to access the methods in the Data Access Object or Database
     
     
     
@@ -35,9 +36,12 @@ public class AccountService {
      *  @return: AccountDto that will hold the error list if exception occurs.
      */
     public AccountDto insertAccount(AccountDto inputAccount){
-        AccountModel accountModel;
+        System.out.println("AccountService.insertAccount():"+ "start");
+
+        AccountModel accountModel;          //used to store the data from DTO and this is passed to DAO
         
         accountModel = new AccountModel();
+        
         accountModel.setContactNumber(inputAccount.getContactNumber());
         accountModel.setCourseCode(inputAccount.getCourseCode());
         accountModel.setEmailAddress(inputAccount.getEmailAddress());
@@ -63,7 +67,7 @@ public class AccountService {
                 try {
                     accountDao.insertAccount(accountModel);
                 } catch (Exception e) {
-                    System.out.println("Exception in insertAccount in AccountService: ");
+                    System.out.println("Exception in insertAccount() in AccountService: ");
                     System.out.println(e.toString());
                     System.out.println(GlobalConstants.ERR_ENTRY_CANNOT_ADD);
                     inputAccount.addError(GlobalConstants.ERR_ENTRY_CANNOT_ADD);
@@ -72,12 +76,15 @@ public class AccountService {
                 inputAccount.addError(GlobalConstants.ERR_ENTRY_ALREADY_EXISTS);
             }
         } catch (Exception e) {
-            System.out.println("Exception in insertAccount in AccountService: ");
-            System.out.println(e.toString());
+            System.out.println("Exception in insertAccount() in AccountService: ");
+            e.printStackTrace();
             inputAccount.addError(GlobalConstants.ERR_DB_EXCEPTION);
         }        
+
+        System.out.println("AccountService.insertAccount():"+ "end");
         return inputAccount;
     }
+    
     
     
     
@@ -89,11 +96,13 @@ public class AccountService {
      *  @return: AccountDto that will hold the error list if exception occurs.
      */
     public AccountDto updateAccount(AccountDto inputAccount){
-        AccountModel accountModel;
-        AccountModel temp;
+        System.out.println("AccountService.updateAccount():"+ "start");
+
+        AccountModel accountModel;          //used to store the data from DTO and this is passed to DAO
+        AccountModel temp;                  //used to store data from database if account entry already exists
         
-        System.out.println("This is my AccountId: "+inputAccount.getId());
         accountModel = new AccountModel();
+        
         accountModel.setAccountId(inputAccount.getAccountId());
         accountModel.setId(inputAccount.getId());
         accountModel.setContactNumber(inputAccount.getContactNumber());
@@ -135,8 +144,10 @@ public class AccountService {
             inputAccount.addError(GlobalConstants.ERR_DB_EXCEPTION);
         }
         
+        System.out.println("AccountService.updateAccount():"+ "end");
         return inputAccount;
     }
+    
     
     
     
@@ -148,9 +159,11 @@ public class AccountService {
      *  @return: AccountDto that will hold the error list if exception occurs.
      */
     public AccountDto deleteAccount(AccountDto inputAccount){
-        AccountModel accountModel;
+        System.out.println("AccountService.deleteAccount():"+ "start");
+        AccountModel accountModel;      //used to store the data from DTO and this is passed to DAO
         
         accountModel = new AccountModel();
+        
         accountModel.setId(inputAccount.getId());
         try{
             accountModel = accountDao.getAccountById(accountModel);
@@ -175,8 +188,11 @@ public class AccountService {
             System.out.println("Exception in deleteAccount() in AccountService: ");
             e.printStackTrace();
         }
+        
+        System.out.println("AccountService.deleteAccount():"+ "end");
         return inputAccount;
     }
+    
     
     
     
@@ -188,7 +204,12 @@ public class AccountService {
      *  @return: AccountDto that will hold the complete details of the account or the error list if exception occurs.
      */
     public AccountDto getAccountById(AccountDto inputAccount){
-        AccountModel accountModel = new AccountModel();
+        System.out.println("AccountService.getAccountById():"+ "start");
+
+        AccountModel accountModel;        //used to store the data from DTO and this is passed to DAO
+
+        accountModel = new AccountModel();
+        
         accountModel.setId(inputAccount.getId());
         
         try {
@@ -216,12 +237,15 @@ public class AccountService {
         } catch (Exception e) {
             inputAccount.addError(GlobalConstants.ERR_DB_EXCEPTION);
             System.out.println("Exception in getAccountById() in AccountService: ");
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         
-        
+        System.out.println("AccountService.getAccountById():"+ "end");
         return inputAccount;
     }
+    
+    
+    
     
     
     /*
@@ -229,13 +253,15 @@ public class AccountService {
      *          Transfers the data from the model to the dto.        
      *  @param: none
      *  @return: List<AccountDto> that will hold the complete details of the student accounts.
-     */
-    
+     */    
     public List<AccountDto> getAllStudentAccounts(){
-        List<AccountDto> accountDtoList;
-        List<AccountModel> accountModelList;
+        System.out.println("AccountService.getAllStudentAccounts():"+ "start");
+
+        List<AccountDto> accountDtoList;        //used to store all student accounts as a DTO
+        List<AccountModel> accountModelList;    //used to store all student accounts as a Model from the database.
         
         accountDtoList = null;
+        
         try{
             accountModelList = accountDao.getAllStudentAccounts();
             accountDtoList = new ArrayList<AccountDto>();
@@ -264,12 +290,15 @@ public class AccountService {
         } catch (Exception e){
             System.out.println(GlobalConstants.ERR_DB_EXCEPTION); 
             System.out.println("Exception in getAllStudentAccounts() in AccountService: ");
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         
+        System.out.println("AccountService.getAllStudentAccounts():"+ "end");
         return accountDtoList;
         
     }
+    
+    
     
     
     
@@ -278,13 +307,15 @@ public class AccountService {
      *          Transfers the data from the model to the dto.        
      *  @param: none
      *  @return: List<AccountDto> that will hold the complete details of the teacher accounts.
-     */
-    
+     */    
     public List<AccountDto> getAllTeacherAccounts(){
-        List<AccountDto> accountDtoList;
-        List<AccountModel> accountModelList;
+        System.out.println("AccountService.getAllTeacherAccounts():"+ "start");
+
+        List<AccountDto> accountDtoList;        //used to store all teacher accounts as a DTO
+        List<AccountModel> accountModelList;    //used to store all teacher accounts as a Model from the database.
         
         accountDtoList = null;
+        
         try{
             accountModelList = accountDao.getAllTeacherAccounts();
             accountDtoList = new ArrayList<AccountDto>();
@@ -313,116 +344,129 @@ public class AccountService {
         } catch (Exception e){
             System.out.println(GlobalConstants.ERR_DB_EXCEPTION);   
             System.out.println("Exception in getAllTeacherAccounts() in AccountService: ");
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         
+        System.out.println("AccountService.getAllTeacherAccounts():"+ "end");
         return accountDtoList;
         
     }
     
    
-    //computeGPA
-    /*
-     * PUT COMMENTS HERE
-     * ARRANGE INDENTATION
-     */
     
-        public void computeGPA(JSONArray gradesArray){
-            int ctr;
-            AccountModel accountModel;
-            GradeService gradeService;
-            List<GradeModel> gradeModelList;
-            CourseModel courseModel;
-            CourseDao courseDao;
-            int totalUnits;
-            double cumulativeGrade;
-            double gpa;
-            
-            courseDao = new CourseDao();
-            gradeModelList = null;
-            gradeService = new GradeService();
-            for(ctr=0; ctr < gradesArray.length(); ctr++){
-                accountModel = new AccountModel();
-                try {
-                    accountModel.setId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("accountId")));
-                    // Getting the account from the database
-                    accountModel = accountDao.getAccountById(accountModel);
-                    // Computing for the GPA of the account
-                    if(null != accountModel){
-                        // Getting all the grades of the account from the database
-                        gradeModelList = gradeService.getAllGradesByAccountId(accountModel);
-                        totalUnits = 0;
-                        cumulativeGrade = 0;
-                        for(GradeModel gradeModel : gradeModelList){
-                            // Getting the course units
-                            courseModel = new CourseModel();
-                            courseModel.setId(gradeModel.getCourseId());
-                            courseModel = courseDao.getCourseById(courseModel);
-                            // Adding the units to total units
-                            totalUnits += courseModel.getCourseUnits();
-                            // Computing the weight of the grade
-                            cumulativeGrade += (courseModel.getCourseUnits() * gradeModel.getGrade());                 
-                        }
-                        gpa = cumulativeGrade/totalUnits;
-                        // Storing the GPA to the account and updating the account.
-                        accountModel.setGpa(gpa);
-                        accountDao.updateAccount(accountModel);
+    
+    
+    /*
+     *  Purpose: Receives the gradeArray and computes for the new GPA of the student everytime a teacher submits a grade.       
+     *  @param: JSONArray - contains the grades stored in an array that will be used to compute the gpa of the student
+     *  @return: none
+     */
+    public void computeGPA(JSONArray gradesArray){
+        System.out.println("AccountService.computeGPA():"+ "start");
+
+        AccountModel accountModel;          //used to store the student account of which the gpa will be computed
+        GradeService gradeService;          //used to access methods in computing the GPA
+        List<GradeModel> gradeModelList;    //used to hold all the grades of that student
+        CourseModel courseModel;            //used to store the Course from the database of that grade
+        CourseDao courseDao;                //used to access the database through the methods of courseDao
+        int totalUnits;
+        double cumulativeGrade;
+        double gpa;
+        int ctr;
+        
+        courseDao = new CourseDao();
+        gradeModelList = null;
+        gradeService = new GradeService();
+        for(ctr=0; ctr < gradesArray.length(); ctr++){
+            accountModel = new AccountModel();
+            try {
+                accountModel.setId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("accountId")));
+                // Getting the account from the database
+                accountModel = accountDao.getAccountById(accountModel);
+                // Computing for the GPA of the account
+                if(null != accountModel){
+                    // Getting all the grades of the account from the database
+                    gradeModelList = gradeService.getAllGradesByAccountId(accountModel);
+                    totalUnits = 0;
+                    cumulativeGrade = 0;
+                    for(GradeModel gradeModel : gradeModelList){
+                        // Getting the course units
+                        courseModel = new CourseModel();
+                        courseModel.setId(gradeModel.getCourseId());
+                        courseModel = courseDao.getCourseById(courseModel);
+                        // Adding the units to total units
+                        totalUnits += courseModel.getCourseUnits();
+                        // Computing the weight of the grade
+                        cumulativeGrade += (courseModel.getCourseUnits() * gradeModel.getGrade());                 
                     }
-                } catch (Exception e){
-                    System.out.println("This exception is found in computeGPA in AccountService:");
-                    System.out.println(e.toString());
-                }
-                
-            }
-        }
-        
-        
-        
-        
-        /*
-         * PUT COMMENTS HERE
-         */
-        
-        public List<AccountDto> getStudentsByStrand (AccountDto inputAccount){
-            List<AccountDto> accountDtoList;
-            List<AccountModel> accountModelList;
-            AccountModel accountModelTemp;
-            
-            accountModelTemp = new AccountModel();
-            accountDtoList = null;
-            accountModelTemp.setStrand(inputAccount.getStrand());
-            try{
-                accountModelList = accountDao.getStudentsByStrand(accountModelTemp);
-                accountDtoList = new ArrayList<AccountDto>();
-                
-                for(AccountModel accountModel : accountModelList){
-                    AccountDto accountDto;            
-                    accountDto = new AccountDto();
-                    accountDto.setAccountId(accountModel.getAccountId());
-                    accountDto.setId(accountModel.getId());
-                    accountDto.setContactNumber(accountModel.getContactNumber());
-                    accountDto.setCourseCode(accountModel.getCourseCode());
-                    accountDto.setEmailAddress(accountModel.getEmailAddress());
-                    accountDto.setFirstName(accountModel.getFirstName());
-                    accountDto.setLastName(accountModel.getLastName());
-                    accountDto.setParentContact(accountModel.getParentContact());
-                    accountDto.setParentName(accountModel.getParentName());
-                    accountDto.setPassword(accountModel.getPassword());
-                    accountDto.setSchool(accountModel.getSchool());
-                    accountDto.setStatus(accountModel.getStatus());
-                    accountDto.setStrand(accountModel.getStrand());
-                    accountDto.setUsername(accountModel.getUsername());
-                    accountDto.setUserType(accountModel.getUserType());
-                    accountDto.setYearLevel(accountModel.getYearLevel());
-                    accountDtoList.add(accountDto);                
+                    gpa = cumulativeGrade/totalUnits;
+                    // Storing the GPA to the account and updating the account.
+                    accountModel.setGpa(gpa);
+                    accountDao.updateAccount(accountModel);
                 }
             } catch (Exception e){
-                System.out.println(GlobalConstants.ERR_DB_EXCEPTION);    
-                System.out.println("Exception in getStudentsByStrand() in AccountService: ");
-                System.out.println(e.toString());
+                System.out.println("This exception is found in computeGPA in AccountService:");
+                e.printStackTrace();
             }
             
-            return accountDtoList;  
+        }
+        
+        System.out.println("AccountService.computeGPA():"+ "end");
+
+    }
+    
+    
+    
+    
+    
+    /*
+     *  Purpose: Receives an AccountDto that holds the Strand to be retrieved and returns a list of students with that strand       
+     *  @param: AccountDto - holds the strand 
+     *  @return: List<AccountDto> - holds all of the accounts that have the same strand as the input strand
+     */           
+    public List<AccountDto> getStudentsByStrand (AccountDto inputAccount){
+        System.out.println("AccountService.getStudentsByStrand():"+ "start");
+
+        List<AccountDto> accountDtoList;            //used to store all student accounts of that strand in the DTO
+        List<AccountModel> accountModelList;        //used to store all student accounts of that strand in the Model
+        AccountModel accountModelTemp;              //used to store the strand from the inputAccount
+        
+        accountModelTemp = new AccountModel();
+        accountDtoList = null;
+        accountModelTemp.setStrand(inputAccount.getStrand());
+        try{
+            accountModelList = accountDao.getStudentsByStrand(accountModelTemp);
+            accountDtoList = new ArrayList<AccountDto>();
+            
+            for(AccountModel accountModel : accountModelList){
+                AccountDto accountDto;            
+                accountDto = new AccountDto();
+                accountDto.setAccountId(accountModel.getAccountId());
+                accountDto.setId(accountModel.getId());
+                accountDto.setContactNumber(accountModel.getContactNumber());
+                accountDto.setCourseCode(accountModel.getCourseCode());
+                accountDto.setEmailAddress(accountModel.getEmailAddress());
+                accountDto.setFirstName(accountModel.getFirstName());
+                accountDto.setLastName(accountModel.getLastName());
+                accountDto.setParentContact(accountModel.getParentContact());
+                accountDto.setParentName(accountModel.getParentName());
+                accountDto.setPassword(accountModel.getPassword());
+                accountDto.setSchool(accountModel.getSchool());
+                accountDto.setStatus(accountModel.getStatus());
+                accountDto.setStrand(accountModel.getStrand());
+                accountDto.setUsername(accountModel.getUsername());
+                accountDto.setUserType(accountModel.getUserType());
+                accountDto.setYearLevel(accountModel.getYearLevel());
+                accountDtoList.add(accountDto);                
             }
+        } catch (Exception e){
+            System.out.println(GlobalConstants.ERR_DB_EXCEPTION);    
+            System.out.println("Exception in getStudentsByStrand() in AccountService: ");
+            e.printStackTrace();
+        }
+        
+        System.out.println("AccountService.getStudentsByStrand():"+ "end");
+        return accountDtoList;  
+    }
         
 }

@@ -4,6 +4,7 @@
  *     October 18, 2016 - Created the Service file (Dave)
  *                      - Created the insertCourse(), updateCourse(), deleteCourse(), getCourseById() (Dave)
  *     October 23, 2016 - Created the getAllCourses() (Dave)
+ *     November 9, 2016 - reviewed the Coding Standards for this file (Dave)
  * 
  */
 
@@ -18,8 +19,13 @@ import btg.dto.CourseDto;
 import btg.model.CourseModel;
 
 public class CourseService {
-    //used to access methods for Data Access Objects or database
-    CourseDao courseDao = new CourseDao();
+    
+    
+    CourseDao courseDao = new CourseDao();  //used to access methods for Data Access Objects or database
+    
+    
+    
+    
     
     /*
      *  Purpose: Checks if Course is not yet in the database by checking the courseID. 
@@ -28,7 +34,12 @@ public class CourseService {
      *  @return: CourseDto that will hold the error list if exception occurs.
      */
     public CourseDto insertCourse(CourseDto inputCourse){
-        CourseModel courseModel = new CourseModel();
+        System.out.println("CourseService.insertCourse():"+ "start");
+        
+        CourseModel courseModel;        //used to store data from dto and serves as model for the database
+        
+        courseModel = new CourseModel();
+        
         courseModel.setCourseCode(inputCourse.getCourseCode());
         courseModel.setCourseType(inputCourse.getCourseType());
         courseModel.setCourseName(inputCourse.getCourseName());
@@ -37,23 +48,29 @@ public class CourseService {
         courseModel.setCourseUnits(inputCourse.getCourseUnits());
         courseModel.setYearLevel(inputCourse.getYearLevel());
 
-        
         try {
             if (null == courseDao.getCourseByName(courseModel)) {
                 try {
                     courseDao.insertCourse(courseModel);
                 } catch (Exception e) {
+                    System.out.println("Exception Found in insertCourse() in CourseService:");
+                    e.printStackTrace();
                     inputCourse.addError(GlobalConstants.ERR_ENTRY_CANNOT_ADD);
                 }
             } else {
+                System.out.println("Exception Found in insertCourse() in CourseService:");
                 inputCourse.addError(GlobalConstants.ERR_ENTRY_ALREADY_EXISTS);
             }
         } catch (Exception e) {
+            System.out.println("Exception Found in insertCourse() in CourseService:");
+            e.printStackTrace();
             inputCourse.addError(GlobalConstants.ERR_DB_EXCEPTION);
         }        
         
+        System.out.println("CourseService.insertCourse():"+ "end");
         return inputCourse;
     }
+    
     
     
     
@@ -65,10 +82,13 @@ public class CourseService {
      *  @return: CourseDto that will hold the error list if exception occurs.
      */
     public CourseDto updateCourse(CourseDto inputCourse){
-        CourseModel courseModel;
-        CourseModel temp;
+        System.out.println("CourseService.updateCourse():"+ "start");
+        
+        CourseModel courseModel;        //used to store data from dto and serves as model for the database
+        CourseModel temp;               //used to store the data retrieved from database in checking if course exists.
         
         courseModel = new CourseModel();
+        
         courseModel.setCourseCode(inputCourse.getCourseCode());
         courseModel.setCourseId(inputCourse.getCourseId());
         courseModel.setId(inputCourse.getId());
@@ -88,19 +108,23 @@ public class CourseService {
                     courseModel.setKey(temp.getKey());
                     courseDao.updateCourse(courseModel);
                 } catch (Exception e) {
+                    System.out.println("Exception Found in updateCourse() in CourseService:");
+                    e.printStackTrace();
                     inputCourse.addError(GlobalConstants.ERR_ENTRY_CANNOT_UPDATE);
-                    System.out.println(e.toString());
                 }
             } else {
                 inputCourse.addError(GlobalConstants.ERR_ENTRY_NOT_FOUND);
             }
         } catch (Exception e) {
+            System.out.println("Exception Found in updateCourse() in CourseService:");
             e.printStackTrace();
             inputCourse.addError(GlobalConstants.ERR_DB_EXCEPTION);
         }
-               
+        
+        System.out.println("CourseService.updateCourse():"+ "end");       
         return inputCourse;
     }
+    
     
     
     
@@ -112,9 +136,12 @@ public class CourseService {
      *  @return: CourseDto that will hold the error list if exception occurs.
      */
     public CourseDto deleteCourse(CourseDto inputCourse){
-        CourseModel courseModel;
+        System.out.println("CourseService.deleteCourse():"+ "start");
+
+        CourseModel courseModel;        //used to store data from dto and serves as model for the database
         
         courseModel = new CourseModel();
+        
         courseModel.setId(inputCourse.getId());
         courseModel = courseDao.getCourseById(courseModel);
         try{
@@ -123,18 +150,23 @@ public class CourseService {
                     courseModel.setStatus(false);
                     courseDao.deleteCourse(courseModel);
                 } catch(Exception e){
-                    inputCourse.addError(e.toString());
+                    System.out.println("Exception Found in deleteCourse() in CourseService:");
+                    e.printStackTrace();
                     inputCourse.addError(GlobalConstants.ERR_ENTRY_CANNOT_DELETE);   
                 }
             } else {
                 inputCourse.addError(GlobalConstants.ERR_ENTRY_NOT_FOUND);
             }
         } catch (Exception e){
+            System.out.println("Exception Found in deleteCourse() in CourseService:");
             e.printStackTrace();
             inputCourse.addError(GlobalConstants.ERR_DB_EXCEPTION);
         }
+        
+        System.out.println("CourseService.deleteCourse():"+ "end");
         return inputCourse;
     }
+    
     
     
     
@@ -146,7 +178,12 @@ public class CourseService {
      *  @return: CourseDto that will hold the complete details of the Course or the error list if exception occurs.
      */
     public CourseDto getCourseById(CourseDto inputCourse){
-        CourseModel courseModel = new CourseModel();
+        System.out.println("CourseService.getCourseById():"+ "start");
+
+        CourseModel courseModel;        //used to store data from dto and serves as model for the database
+        
+        courseModel = new CourseModel();
+        
         courseModel.setId(inputCourse.getId());
         
         try{
@@ -163,12 +200,19 @@ public class CourseService {
                 inputCourse.addError(GlobalConstants.ERR_ENTRY_NOT_FOUND);
             }
         } catch (Exception e){
+            System.out.println("Exception Found in getCourseById() in CourseService:");
+            e.printStackTrace();
             inputCourse.addError(GlobalConstants.ERR_DB_EXCEPTION);
             
         }       
         
+        System.out.println("CourseService.getCourseById():"+ "end");
         return inputCourse;
     }
+    
+    
+    
+    
     
     /*
      * Purpose: It is used to return the list of all courses in the database by calling the 
@@ -178,11 +222,14 @@ public class CourseService {
      *                          in cmd if not.
      */
     public List<CourseDto> getAllCourses(){
-        List<CourseDto> courseDtoList;
-        List<CourseModel> courseModelList;
-        CourseDto courseDto;
+        System.out.println("CourseService.getAllCourses():"+ "start");
+
+        List<CourseDto> courseDtoList;          //stores the list of courses as a CourseDTO
+        List<CourseModel> courseModelList;      //stores the list of courses as a CourseModel
+        CourseDto courseDto;                    //used as a temporary value to transfer values from CourseModel to CourseDTO
         
         courseDtoList = new ArrayList<CourseDto>();
+        
         try{
             courseModelList = courseDao.getAllCourses();
             for(CourseModel courseModel : courseModelList){
@@ -200,9 +247,11 @@ public class CourseService {
             }
             
         } catch (Exception e){
-            System.out.println("This is an error in getAllCourses in CourseService:");
-            System.out.println(e.toString());
+            System.out.println("Exception Found in getAllCourses() in CourseService:");
+            e.printStackTrace();
         }    
+        
+        System.out.println("CourseService.getAllCourses():"+ "end");
         return courseDtoList;
     }
     
