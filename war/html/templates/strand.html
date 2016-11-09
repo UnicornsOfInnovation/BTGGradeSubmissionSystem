@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="strandApp">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Strands</title>
+</head>
+<body ng-controller="strandController">
+
+<form>
+	Strand Name: <input type="text" ng-model="strandName" />
+	Strand Code: <input type="text" ng-model="strandCode" />
+	<button type="button" ng-click="insertStrand()" /> Add Strand </button>
+</form>
+
+
+<script src="../js/angular.js"></script>
+<script src="../js/angular-route.js"></script>
+<script src="../js/strand.js"></script>
+</body>
+</html>

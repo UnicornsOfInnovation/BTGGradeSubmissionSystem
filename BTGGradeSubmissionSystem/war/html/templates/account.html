@@ -88,7 +88,7 @@
 						                      <h4 class="modal-title" id="myModalLabel">Edit Student</h4>
 						                  </div>
 								                  <div class="modal-body">
-								                  	<form role="form" ng-submit="updateStudentAccount(studentModel)">
+								                  	<form role="form" ng-submit="updateStudentAccount(studentModel,yearLevel,strandEdit)">
 								                  		<label class="contentLabel"> UserName: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.username" required><br>
 						                      			<label class="contentLabel"> Password: </label><br> 
@@ -102,10 +102,10 @@
 						                      			<label class="contentLabel"> emailAddress: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.emailAddress" required><br>
 						                      			<label class="contentLabel"> Year Level: </label><br>
-														<select name="type" class="form-control" ng-init="studentModel.yearLevel=yearArray[selectedYear]" ng-model="studentModel.yearLevel" ng-options="year for year in yearArray" required>
+														<select name="type" class="form-control" ng-model="yearLevel" ng-options="year for year in yearArray" required>
 										        		</select><br>
 								                  		<label class="contentLabel"> Strand: </label><br> 
-														<select name="type" class="form-control" ng-model="studentModel.strand" ng-options="strand as strand.strandName for strand in strandList" required>
+														<select name="type" class="form-control" ng-model="strandEdit" ng-options="strand for strand in strandNames" required>
 											      		</select><br>
 								                  		<label class="contentLabel"> Parent Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.parentName" required><br>
