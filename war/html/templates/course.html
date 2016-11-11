@@ -74,7 +74,7 @@
 						                      <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
 						                  </div>
 								                  <div class="modal-body">
-								                  	<form role="form" ng-submit="updateCourse(courseModel,yearLevel,strandEdit)">
+								                  	<div ng-form="editCourseForm">
 								                  	
 								                  		<label class="contentLabel"> Course Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="courseModel.courseName" required><br>
@@ -83,10 +83,10 @@
 						                      			<label class="contentLabel"> Course Units: </label><br> 
 														<input class ="form-control" type="text" ng-model="courseModel.courseUnits" required><br>
 														<label class="contentLabel"> Course Type: </label><br> 
-						                      			<select name="type" class="form-control" ng-model="courseEdit" ng-options="type for type in courseType" required>
+						                      			<select name="type" class="form-control" ng-model="courseEdit" ng-options="type for type in courseType" required >
 											      		</select><br>
 								        				<div class="animate-switch-container" ng-switch on="courseEdit">
-														      <div class="animate-switch" ng-switch-when="major">
+														      <div class="animate-switch" ng-switch-when="Major">
 												      				<label class="contentLabel"> Year Level: </label><br>
 																	<select name="type" class="form-control" ng-model="yearLevel" ng-options="year for year in yearArray" required>
 													        		</select><br>
@@ -94,16 +94,16 @@
 																	<select name="type" class="form-control" ng-model="strandEdit" ng-options="strand for strand in strandNames" required>
 														      		</select><br>
 														      		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								                      				<button type="button" class="btn btn-primary"  ng-click="updateCourse(courseModel,yearLevel,strandEdit,courseEdit)">Save changes</button>
+								                      				<button type="button" class="btn btn-primary"  ng-click="updateCourse(courseModel,yearLevel,strandEdit,courseEdit)" ng-disabled="editCourseForm.$invalid">Save changes</button>
 														      </div>
 														      <div class="animate-switch" ng-switch-default>
 														      <br>
 														      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								                      		  <button type="button" class="btn btn-primary"  ng-click="updateCourse(courseModel,yearLevel,strandEdit,courseEdit)">Save changes</button>
+								                    		  <button type="button" class="btn btn-primary" ng-click="updateCourse(courseModel,yearLevel,strandEdit,courseEdit)" ng-disabled="editCourseForm.$invalid">Save Changes</button>
 								                    		  </div>
 														</div>
 												      
-								                 </form>
+								                 </div>
 								                  </div>
 								                    
 								                 
@@ -128,7 +128,7 @@
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                       <h4 class="modal-title" id="myModalLabel">Add Course</h4>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body" ng-form="registerCourseForm">
                   		<label class="contentLabel"> Course Name: </label><br> 
 						<input class ="form-control" type="text" ng-model="course.courseName" required><br>
                     	<label class="contentLabel"> Course Code: </label><br> 
@@ -140,7 +140,7 @@
 			      		</select>
 			      		<br>
         				<div class="animate-switch-container" ng-switch on="course.courseType">
-						      <div class="animate-switch" ng-switch-when="major">
+						      <div class="animate-switch" ng-switch-when="Major">
 				      				<label class="contentLabel"> Strand: </label><br> 
 									<select name="type" class="form-control" ng-model="course.strand" ng-options="strand as strand.strandName for strand in strandList" required>
 				      				</select><br>
@@ -153,7 +153,7 @@
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" ng-click="registerCourse()">Add</button>
+                      <button type="button" class="btn btn-primary" ng-click="registerCourse()" ng-disabled="registerCourseForm.$invalid">Add</button>
                   </div>
               </div>
               <!-- /.modal-content -->

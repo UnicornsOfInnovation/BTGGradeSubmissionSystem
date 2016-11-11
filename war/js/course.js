@@ -2,7 +2,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	console.log("courseController " + "start");
 	$scope.strandList = [];
 	$scope.yearArray = ["10","11","12"];
-	$scope.courseType = ["major","minor"];
+	$scope.courseType = ["Major","Minor"];
 	$scope.selection = $scope.courseType[0];
 	$scope.selectedYear = 0;
 	$scope.selectedStrand = 0;
@@ -203,7 +203,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	
 
 	$scope.validateType = function(courseType){
-		if(courseType == "major"){
+		if(courseType == "Major"){
 			return true;
 		}
 		return false;	
