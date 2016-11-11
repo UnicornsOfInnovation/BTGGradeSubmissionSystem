@@ -3,8 +3,16 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 	$scope.studentList = [];
 	$scope.teacherList = [];
 	$scope.strandList = [];
+	$scope.strandNames = [];
 	$scope.courseList = [];
-	$scope.selectedYear = 2;
+	$scope.courseNames = [];
+	$scope.selectedYear = 0;
+	$scope.selectedCourse = 0;
+	$scope.selectedStrand = 0;
+	$scope.yearLevel = null;
+	$scope.courseEdit = null;
+	$scope.strandEdit = null;
+	
 	$scope.studentAccount = {
 			id: 0,
 			username:"",
@@ -20,6 +28,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			parentName: "",
 			parentContact: ""
 	}
+	$scope.year = null;
 	$scope.teacherAccount = {
 			id: 0,
 			username:"",
@@ -103,6 +112,10 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			if (response.data.errorList.length == 0) {
 				$scope.courseList = response.data.courseDtoList;
 				console.log("Course-->>"+$scope.courseList[0].yearLevel);
+				for(var x = 0; x <$scope.courseList.length;x++){
+					$scope.courseNames.push($scope.courseList[x].courseName);
+					console.log("Course NAMES -->> " +$scope.courseList[x].courseName);
+				}
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -188,7 +201,10 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			if (response.data.errorList.length == 0) {
 				$scope.strandList = response.data.strandsList;
 				console.log("-->>"+response.data.strandsList[0]);
-				
+				for(var x = 0; x <$scope.strandList.length;x++){
+					$scope.strandNames.push($scope.strandList[x].strandName);
+					console.log("STRAND NAMES -->> " +$scope.strandList[x].strandName);
+				}
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -342,16 +358,57 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 
 		}
 	}
+	
+	
+	
+	
+	
+	
 	$scope.initEdit = function(model){
 		console.log("year level edited is" +model.yearLevel);
 		for(var x = 0; x<$scope.yearArray.length;x++){
 			if(model.yearLevel==$scope.yearArray[x]){
-				$scope.selectedYear= x;
+				$scope.selectedYear = x;
 				$scope.studentAccount.yearLevel = $scope.yearArray[$scope.selectedYear];
+				$scope.yearLevel =  $scope.yearArray[$scope.selectedYear];
 				console.log("-->>>>>>"+$scope.studentAccount.yearLevel);
 			}
 		}
+		console.log("strand edited is" +model.strand);
+		for(var y = 0; y<$scope.strandNames.length;y++){
+			if(model.strand==$scope.strandNames[y]){
+				console.log("SELECTED STRAND IS -->> " +y);
+				$scope.selectedStrand = y;
+				$scope.studentAccount.strand = $scope.strandNames[$scope.selectedStrand];
+				$scope.strandEdit =  $scope.strandNames[$scope.selectedStrand];
+				console.log("STRAND-->>>>>>"+$scope.strandEdit);
+			}
+		}
+		
 	}
+	
+	
+	
+	
+	$scope.initEditTeacher = function(model){
+		console.log("course edited is" +model.courseCode);
+		for(var y = 0; y<$scope.courseNames.length;y++){
+			if(model.courseCode==$scope.courseNames[y]){
+				console.log("SELECTED Course IS -->> " +y);
+				$scope.selectedCourse = y;
+				$scope.teacherAccount.courseCode = $scope.courseNames[$scope.selectedCourse];
+				$scope.courseEdit =  $scope.courseNames[$scope.selectedCourse];
+				console.log("COURSE-->>>>>>"+$scope.courseEdit);
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	$scope.registerAccount = function(){
 		var confirmation = window.confirm("Are you sure you want to add account?");
@@ -425,7 +482,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 	}
 	
 	
-	$scope.updateStudentAccount = function(studentAccount){
+	$scope.updateStudentAccount = function(studentAccount,yearLevel,strandEdit){
 		var confirmation = window.confirm("Are you sure you want to save changes?");
 		if (true == confirmation) {	
 				var student = {
@@ -437,8 +494,8 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						lastName: studentAccount.lastName,
 						contactNumber: studentAccount.contactNumber,
 						emailAddress: studentAccount.emailAddress,
-						strand: studentAccount.strand.strandName,
-						yearLevel: studentAccount.yearLevel,
+						strand: strandEdit,
+						yearLevel: yearLevel,
 						userType:"student",
 						status: studentAccount.status,
 						school: studentAccount.school,
@@ -446,7 +503,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						parentContact: studentAccount.parentContact,
 						action:"UpdateAccount"
 				}
-				
+				console.log("-->>>"+student.strand+"<<<----")
 				$http.post("/account", $httpParamSerializer(student),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -477,7 +534,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 		}
 	}
 	
-	$scope.updateTeacherAccount = function(Account){
+	$scope.updateTeacherAccount = function(Account, courseEdit){
 		var confirmation = window.confirm("Are you sure you want to save changes?");
 		if (true == confirmation) {	
 				var teacher = {
@@ -489,7 +546,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						lastName: Account.lastName,
 						contactNumber: Account.contactNumber,
 						emailAddress: Account.emailAddress,
-						courseCode: Account.courseCode.courseName,
+						courseCode: courseEdit,
 						userType:"teacher",
 						status: Account.status,
 						action:"UpdateAccount"

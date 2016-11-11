@@ -4,8 +4,14 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	$scope.yearArray = ["10","11","12"];
 	$scope.courseType = ["major","minor"];
 	$scope.selection = $scope.courseType[0];
-	
+	$scope.selectedYear = 0;
+	$scope.selectedStrand = 0;
+	$scope.yearLevel = null;
+	$scope.strandEdit = null;
+	$scope.strandNames = [];
 	$scope.courseList = [];
+	$scope.selectedCourse = 0;
+	$scope.courseEdit = null;
 	
 	$scope.course = {
 		id: 0,
@@ -30,7 +36,10 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 			if (response.data.errorList.length == 0) {
 				$scope.strandList = response.data.strandsList;
 				console.log("-->>"+response.data.strandsList[0]);
-				
+				for(var x = 0; x <$scope.strandList.length;x++){
+					$scope.strandNames.push($scope.strandList[x].strandName);
+					console.log("STRAND NAMES -->> " +$scope.strandList[x].strandName);
+				}
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -43,7 +52,6 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 		});
 		console.log("accountController.listAccounts " + "end");
 	}
-	
 	
 	
 	$scope.listCourses = function() {
@@ -73,7 +81,38 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 		console.log("courseController.listCourses " + "end");
 	}
 	
-	
+	$scope.initEdit = function(model){
+		console.log("year level edited is" +model.yearLevel);
+		for(var x = 0; x<$scope.yearArray.length;x++){
+			if(model.yearLevel==$scope.yearArray[x]){
+				$scope.selectedYear = x;
+				$scope.course.yearLevel = $scope.yearArray[$scope.selectedYear];
+				$scope.yearLevel =  $scope.yearArray[$scope.selectedYear];
+				console.log("-->>>>>>"+$scope.course.yearLevel);
+			}
+		}
+		console.log("strand edited is" +model.strand);
+		for(var y = 0; y<$scope.strandNames.length;y++){
+			if(model.strand==$scope.strandNames[y]){
+				console.log("SELECTED STRAND IS -->> " +y);
+				$scope.selectedStrand = y;
+				$scope.course.strand = $scope.strandNames[$scope.selectedStrand];
+				$scope.strandEdit =  $scope.strandNames[$scope.selectedStrand];
+				console.log("STRAND-->>>>>>"+$scope.strandEdit);
+			}
+		}
+		console.log("course edited is" +model.courseType);
+		for(var z = 0; z<$scope.courseType.length;z++){
+			if(model.courseType==$scope.courseType[z]){
+				console.log("SELECTED COURSE TYPE IS -->> " +z);
+				$scope.selectedCourse = z;
+				$scope.course.courseType = $scope.courseType[$scope.selectedCourse];
+				$scope.courseEdit =  $scope.courseType[$scope.selectedCourse];
+				console.log("Course-->>>>>>"+$scope.courseEdit);
+			}
+		}
+		
+	}
 	
 	
 	
@@ -124,7 +163,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 						courseCode: $scope.course.courseCode,
 						courseUnits: $scope.course.courseUnits,
 					    courseType: $scope.course.courseType,
-					    strand: $scope.course.strand,
+					    strand: $scope.course.strand.strandName,
 					    yearLevel: $scope.course.yearLevel,
 						action:"InsertCourse"
 				}
@@ -163,23 +202,29 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	}
 	
 
+	$scope.validateType = function(courseType){
+		if(courseType == "major"){
+			return true;
+		}
+		return false;	
+	}
 	
 	
-	
-	$scope.updateCourse = function(course){
+	$scope.updateCourse = function(course,yearLevel,strandEdit, courseEdit){
 		var confirmation = window.confirm("Are you sure you want to update this course?");
+		console.log("UPDATE COURSE-->>"+yearLevel+" STRAND EDIT"+strandEdit);
 		if (true == confirmation) {	
 				var course = {	
 						id: course.id,
 						courseName: course.courseName,
 						courseCode: course.courseCode,
 						courseUnits: course.courseUnits,
-					    courseType: course.courseType,
-					    strand: course.strand,
-					    yearLevel: course.yearLevel,
+					    courseType: courseEdit,
+					    strand: strandEdit,
+					    yearLevel: yearLevel,
 						action:"UpdateCourse"
 				}
-				console.log("-->>"+course.courseName);
+				console.log("UPDATE COURSE-->>"+course.strand);
 				$http.post("/course", $httpParamSerializer(course),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}

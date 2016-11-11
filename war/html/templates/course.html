@@ -25,37 +25,39 @@
 					                                    <tbody>
 					                                        <tr >
 					                                        	<td>
-					                                            <label class="contentLabel"> Name: </label>
+					                                            <label class="contentLabel"> Course Name: </label>
 					                                            <label ng-bind="courseModel.courseName"  style="font-weight:normal;"></label>
 					                                            </td>
 					                                            <td>
-					                                            <label class="contentLabel"> Code: </label>
+					                                            <label class="contentLabel"> Course Code: </label>
 					                                            <label ng-bind="courseModel.courseCode"  style="font-weight:normal;"></label>					                               
 					                                            </td>
 					                                        </tr>
 					                                        <tr>
 					                                             <td>
-					                                            <label class="contentLabel"> Units: </label>
+					                                            <label class="contentLabel"> Course Units: </label>
 					                                            <label ng-bind="courseModel.courseUnits"  style="font-weight:normal;"></label>					                               
 					                                            </td>
 					                                            <td>
-					                                            <label class="contentLabel"> Type: </label>
+					                                            <label class="contentLabel"> Course Type: </label>
 					                                            <label ng-bind="courseModel.courseType"  style="font-weight:normal;"></label>					                               
 					                                            </td>
 					                                        </tr>
-					                                        <tr>
+					                                        <tr ng-show="validateType(courseModel.courseType)">
 					                                        	<td>
 					                                        		<label class="contentLabel"> Year Level:</label>
 					                                        		<label ng-bind ="courseModel.yearLevel" style="font-weight:normal;"></label>
 					                                        	</td>
 					                                        	<td>
+					                                        		<label class="contentLabel"> Strand:</label>
+					                                        		<label ng-bind ="courseModel.strand" style="font-weight:normal;"></label>
 					                                        	</td>
 					                                        </tr>
 					                                        <tr>
 					                                            <td >
 					                                            </td>
 					                                        	<td>
-					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCourse{{$index}}" >Edit</button>
+					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCourse{{$index}}" ng-click="initEdit(courseModel)">Edit</button>
 					                                        		<button type="button" class="btn btn-danger" ng-click="deleteCourse(courseModel.id)">Delete</button>
 					                                        	</td>
 					                                        </tr>
@@ -72,32 +74,39 @@
 						                      <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
 						                  </div>
 								                  <div class="modal-body">
+								                  	<form role="form" ng-submit="updateCourse(courseModel,yearLevel,strandEdit)">
+								                  	
 								                  		<label class="contentLabel"> Course Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="courseModel.courseName" required><br>
-						                      			<label class="contentLabel"> Code: </label><br> 
+						                      			<label class="contentLabel"> Course Code: </label><br> 
 														<input class ="form-control" type="text" ng-model="courseModel.courseCode" required><br>
-						                      			<label class="contentLabel"> Units: </label><br> 
+						                      			<label class="contentLabel"> Course Units: </label><br> 
 														<input class ="form-control" type="text" ng-model="courseModel.courseUnits" required><br>
-														<label class="contentLabel"> Type: </label><br> 
-						                      			<select name="type" ng-init="courseModel.courseType=courseType[0]" class="form-control" ng-model="courseModel.courseType" ng-options="type for type in courseType" required>
-											      		</select>
-								        				<div class="animate-switch-container" ng-switch on="courseModel.courseType">
+														<label class="contentLabel"> Course Type: </label><br> 
+						                      			<select name="type" class="form-control" ng-model="courseEdit" ng-options="type for type in courseType" required>
+											      		</select><br>
+								        				<div class="animate-switch-container" ng-switch on="courseEdit">
 														      <div class="animate-switch" ng-switch-when="major">
-												      				<label class="contentLabel"> Strand: </label><br> 
-																		<select name="type" class="form-control" ng-model="course.strand" ng-options="strand as strand.strandName for strand in strandList" required>
-				      												</select>
-				      												<label class="contentLabel"> YearLevel: </label><br> 
-																	<select name="type" class="form-control" ng-model="courseModel.yearLevel" ng-options="year for year in yearArray" required>
-														      		</select>
+												      				<label class="contentLabel"> Year Level: </label><br>
+																	<select name="type" class="form-control" ng-model="yearLevel" ng-options="year for year in yearArray" required>
+													        		</select><br>
+											                  		<label class="contentLabel"> Strand: </label><br> 
+																	<select name="type" class="form-control" ng-model="strandEdit" ng-options="strand for strand in strandNames" required>
+														      		</select><br>
+														      		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                      				<button type="button" class="btn btn-primary"  ng-click="updateCourse(courseModel,yearLevel,strandEdit,courseEdit)">Save changes</button>
 														      </div>
-														      <div class="animate-switch" ng-switch-default></div>
+														      <div class="animate-switch" ng-switch-default>
+														      <br>
+														      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                      		  <button type="button" class="btn btn-primary"  ng-click="updateCourse(courseModel,yearLevel,strandEdit,courseEdit)">Save changes</button>
+								                    		  </div>
 														</div>
-
+												      
+								                 </form>
 								                  </div>
-								                  <div class="modal-footer">
-								                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								                      <button type="button" class="btn btn-primary" ng-click="updateCourse(courseModel)" >Save changes</button>
-								                  </div>
+								                    
+								                 
 								              </div>
 								              <!-- /.modal-content -->
 								          </div>
@@ -120,23 +129,24 @@
                       <h4 class="modal-title" id="myModalLabel">Add Course</h4>
                   </div>
                   <div class="modal-body">
-                  		<label class="contentLabel"> Name: </label><br> 
+                  		<label class="contentLabel"> Course Name: </label><br> 
 						<input class ="form-control" type="text" ng-model="course.courseName" required><br>
-                    	<label class="contentLabel"> Code: </label><br> 
+                    	<label class="contentLabel"> Course Code: </label><br> 
 						<input class ="form-control" type="text" ng-model="course.courseCode" required><br>
-                    	<label class="contentLabel"> Units: </label><br> 
+                    	<label class="contentLabel"> Course Units: </label><br> 
                     	<input class ="form-control" type="text" ng-model="course.courseUnits" required><br>
-						<label class="contentLabel"> Type: </label><br> 
+						<label class="contentLabel"> Course Type: </label><br> 
 						<select name="type" ng-init="course.courseType=courseType[1]" class="form-control" ng-model="course.courseType" ng-options="type for type in courseType" required>
 			      		</select>
+			      		<br>
         				<div class="animate-switch-container" ng-switch on="course.courseType">
 						      <div class="animate-switch" ng-switch-when="major">
 				      				<label class="contentLabel"> Strand: </label><br> 
 									<select name="type" class="form-control" ng-model="course.strand" ng-options="strand as strand.strandName for strand in strandList" required>
-				      				</select>
-	                   				<label class="contentLabel"> YearLevel: </label><br> 
+				      				</select><br>
+	                   				<label class="contentLabel"> Year Level: </label><br> 
 									<select name="type" class="form-control" ng-model="course.yearLevel" ng-options="year for year in yearArray" required>
-						      		</select>
+						      		</select><br>
 						      </div>
 						      <div class="animate-switch" ng-switch-default></div>
 						</div>

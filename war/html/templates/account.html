@@ -17,7 +17,7 @@
 	                               <div class="panel panel-default"  ng-repeat="studentModel in studentList">
 	                                   <div class="panel-heading">
 	                                       <h4 class="panel-title">
-	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="false" class="" ng-bind="studentModel.firstName"></a>
+	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="false" class="" >{{studentModel.firstName +" "+ studentModel.lastName}}</a>
 	                                       </h4>
 	                                   </div>
 	                                   <div id="collapse{{$index}}" class="panel-collapse collapse" aria-expanded="false">
@@ -71,7 +71,7 @@
 					                                            <label ng-bind="studentModel.school"  style="font-weight:normal;"></label>					                               
 					                                            </td>
 					                                        	<td>
-					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editStudentAccount{{$index}}" ng-click="initEdit(studentModel)">Edit</button>
+					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" ng-click="initEdit(studentModel)" data-target="#editStudentAccount{{$index}}" >Edit</button>
 					                                        		<button type="button" class="btn btn-danger" ng-click="deleteAccount(studentModel.id)">Delete</button>
 					                                        	</td>
 					                                        </tr>
@@ -88,8 +88,8 @@
 						                      <h4 class="modal-title" id="myModalLabel">Edit Student</h4>
 						                  </div>
 								                  <div class="modal-body">
-								                  	<form role="form" ng-submit="updateStudentAccount(studentModel)">
-								                  		<label class="contentLabel"> UserName: </label><br> 
+								                  	<form role="form" ng-submit="updateStudentAccount(studentModel,yearLevel,strandEdit)">
+								                  		<label class="contentLabel"> Username: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.username" required><br>
 						                      			<label class="contentLabel"> Password: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.password" required><br>
@@ -99,13 +99,13 @@
 														<input class ="form-control" type="text" ng-model="studentModel.lastName" required><br>
 														<label class="contentLabel"> Contact Number: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.contactNumber" required><br>
-						                      			<label class="contentLabel"> emailAddress: </label><br> 
+						                      			<label class="contentLabel"> Email Address: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.emailAddress" required><br>
 						                      			<label class="contentLabel"> Year Level: </label><br>
-														<select name="year{{$index}}" class="form-control" ng-model="studentModel.yearLevel" ng-options="year for year in yearArray" required>
-        												</select><br>
+														<select name="type" class="form-control" ng-model="yearLevel" ng-options="year for year in yearArray" required>
+										        		</select><br>
 								                  		<label class="contentLabel"> Strand: </label><br> 
-														<select name="type" class="form-control" ng-model="studentModel.strand" ng-options="strand as strand.strandName for strand in strandList" required>
+														<select name="type" class="form-control" ng-model="strandEdit" ng-options="strand for strand in strandNames" required>
 											      		</select><br>
 								                  		<label class="contentLabel"> Parent Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.parentName" required><br>
@@ -145,7 +145,7 @@
 	                               <div class="panel panel-default"  ng-repeat="teacherModel in teacherList">
 	                                   <div class="panel-heading">
 	                                       <h4 class="panel-title">
-	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapsed{{$index}}" aria-expanded="false" class="" ng-bind="teacherModel.firstName"></a>
+	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapsed{{$index}}" aria-expanded="false" class="" >{{teacherModel.firstName + " " + teacherModel.lastName}}</a>
 	                                       </h4>
 	                                   </div>
 	                                   <div id="collapsed{{$index}}" class="panel-collapse collapse" aria-expanded="false">
@@ -186,7 +186,7 @@
 					                                        <tr >
 					                                        	<td></td>
 					                                        	<td>
-					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTeacherAccount{{$index}}" >Edit</button>
+					                                        		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTeacherAccount{{$index}}" ng-click="initEditTeacher(teacherModel)">Edit</button>
 					                                        		<button type="button" class="btn btn-danger" ng-click="deleteAccount(teacherModel.id)">Delete</button>
 					                                        	</td>
 					                                        </tr>
@@ -203,7 +203,7 @@
 		                                              <h4 class="modal-title" id="myModalLabel">Edit Teacher</h4>
 		                                          </div>
 		                                          <div class="modal-body">
-		                                                <label class="contentLabel"> UserName: </label><br> 
+		                                                <label class="contentLabel"> Username: </label><br> 
 		                                                <input class ="form-control" type="text" ng-model="teacherModel.username" required><br>
 		                                                <label class="contentLabel"> Password: </label><br> 
 		                                                <input class ="form-control" type="text" ng-model="teacherModel.password" required><br>
@@ -213,15 +213,15 @@
 		                                                <input class ="form-control" type="text" ng-model="teacherModel.lastName" required><br>
 		                                                <label class="contentLabel"> Contact Number: </label><br> 
 		                                                <input class ="form-control" type="text" ng-model="teacherModel.contactNumber" required><br>
-		                                                <label class="contentLabel"> emailAddress: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.emailAddress" required><br>		    
-		                                                <label class="contentLabel"> Course Code: </label><br> 
-                                                		<select name="type" class="form-control" ng-model="teacherModel.courseCode" ng-options="course.courseName for course in courseList" required>
-											      		</select>
+		                                                <label class="contentLabel"> Email Address: </label><br> 
+		                                                <input class ="form-control" type="text" ng-model="teacherModel.emailAddress" required><br>
+ 										                 <label class="contentLabel"> Course Name: </label><br> 
+														<select name="type" class="form-control" ng-model="courseEdit" ng-options="course for course in courseNames" required>
+											      		</select><br>
 												  </div>
 		                                          <div class="modal-footer">
 		                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		                                              <button type="button" class="btn btn-primary" ng-click="updateTeacherAccount(teacherModel)" >Save changes</button>
+		                                              <button type="button" class="btn btn-primary" ng-click="updateTeacherAccount(teacherModel,courseEdit)" >Save changes</button>
 		                                          </div>
 		                                      </div>
 		                                      <!-- /.modal-content -->
@@ -247,7 +247,7 @@
                       <h4 class="modal-title" id="myModalLabel">Add Account</h4>
                   </div>
                   <div class="modal-body">
-                  		<label class="contentLabel"> UserName: </label><br> 
+                  		<label class="contentLabel"> Username: </label><br> 
 						<input class ="form-control" type="text" ng-model="Account.username" required><br>
                     			<label class="contentLabel"> Password: </label><br> 
 						<input class ="form-control" type="text" ng-model="Account.password" required><br>
@@ -257,7 +257,7 @@
 						<input class ="form-control" type="text" ng-model="Account.lastName" required><br>
 						<label class="contentLabel"> Contact Number: </label><br> 
 						<input class ="form-control" type="text" ng-model="Account.contactNumber" required><br>
-                    			<label class="contentLabel"> emailAddress: </label><br> 
+                    			<label class="contentLabel"> Email Address: </label><br> 
 						<input class ="form-control" type="text" ng-model="Account.emailAddress" required><br>
                     			<label class="contentLabel"> User Type: </label><br> 
                     	<select name="type" ng-init="Account.userType=accountType[0]" class="form-control" ng-model="Account.userType" ng-options="type for type in accountType" required>
@@ -265,7 +265,7 @@
 								        				<div class="animate-switch-container" ng-switch on="Account.userType">
 														      <div class="animate-switch" ng-switch-when="student">
 												      			 <label class="contentLabel"> YearLevel: </label><br> 
-																<select name="type" class="form-control" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
+																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[selectedYear]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
 										        				</select><br>
 																<label class="contentLabel"> Strand: </label><br> 
 																<select name="type"  class="form-control" ng-model="Account.strand" ng-options="strand.strandName for strand in strandList track by strand.strandName" required>
@@ -286,7 +286,7 @@
 														      </div>
 														      <div class="animate-switch" ng-switch-default>
 														      	<label class="contentLabel"> YearLevel: </label><br> 
-																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[0]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
+																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[selectedYear]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
 										        				</select><br>
 																<label class="contentLabel"> Strand: </label><br> 
 																<select name="type"  class="form-control" ng-model="Account.strand" ng-options="strand.strandName for strand in strandList track by strand.strandName" required>
