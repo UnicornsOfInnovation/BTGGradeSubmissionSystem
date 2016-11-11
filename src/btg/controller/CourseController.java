@@ -155,6 +155,7 @@ public class CourseController extends Controller{
         String courseType;
         
         courseDto = new CourseDto();
+        
         try{
             courseType = jsonObject.getString("courseType");
             courseDto.setCourseId(Long.parseLong(jsonObject.getString("id")));
@@ -164,6 +165,7 @@ public class CourseController extends Controller{
             courseDto.setCourseUnits(Integer.parseInt(jsonObject.getString("courseUnits")));
             courseDto.setStatus(true);
             courseDto.setCourseType(courseType); 
+            System.out.println("I got here!");
             if("major".equalsIgnoreCase(courseType)){
                 courseDto.setStrand(jsonObject.getString("strand"));
                 courseDto.setYearLevel(Integer.parseInt(jsonObject.getString("yearLevel")));

@@ -84,17 +84,13 @@ public class CourseService {
             temp = new CourseModel();
             temp = courseDao.getCourseById(courseModel);
             if (null != temp || true == courseModel.getStatus()) {
-                if(null == courseDao.getCourseByName(courseModel)){
-                    try {
+                try {
                         courseModel.setKey(temp.getKey());
                         courseDao.updateCourse(courseModel);
                     } catch (Exception e) {
                         inputCourse.addError(GlobalConstants.ERR_ENTRY_CANNOT_UPDATE);
                         System.out.println(e.toString());
-                    }
-                } else {
-                    inputCourse.addError("Course Name Already Exists. Try another course name.");
-                }
+                    }               
             } else {
                 inputCourse.addError(GlobalConstants.ERR_ENTRY_NOT_FOUND);
             }

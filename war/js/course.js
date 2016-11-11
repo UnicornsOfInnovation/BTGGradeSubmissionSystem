@@ -12,6 +12,16 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	$scope.courseList = [];
 	$scope.selectedCourse = 0;
 	$scope.courseEdit = null;
+	$scope.courseNameCurrent ="";
+	$scope.modelEditCourse = {
+		id: 0,
+		courseName: "",
+		courseCode: "",
+		courseUnits: "",
+	    courseType: "",
+	    strand: "",
+	    yearLevel: ""
+	};
 	
 	$scope.course = {
 		id: 0,
@@ -82,6 +92,15 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	}
 	
 	$scope.initEdit = function(model){
+		$scope.modelEditCourse.courseName = model.courseName;
+		$scope.modelEditCourse.courseCode = model.courseCode;
+		$scope.modelEditCourse.courseUnits = model.courseUnits;
+		$scope.modelEditCourse.courseType = model.courseType;
+		$scope.modelEditCourse.id = model.id;
+		if(model.courseType == "Major"){
+			$scope.modelEditCourse.yearLevel = model.yearLevel;
+			$scope.modelEditCourse.strand = model.strand;
+		}
 		console.log("year level edited is" +model.yearLevel);
 		for(var x = 0; x<$scope.yearArray.length;x++){
 			if(model.yearLevel==$scope.yearArray[x]){
@@ -111,6 +130,8 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 				console.log("Course-->>>>>>"+$scope.courseEdit);
 			}
 		}
+
+		$scope.courseNameCurrent = model.courseName;
 		
 	}
 	
@@ -184,6 +205,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 					if (response.data.errorList.length == 0) {
 						//There were no errors.
 						alert("Inserting course was successful.");
+					
 						// initializing the contents of the ingredient screen.
 					} else {
 						// display the error messages.
@@ -213,6 +235,8 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	$scope.updateCourse = function(course,yearLevel,strandEdit, courseEdit){
 		var confirmation = window.confirm("Are you sure you want to update this course?");
 		console.log("UPDATE COURSE-->>"+yearLevel+" STRAND EDIT"+strandEdit);
+		var cont = false;
+		var check = 0;
 		if (true == confirmation) {	
 				var course = {	
 						id: course.id,
@@ -224,30 +248,54 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 					    yearLevel: yearLevel,
 						action:"UpdateCourse"
 				}
-				console.log("UPDATE COURSE-->>"+course.strand);
-				$http.post("/course", $httpParamSerializer(course),
-						{// configuring the request not a JSON type.
-					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				
+				if(course.courseName.toLowerCase() == $scope.courseNameCurrent.toLowerCase()){
+					cont = true;
+				} else {
+					for(var x=0; x < $scope.courseList.length; x++){	
+						if(course.id != $scope.courseList[x].courseId){
+							if(course.courseName == $scope.courseList[x].courseName){
+								check = 1;
+							}
 						}
-				)
-				.then(function(response) {
-					console.log("Error? " + response.data.errorList.length);
-					if (response.data.errorList.length == 0) {
-						//There were no errors.
-						alert("Updating course was successful.");
-						// initializing the contents of the ingredient screen.
-					} else {
-						// display the error messages.
-						var errorMessage = "";
-						alert("Updating course was NOT successful.");
-						for (var i = 0; i < response.data.errorList.length; i++) {
-							errorMessage += response.data.errorList[i];
-						}
-						alert(errorMessage);
 					}
-				}, function() {
-					alert("An error has occured");
-				})
+					if(1 == check){
+						cont = false;
+					} else {
+						cont = true;
+					}
+				}
+				
+				console.log("UPDATE COURSE-->>"+course.strand);
+				if(true == cont){
+					console.log("I have entered here! Im updating");
+					$http.post("/course", $httpParamSerializer(course),
+							{// configuring the request not a JSON type.
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}
+					)
+					.then(function(response) {
+						console.log("Error? " + response.data.errorList.length);
+						if (response.data.errorList.length == 0) {
+							//There were no errors.
+							alert("Updating course was successful.");
+							
+							// initializing the contents of the ingredient screen.
+						} else {
+							// display the error messages.
+							var errorMessage = "";
+							alert("Updating course was NOT successful.");
+							for (var i = 0; i < response.data.errorList.length; i++) {
+								errorMessage += response.data.errorList[i];
+							}
+							alert(errorMessage);
+						}
+					}, function() {
+						alert("An error has occured");
+					})
+				} else {
+					alert("There is a course already having that name. Please use another course name.");
+				}		
 
 		}
 	}
