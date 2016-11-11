@@ -8,7 +8,7 @@
  *     October 24, 2016 - getStudentsByStrandController() (Dave)
  *     October 25, 2016 - updated the error messages of all catch statements.
  *                      - getAllTeacherAccounts() (Dave)
- *     November 12, 2016 - getAccountByUsername() (Dave)                   
+ *     November 12, 2016 - getAccountByUsernamePassword() (Dave)                   
  *     
  */
 
@@ -77,12 +77,10 @@ public class AccountController extends Controller{
                 } else if(action.equals("GetAllTeacherAccounts")){
                     accountDtoList = getAllTeacherAccountsController();
                     jsonObject.put("teacherAccounts", accountDtoList);
-                } else if(action.equals("GetAccountByUsername")){
-                    //Decide what to put here for student account to display
-                } else if(action.equals("ValidateUsernamePassword")){
-                    accountDto = validateUsernamePasswordController(jsonObject);
-                    
-                }
+                } else if(action.equals("GetAccountByUsernamePassword")){
+                    accountDto = getAccountByUsernamePasswordController(jsonObject);
+                    jsonObject.put("accountLoggedIn", accountDto);
+                } 
                 System.out.print(accountDto); 
             }catch (Exception e){
                 System.out.println("Exception Found in run() in AccountController:");
@@ -319,10 +317,21 @@ public class AccountController extends Controller{
         }
         
         
-        
-        public AccountDto validateUsernamePasswordController(JSONObject jsonObject){
+        //if null, the wrong username password or account doesn't exist
+        public AccountDto getAccountByUsernamePasswordController(JSONObject jsonObject){
+            AccountDto accountDto;
             
+            accountDto = new AccountDto();
             
-            return null;            
+            try{
+                accountDto.setUsername(jsonObject.getString("username"));
+                accountDto.setPassword(jsonObject.getString("password"));
+                
+                accountDto = accountService.getAccountByUsernamePassword(accountDto);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            
+            return accountDto;            
         }
 }
