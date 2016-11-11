@@ -46,7 +46,7 @@ public class CourseService {
                     inputCourse.addError(GlobalConstants.ERR_ENTRY_CANNOT_ADD);
                 }
             } else {
-                inputCourse.addError(GlobalConstants.ERR_ENTRY_ALREADY_EXISTS);
+                inputCourse.addError("Course Name already exists. Please try another Course Name.");
             }
         } catch (Exception e) {
             inputCourse.addError(GlobalConstants.ERR_DB_EXCEPTION);
@@ -83,7 +83,7 @@ public class CourseService {
         try {
             temp = new CourseModel();
             temp = courseDao.getCourseById(courseModel);
-            if (null != temp || true == courseModel.getStatus()) {
+            if ((null != temp || true == courseModel.getStatus()) && null != courseDao.getCourseByName(courseModel)) {
                 try {
                     courseModel.setKey(temp.getKey());
                     courseDao.updateCourse(courseModel);
