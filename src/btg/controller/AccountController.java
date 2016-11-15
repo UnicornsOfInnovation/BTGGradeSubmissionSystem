@@ -8,7 +8,7 @@
  *     October 24, 2016 - getStudentsByStrandController() (Dave)
  *     October 25, 2016 - updated the error messages of all catch statements.
  *                      - getAllTeacherAccounts() (Dave)
- *                        
+ *     November 12, 2016 - getAccountByUsername() (Dave)                   
  *     
  */
 
@@ -77,6 +77,11 @@ public class AccountController extends Controller{
                 } else if(action.equals("GetAllTeacherAccounts")){
                     accountDtoList = getAllTeacherAccountsController();
                     jsonObject.put("teacherAccounts", accountDtoList);
+                } else if(action.equals("GetAccountByUsername")){
+                    //Decide what to put here for student account to display
+                } else if(action.equals("ValidateUsernamePassword")){
+                    accountDto = validateUsernamePasswordController(jsonObject);
+                    
                 }
                 System.out.print(accountDto); 
             }catch (Exception e){
@@ -311,5 +316,13 @@ public class AccountController extends Controller{
             }
             
             return accountDtoList;
+        }
+        
+        
+        
+        public AccountDto validateUsernamePasswordController(JSONObject jsonObject){
+            
+            
+            return null;            
         }
 }

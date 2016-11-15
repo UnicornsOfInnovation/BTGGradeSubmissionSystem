@@ -263,7 +263,7 @@
                     	<select name="type" ng-init="Account.userType=accountType[0]" class="form-control" ng-model="Account.userType" ng-options="type for type in accountType" required>
 											      		</select><br>
 								        				<div class="animate-switch-container" ng-switch on="Account.userType">
-														      <div class="animate-switch" ng-switch-when="student">
+														      <div class="animate-switch" ng-switch-when="Student">
 												      			 <label class="contentLabel"> YearLevel: </label><br> 
 																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[selectedYear]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
 										        				</select><br>
@@ -279,7 +279,7 @@
 																<input class ="form-control" type="text" ng-model="Account.school" required><br>
 														     
 														      </div>
-														      <div class="animate-switch" ng-switch-when="teacher">
+														      <div class="animate-switch" ng-switch-when="Teacher">
 														      	<label class="contentLabel"> Course Name: </label><br> 
 																<select name="type" class="form-control" ng-model="Account.courseCode" ng-options="course.courseName for course in courseList" required>
 													      		</select><br>

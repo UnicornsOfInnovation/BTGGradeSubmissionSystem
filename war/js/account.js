@@ -58,7 +58,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			courseCode: ""
 	}
 	$scope.yearArray = ["10","11","12"];
-	$scope.accountType = ["student", "teacher"];
+	$scope.accountType = ["Student", "Teacher"];
 	
 	
 	$scope.listStudentAccount = function() {
@@ -413,7 +413,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 	$scope.registerAccount = function(){
 		var confirmation = window.confirm("Are you sure you want to add account?");
 		if (true == confirmation) {	
-			if($scope.Account.userType == "student"){
+			if($scope.Account.userType == "Student"){
 				var account = {
 						id: 0,
 						username:$scope.Account.username,
