@@ -3,8 +3,8 @@ app.controller('loginController', function($scope, $http, $location) {
 	
 	$scope.login=function(){
 		var loginCredentials = {
-				username : $scope.username,
-				password : $scope.password
+				username : $scope.Username,
+				password : $scope.Password
 				
 		}
 		$http.post('/Login', jason).success(function(data){
