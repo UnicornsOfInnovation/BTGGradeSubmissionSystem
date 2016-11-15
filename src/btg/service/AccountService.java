@@ -5,6 +5,7 @@
  *                      - Created the insertAccount(), updateAccount(), deleteAccount(), getAccountById() (Dave)
  *     October 23, 2016 - Created computeGPA() (Dave)
  *     October 24, 2016 - Created getStudentsByStrand() (Dave)
+ *     November 15, 2016 - Created getAccountByUsernamePassword() (Dave)
  */
 
 package btg.service;
@@ -425,4 +426,45 @@ public class AccountService {
             return accountDtoList;  
             }
         
+        
+        public AccountDto getAccountByUsernamePassword(AccountDto inputAccount){
+            AccountModel accountModel;
+            AccountModel tempAccount;
+            AccountDto accountDto;
+            
+            tempAccount = new AccountModel();
+            
+            accountDto = null;
+            tempAccount.setUsername(inputAccount.getUsername());
+            tempAccount.setPassword(inputAccount.getPassword());
+            
+            try{
+                accountModel = accountDao.getAccountByUsername(tempAccount);
+                if(null!=accountModel && accountModel.getPassword().equals(tempAccount.getPassword())){
+                    accountDto = new AccountDto();
+                    accountDto.setAccountId(accountModel.getAccountId());
+                    accountDto.setId(accountModel.getId());
+                    accountDto.setContactNumber(accountModel.getContactNumber());
+                    accountDto.setCourseCode(accountModel.getCourseCode());
+                    accountDto.setEmailAddress(accountModel.getEmailAddress());
+                    accountDto.setFirstName(accountModel.getFirstName());
+                    accountDto.setLastName(accountModel.getLastName());
+                    accountDto.setParentContact(accountModel.getParentContact());
+                    accountDto.setParentName(accountModel.getParentName());
+                    accountDto.setPassword(accountModel.getPassword());
+                    accountDto.setSchool(accountModel.getSchool());
+                    accountDto.setStatus(accountModel.getStatus());
+                    accountDto.setStrand(accountModel.getStrand());
+                    accountDto.setUsername(accountModel.getUsername());
+                    accountDto.setUserType(accountModel.getUserType());
+                    accountDto.setYearLevel(accountModel.getYearLevel());
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            
+            
+            return accountDto;
+            
+        }
 }

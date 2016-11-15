@@ -6,6 +6,7 @@
  *                      - getAllStudentAccounts(), getAllTeacherAccounts() (Dave)
  *     October 19, 2016 - getAccountByEmailAddress() (Dave)
  *     October 24, 2016 - getStudentsByStrand() (Dave)
+ *     November 15, 2016 - getAccountByUsername() (Dave)
  */
 
 
@@ -169,6 +170,17 @@ public class AccountDao {
         
     }
     
+    
+    public AccountModel getAccountByUsername(AccountModel inputAccount){
+        AccountModel accountModel;
+        AccountModelMeta accountModelMeta = AccountModelMeta.get();
+        
+        accountModel = Datastore.query(accountModelMeta)
+                .filter(accountModelMeta.username.equal(inputAccount.getUsername()))
+                .asSingle();
+        
+        return accountModel;
+    }
     
     
    
