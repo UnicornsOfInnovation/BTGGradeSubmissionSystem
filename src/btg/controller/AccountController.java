@@ -147,6 +147,7 @@ public class AccountController extends Controller{
                 }                 
                 accountDto = accountService.insertAccount(accountDto); 
                 
+                accountDto = accountService.getAccountByUsernamePassword(accountDto);
                 //for grade initialization in the database for that student
                 if("student".equalsIgnoreCase(userType)){
                     gradeService = new GradeService();
@@ -159,6 +160,7 @@ public class AccountController extends Controller{
                         gradeDto.setGrade(0);
                         gradeDto.setStatus(true);
                         gradeService.insertGrade(gradeDto);
+                        System.out.println("Im inputting the grade!");
                     }
                     for(CourseDto courseDto: minorsList){
                         GradeDto gradeDto = new GradeDto();
@@ -167,6 +169,7 @@ public class AccountController extends Controller{
                         gradeDto.setGrade(0);
                         gradeDto.setStatus(true);
                         gradeService.insertGrade(gradeDto);
+                        System.out.println("Im inputting the grade!");
                     }
                 }
             } catch (Exception e) {

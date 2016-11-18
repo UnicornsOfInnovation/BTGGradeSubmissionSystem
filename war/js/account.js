@@ -261,6 +261,8 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 		
 		}
 	}
+	
+	
 	$scope.registerStudentAccount = function(){
 		var confirmation = window.confirm("Are you sure you want to add student?");
 		if (true == confirmation) {	
@@ -413,7 +415,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 	$scope.registerAccount = function(){
 		var confirmation = window.confirm("Are you sure you want to add account?");
 		if (true == confirmation) {	
-			if($scope.Account.userType == "Student"){
+			if($scope.Account.userType == "student"){
 				var account = {
 						id: 0,
 						username:$scope.Account.username,

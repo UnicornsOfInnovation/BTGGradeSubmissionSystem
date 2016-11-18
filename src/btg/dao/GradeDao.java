@@ -28,13 +28,15 @@ public class GradeDao {
      */
     
     public void insertGrade(GradeModel inputGrade){
+        System.out.println("GradeDao: insertGrade() START");
+
         Transaction tx;
         Key parentKey;
         Key key;
         
         tx = Datastore.beginTransaction();
         // creating key and ID for the new entity
-        parentKey = KeyFactory.createKey("Grade", inputGrade.getCourseId()+inputGrade.getAccountId()); //akong gi add ang duha ahahahahaha
+        parentKey = KeyFactory.createKey("Grade", ""+inputGrade.getCourseId()+""+inputGrade.getAccountId()); //akong gi add ang duha ahahahahaha
         key = Datastore.allocateId(parentKey, "GradeModel");
         
         // setting the 'key' and 'id' of the model
@@ -46,6 +48,8 @@ public class GradeDao {
         Datastore.put(inputGrade);
         
         tx.commit();
+        System.out.println("GradeDao: insertGrade() END");
+
     }
     
     

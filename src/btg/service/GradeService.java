@@ -36,6 +36,7 @@ public class GradeService {
      *  @return: void
      */
     public GradeDto insertGrade(GradeDto inputGrade){
+        System.out.println("GradeService: insertGrade() START");
         GradeModel gradeModel = new GradeModel();
         gradeModel.setAccountId(inputGrade.getAccountId());
         gradeModel.setCourseId(inputGrade.getCourseId());
@@ -54,7 +55,9 @@ public class GradeService {
             
         }catch (Exception e){
             inputGrade.addError(e.toString());
+            e.printStackTrace();
         }
+        System.out.println("GradeService: insertGrade() END");
         return inputGrade;
     }
     
