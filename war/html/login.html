@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="loginApp">
 
 <head>
 
@@ -33,7 +33,7 @@
 
 </head>
 
-<body>
+<body ng-controller="loginController">
 
     <div class="container">
         <div class="row">
@@ -47,13 +47,13 @@
                             <fieldset>
                                 <div class="form-group">
                                
-                                    <input class="form-control" placeholder="Username" ng-model="Username" type="email" autofocus>
+                                    <input class="form-control" placeholder="Username" ng-model="Username" type="username" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" ng-model="Password" type="password" value="">
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button class="btn btn-lg btn-success btn-block" type="submit">Login</button>
+                                <button class="btn btn-lg btn-success btn-block" ng-click="login()">Login</button>
                             </fieldset>
                         </form>
                     </div>
@@ -64,9 +64,6 @@
 
     <script src="../js/angular.js"></script>
     <script src="../js/angular-route.js"></script>
-    <script src="../js/adminMain.js"></script>
-    <script src="../js/account.js"></script>
-    <script src="../js/course.js"></script>
     <script src="../js/login.js"></script>
     
     <!-- jQuery -->

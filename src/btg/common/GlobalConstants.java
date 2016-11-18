@@ -34,7 +34,7 @@ public class GlobalConstants {
     public static final String SYS_FORWARD_HOMESCREEN= "/html/admin.html";
     //sample above
     
-    
+    public static final String SYS_FORWARD_LOGINSCREEN= "/html/login.html";
     
 
     /*************************************************************

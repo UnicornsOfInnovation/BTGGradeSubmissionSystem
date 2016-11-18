@@ -11,7 +11,7 @@ public class IndexController extends Controller {
     @Override
     protected Navigation run() throws Exception {
         System.out.println("IndexController.run start end");
-        return forward(GlobalConstants.SYS_FORWARD_HOMESCREEN);
+        return forward(GlobalConstants.SYS_FORWARD_LOGINSCREEN);
     }
 
 }

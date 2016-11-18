@@ -1,28 +1,31 @@
 var app = angular.module('loginApp',[]);
+
 app.controller('loginController', function($scope, $http, $location) {
 	
-	$scope.login=function(){
+	$scope.login = function(){
+		console.log("Login START");
 		var loginCredentials = {
-				username : $scope.Username,
-				password : $scope.Password
+				username : $scope.username,
+				password : $scope.password
 				
 		}
-		$http.post('/Login', jason).success(function(data){
-			if(data.pageToRedirect == "admin"){
+		$http.post('/Login', loginCredentials).success(function(response){
+			if(response.accountLoggedIn.userType == "student"){
 				$location.path("admin");
-				var adminRedirect = document.createElement("form");
-				adminRedirect.setAttribute("method", "post");
-				adminRedirect.setAttribute("action", "AdminPage");
-				adminRedirect.submit();
+				var Redirect = document.createElement("form");
+				Redirect.setAttribute("method", "post");
+				Redirect.setAttribute("action", "studentPage");
+				Redirect.submit();
 			}
-			else if(data.pageToRedirect == "company"){
-				var companyRedirect = document.createElement("form");
-				companyRedirect.setAttribute("method", "post");
-				companyRedirect.setAttribute("action", "CompanyPage");
-				companyRedirect.submit();
+			else if(response.accountLoggedIn.userType == "teacher"){
+				var Redirect = document.createElement("form");
+				Redirect.setAttribute("method", "post");
+				Redirect.setAttribute("action", "teacherPage");
+				Redirect.submit();
 			}
-			else if(data.pageToRedirect == ""){
-				alert(data.errorMsg);
+			else if(response.accountLoggedIn.pageToRedirect == ""){
+				alert(response.errorList);
+				console.log("NO error List");
 			}
 		});
 	}// End of login
