@@ -13,6 +13,7 @@
 
 package btg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slim3.controller.Controller;
@@ -22,6 +23,7 @@ import org.slim3.repackaged.org.json.JSONObject;
 import org.slim3.util.RequestMap;
 
 import btg.common.GlobalConstants;
+import btg.dto.AccountDto;
 import btg.dto.CourseDto;
 import btg.service.CourseService;
 
@@ -63,7 +65,9 @@ public class CourseController extends Controller{
                 courseDto = deleteCourseController(jsonObject);
             } else if(action.equalsIgnoreCase("GetCourseById")){
                 courseDto = getCourseByIdController(jsonObject);
-                jsonObject.put("courseDto", courseDto);
+                courseDtoList=new ArrayList<CourseDto>();
+                courseDtoList.add(courseDto);
+                jsonObject.put("courseDto", courseDtoList);
             } else if(action.equalsIgnoreCase("GetAllCourses")){
                 courseDtoList = getAllCoursesController();
                 for(CourseDto course : courseDtoList){

@@ -48,7 +48,8 @@ public class GradeController extends Controller {
             gradeDtoList = null;
             studentGradeDto = null;       
             jsonObject = null;
-            gradeDto = null;
+            gradeDto = new GradeDto();
+
             try{
                 jsonObject = new JSONObject(new RequestMap(this.request));
                 action = jsonObject.getString("action");
@@ -198,11 +199,13 @@ public class GradeController extends Controller {
         
         
         public List<GradeDto> getAllGradesController (){
+            System.out.println("getAllGrade + Start");
             List<GradeDto> gradeDtoList;
             
             gradeDtoList = gradeService.getAllGrades();
-            
+            System.out.println("GetAllGrade + End");
             return gradeDtoList;
+           
         }
         
     

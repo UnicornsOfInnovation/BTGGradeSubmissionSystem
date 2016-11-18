@@ -35,7 +35,7 @@
 
 </head>
 
-<body >
+<body ng-controller="studentController">
 
     <div id="wrapper">
 
@@ -82,7 +82,7 @@
                         </div>
                         <div class="panel-body">
                             <p></p>
-                             <label class="contentLabel"> Name:{{student.firstName + student.lastName}} </label><br>
+                             <label class="contentLabel"> Name:{{studentAccount.firstName + studentAccount.lastName}} </label><br>
                              <label class="contentLabel"> School: </label><br>
                              <label class="contentLabel"> Strand: </label><br>
                              <label class="contentLabel"> Year Level: </label><br>
@@ -104,10 +104,23 @@
                                                                 <label class="contentLabel"> FG </label>                        
                                                                 </td>
                                                             </tr>
-                                                           
+                                                            <tr  ng-repeat="courseModel in newCourseList">
+                                                          	    <td width="30%" style="text-align:center;">
+                                                                <label class="contentLabel" ng-bind="courseModel.courseCode"> </label>
+                                                                </td>
+                                                                <td width="40%" style="text-align:center;">
+                                                                <label class="contentLabel" ng-bind="courseModel.courseName">  </label>
+                                                                </td>
+                                                                 <td width="15%" style="text-align:center;">
+                                                                <label class="contentLabel" ng-bind="courseModel.courseUnits">  </label>                      
+                                                                </td>
+                                                                 <td width="15%" style="text-align:center;">
+                                                                <label class="contentLabel" ng-bind="newGradeList[$index]"> </label>                        
+                                                                </td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
-                                                </div>
+                              </div>
                         </div>
                         <div class="panel-footer">
                         </div>

@@ -163,6 +163,7 @@ public class GradeService {
               gradeDto.setCourseId(gradeModel.getCourseId());
               gradeDto.setGrade(gradeModel.getGrade());
               gradeDto.setGradeId(gradeModel.getGradeId());
+              gradeListDto.add(gradeDto);
           }
           
           return gradeListDto;

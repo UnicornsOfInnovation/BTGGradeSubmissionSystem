@@ -15,6 +15,7 @@
 package btg.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slim3.controller.Controller;
@@ -69,7 +70,9 @@ public class AccountController extends Controller{
                     accountDto = deleteAccountController(jsonObject);
                 } else if(action.equals("GetAccountById")){
                     accountDto = getAccountByIdController(jsonObject);
-                    jsonObject.put("account", accountDto);
+                    accountDtoList=new ArrayList<AccountDto>();
+                    accountDtoList.add(accountDto);
+                    jsonObject.put("account", accountDtoList);
                 } else if(action.equals("GetAllStudentAccounts")){
                     accountDtoList = getAllStudentAccountsController();
                     jsonObject.put("studentAccounts", accountDtoList);
