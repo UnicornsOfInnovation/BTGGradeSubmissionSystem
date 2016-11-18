@@ -8,12 +8,18 @@
 package btg.controller;
 
 
+
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
-import org.slim3.repackaged.org.json.JSONObject;
 import org.slim3.util.RequestMap;
 
 import btg.common.GlobalConstants;
+import btg.dto.StrandDto;
+import btg.service.StrandService;
+import org.slim3.repackaged.org.json.JSONException;
+import org.slim3.repackaged.org.json.JSONObject;
+
+
 import btg.dto.AccountDto;
 //import btg.session.SessionManager;
 
@@ -32,7 +38,9 @@ public class LoginController extends Controller{
         try{
             jsonObject = new JSONObject(new RequestMap(this.request));
             accountDto = accountController.getAccountByUsernamePasswordController(jsonObject);
-            jsonObject.put("accountLoggedIn", accountDto);
+            System.out.println(accountDto.getEmailAddress());
+            jsonObject.put("accountLoggedIn", accountDto.getUserType());
+            jsonObject.put("accountID", accountDto.getAccountId());
         } catch (Exception e){
             System.out.println("Exception Found in run() in LoginController:");
             e.printStackTrace();
