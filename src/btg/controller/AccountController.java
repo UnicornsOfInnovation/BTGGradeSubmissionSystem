@@ -136,19 +136,19 @@ public class AccountController extends Controller{
                 accountDto.setContactNumber(jsonObject.getString("contactNumber"));
                 accountDto.setUserType(jsonObject.getString("userType"));
                 accountDto.setStatus(true);
-                if("student".equals(userType)){
+                if("student".equalsIgnoreCase(userType)){
                     accountDto.setParentContact(jsonObject.getString("parentContact"));
                     accountDto.setParentName(jsonObject.getString("parentName"));
                     accountDto.setSchool(jsonObject.getString("school"));
                     accountDto.setStrand(jsonObject.getString("strand"));
                     accountDto.setYearLevel(Integer.parseInt(jsonObject.getString("yearLevel")));                    
-                } else if ("teacher".equals(userType)){
+                } else if ("teacher".equalsIgnoreCase(userType)){
                     accountDto.setCourseCode(jsonObject.getString("courseCode"));
                 }                 
                 accountDto = accountService.insertAccount(accountDto); 
                 
                 //for grade initialization in the database for that student
-                if("student".equals(userType)){
+                if("student".equalsIgnoreCase(userType)){
                     gradeService = new GradeService();
                     majorsList = courseService.getAllCoursesByStrandYearLevel(accountDto.getStrand(),accountDto.getYearLevel());
                     minorsList = courseService.getAllMinorCourses();

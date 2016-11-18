@@ -58,7 +58,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			courseCode: ""
 	}
 	$scope.yearArray = ["10","11","12"];
-	$scope.accountType = ["Student", "Teacher"];
+	$scope.accountType = ["student", "teacher"];
 	
 	
 	$scope.listStudentAccount = function() {
@@ -424,7 +424,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						emailAddress: $scope.Account.emailAddress,
 						strand: $scope.Account.strand.strandName,
 						yearLevel: $scope.Account.yearLevel,
-						userType: $scope.Account.userType,
+						userType: "student",
 						school: $scope.Account.school,
 						parentName: $scope.Account.parentName,
 						parentContact: $scope.Account.parentContact,
@@ -442,7 +442,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						lastName: $scope.Account.lastName,
 						contactNumber: $scope.Account.contactNumber,
 						emailAddress: $scope.Account.emailAddress,
-						userType : $scope.Account.userType,
+						userType : "teacher",
 						courseCode: $scope.Account.courseCode.courseName,
 						action:"InsertAccount"
 				}
