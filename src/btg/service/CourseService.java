@@ -4,6 +4,7 @@
  *     October 18, 2016 - Created the Service file (Dave)
  *                      - Created the insertCourse(), updateCourse(), deleteCourse(), getCourseById() (Dave)
  *     October 23, 2016 - Created the getAllCourses() (Dave)
+ *     November 18, 2016 - getAllCoursesByStrand() (Dave)
  * 
  */
 
@@ -206,4 +207,72 @@ public class CourseService {
         return courseDtoList;
     }
     
+    
+    
+    public List<CourseDto> getAllCoursesByStrandYearLevel (String strand, int yearLevel){
+        List<CourseDto> courseDtoList;
+        List<CourseModel> courseModelList;
+        CourseDto courseDto;
+        CourseModel temp;
+        
+        
+        temp = new CourseModel();
+        courseDtoList = new ArrayList<CourseDto>();
+        temp.setStrand(strand);
+        temp.setYearLevel(yearLevel);
+        
+        try{
+           courseModelList = courseDao.getAllCoursesByStrandYearLevel(temp);
+           for(CourseModel courseModel : courseModelList){
+               courseDto = new CourseDto();
+               courseDto.setCourseCode(courseModel.getCourseCode());
+               courseDto.setCourseId(courseModel.getCourseId());
+               courseDto.setId(courseModel.getId());
+               courseDto.setCourseType(courseModel.getCourseType());
+               courseDto.setCourseName(courseModel.getCourseName());
+               courseDto.setStatus(courseModel.getStatus());
+               courseDto.setStrand(courseModel.getStrand());
+               courseDto.setCourseUnits(courseModel.getCourseUnits());
+               courseDto.setYearLevel(courseModel.getYearLevel()); 
+               courseDtoList.add(courseDto);
+           }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return courseDtoList;        
+    }
+    
+    
+    
+    
+    public List<CourseDto> getAllMinorCourses (){
+        List<CourseDto> courseDtoList;
+        List<CourseModel> courseModelList;
+        CourseDto courseDto;
+        
+        courseDtoList = new ArrayList<CourseDto>();
+        
+        try{
+           courseModelList = courseDao.getAllMinorCourses();
+           for(CourseModel courseModel : courseModelList){
+               courseDto = new CourseDto();
+               courseDto.setCourseCode(courseModel.getCourseCode());
+               courseDto.setCourseId(courseModel.getCourseId());
+               courseDto.setId(courseModel.getId());
+               courseDto.setCourseType(courseModel.getCourseType());
+               courseDto.setCourseName(courseModel.getCourseName());
+               courseDto.setStatus(courseModel.getStatus());
+               courseDto.setStrand(courseModel.getStrand());
+               courseDto.setCourseUnits(courseModel.getCourseUnits());
+               courseDto.setYearLevel(courseModel.getYearLevel()); 
+               courseDtoList.add(courseDto);
+           }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return courseDtoList;        
+    }
+
 }

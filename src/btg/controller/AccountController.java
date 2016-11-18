@@ -24,7 +24,11 @@ import org.slim3.repackaged.org.json.JSONObject;
 import org.slim3.util.RequestMap;
 import btg.common.GlobalConstants;
 import btg.dto.AccountDto;
+import btg.dto.CourseDto;
+import btg.dto.GradeDto;
 import btg.service.AccountService;
+import btg.service.CourseService;
+import btg.service.GradeService;
 
 
 public class AccountController extends Controller{
@@ -114,8 +118,13 @@ public class AccountController extends Controller{
          */
         public AccountDto insertAccountController(JSONObject jsonObject){
             AccountDto accountDto;
+            List<CourseDto> majorsList;      //for inserting all courses of the student to grade
+            List<CourseDto> minorsList;      //for inserting all courses of the student to grade
             String userType;
+            CourseService courseService;
+            GradeService gradeService;
             
+            courseService = new CourseService();
             accountDto = new AccountDto();            
             try {
                 userType = jsonObject.getString("userType");
@@ -132,11 +141,34 @@ public class AccountController extends Controller{
                     accountDto.setParentName(jsonObject.getString("parentName"));
                     accountDto.setSchool(jsonObject.getString("school"));
                     accountDto.setStrand(jsonObject.getString("strand"));
-                    accountDto.setYearLevel(Integer.parseInt(jsonObject.getString("yearLevel")));
+                    accountDto.setYearLevel(Integer.parseInt(jsonObject.getString("yearLevel")));                    
                 } else if ("teacher".equals(userType)){
                     accountDto.setCourseCode(jsonObject.getString("courseCode"));
                 }                 
-                accountDto = accountService.insertAccount(accountDto);               
+                accountDto = accountService.insertAccount(accountDto); 
+                
+                //for grade initialization in the database for that student
+                if("student".equals(userType)){
+                    gradeService = new GradeService();
+                    majorsList = courseService.getAllCoursesByStrandYearLevel(accountDto.getStrand(),accountDto.getYearLevel());
+                    minorsList = courseService.getAllMinorCourses();
+                    for(CourseDto courseDto: majorsList){
+                        GradeDto gradeDto = new GradeDto();
+                        gradeDto.setAccountId(accountDto.getAccountId());
+                        gradeDto.setCourseId(courseDto.getCourseId());
+                        gradeDto.setGrade(0);
+                        gradeDto.setStatus(true);
+                        gradeService.insertGrade(gradeDto);
+                    }
+                    for(CourseDto courseDto: minorsList){
+                        GradeDto gradeDto = new GradeDto();
+                        gradeDto.setAccountId(accountDto.getAccountId());
+                        gradeDto.setCourseId(courseDto.getCourseId());
+                        gradeDto.setGrade(0);
+                        gradeDto.setStatus(true);
+                        gradeService.insertGrade(gradeDto);
+                    }
+                }
             } catch (Exception e) {
                 System.out.println("Exception Found in insertAccountController() in AccountController:");
                 e.printStackTrace();

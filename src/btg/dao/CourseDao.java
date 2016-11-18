@@ -5,6 +5,7 @@
  *                      - Created the insertCourse(), updateCourse(), deleteCourse(), getCourseByName() (Dave)
  *     October 19, 2016 - Created the getCourseById() (Dave)
  *     October 23, 2016 - Created the getAllCourses() (Dave)
+ *     November 18, 2016 - getAllCoursesByStrand() (Dave)
  */
 
 
@@ -130,6 +131,34 @@ public class CourseDao {
         courseModelList = Datastore.query(courseModelMeta).filter((courseModelMeta.status.equal(true)))
                 .asList();
 
+        return courseModelList;
+    }
+    
+    
+    public List<CourseModel> getAllCoursesByStrandYearLevel(CourseModel inputCourse){
+        CourseModelMeta courseModelMeta;
+        List<CourseModel> courseModelList;
+        
+        courseModelMeta = CourseModelMeta.get();
+        courseModelList = Datastore.query(courseModelMeta)
+                .filter((courseModelMeta.strand.equal(inputCourse.getStrand())))
+                .filter((courseModelMeta.yearLevel.equal(inputCourse.getYearLevel())))
+                .asList();
+        
+        return courseModelList;
+    }
+    
+    
+    
+    public List<CourseModel> getAllMinorCourses(){
+        CourseModelMeta courseModelMeta;
+        List<CourseModel> courseModelList;
+        
+        courseModelMeta = CourseModelMeta.get();
+        courseModelList = Datastore.query(courseModelMeta)
+                .filter((courseModelMeta.courseType.equal("Minor")))
+                .asList();
+        
         return courseModelList;
     }
 }
