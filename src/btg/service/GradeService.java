@@ -134,6 +134,8 @@ public class GradeService {
        *  @param: AccountModel containing the AccountId
        *  @return: List<GradeModel> that holds the grades of all the students.
        */
+      
+      //CHANGE THIS WTIH GRADE DTO NOT GRADE MODEL TO BE RETURNED
       public List<GradeModel> getAllGradesByAccountId (AccountModel inputAccount){
           List<GradeModel> gradeModelList;
           
@@ -147,4 +149,22 @@ public class GradeService {
           return gradeModelList;
       }
     
+      
+      
+      public List<GradeDto> getAllGrades(){
+          List<GradeDto> gradeListDto;
+          List<GradeModel> gradeModelList;
+          
+          gradeListDto = new ArrayList<GradeDto>();
+          gradeModelList = gradeDao.getAllGrades();
+          for(GradeModel gradeModel: gradeModelList){
+              GradeDto gradeDto = new GradeDto();
+              gradeDto.setAccountId(gradeModel.getAccountId());
+              gradeDto.setCourseId(gradeModel.getCourseId());
+              gradeDto.setGrade(gradeModel.getGrade());
+              gradeDto.setGradeId(gradeModel.getGradeId());
+          }
+          
+          return gradeListDto;
+      }
 }

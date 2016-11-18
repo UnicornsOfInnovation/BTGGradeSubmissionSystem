@@ -6,6 +6,7 @@
  *     October 23, 2016 - added comments to the purpose of each function (Dave)
  *                      - added 'accountService.computeGPA(gradesArray);' in submitGradeController (Dave)
  *                      - added 'accountService.computeGPA(gradesArray);' in updateGradeController (Dave)
+ *     November 18, 2016- added getAllGrades() (Dave)
  */
 package btg.controller;
 
@@ -16,6 +17,7 @@ import org.slim3.controller.Navigation;
 import org.slim3.repackaged.org.json.JSONArray;
 import org.slim3.repackaged.org.json.JSONObject;
 import org.slim3.util.RequestMap;
+
 
 import btg.common.GlobalConstants;
 import btg.dto.BestStudentDto;
@@ -41,7 +43,9 @@ public class GradeController extends Controller {
             JSONObject jsonObject;
             GradeDto gradeDto;
             List<StudentGradeDto> studentGradeDto;
+            List<GradeDto> gradeDtoList;
             
+            gradeDtoList = null;
             studentGradeDto = null;       
             jsonObject = null;
             gradeDto = null;
@@ -55,6 +59,9 @@ public class GradeController extends Controller {
                     jsonObject.put("studentGradesList", studentGradeDto);
                 } else if(action.equals("UpdateGrade")){
                     gradeDto = updateGradeController(jsonObject);
+                } else if(action.equals("GetAllGrades")){
+                    gradeDtoList = getAllGradesController();
+                    jsonObject.put("allGrades", gradeDtoList);
                 }
             } catch (Exception e) {
                 // Adds an error message if there exists.
@@ -188,6 +195,15 @@ public class GradeController extends Controller {
             return null;
         }
       
+        
+        
+        public List<GradeDto> getAllGradesController (){
+            List<GradeDto> gradeDtoList;
+            
+            gradeDtoList = gradeService.getAllGrades();
+            
+            return gradeDtoList;
+        }
         
     
 }

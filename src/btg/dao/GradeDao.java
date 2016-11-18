@@ -111,4 +111,15 @@ public class GradeDao {
         return gradeModelList;
     }
 
+    
+    public List<GradeModel> getAllGrades(){
+        GradeModelMeta gradeModelMeta;
+        List<GradeModel> gradeModelList;
+        
+        gradeModelMeta= GradeModelMeta.get();        
+        gradeModelList= Datastore.query(gradeModelMeta)
+                        .asList();                      
+                        
+        return gradeModelList;        
+    }
 }
