@@ -4,6 +4,7 @@
  *     October 22, 2016 - created GradeService File
  *                      - insertGrade(), updateGrade(), getAllStudentGradesByCourse() (Dave)
  *     October 23, 2016 - getAllGradesByAccountId() (Dave)
+ *     November 25, 2016 - created getGradeByAccountAndCourse() (Dave)
  */
 package btg.service;
 
@@ -167,5 +168,32 @@ public class GradeService {
           }
           
           return gradeListDto;
+      }
+      
+      
+      
+      public GradeDto getGradeByAccountAndCourse(GradeDto inputGrade){
+          GradeDto gradeDto;
+          GradeModel gradeModel;
+          GradeModel tempGradeModel;
+          
+          gradeDto = null;
+          tempGradeModel = new GradeModel();
+          tempGradeModel.setAccountId(inputGrade.getAccountId());
+          tempGradeModel.setCourseId(inputGrade.getCourseId());
+          
+          try{
+              gradeModel = gradeDao.getGradeByAccountAndCourse(tempGradeModel);
+              gradeDto = new GradeDto();
+              gradeDto.setAccountId(gradeModel.getAccountId());
+              gradeDto.setCourseId(gradeModel.getCourseId());
+              gradeDto.setGrade(gradeModel.getGrade());
+              gradeDto.setGradeId(gradeModel.getGradeId());
+          } catch (Exception e){
+              System.out.println("Exception in getAccountByAccountAndCourse() in GradeService:");
+              e.printStackTrace();
+          }
+          
+          return gradeDto;
       }
 }

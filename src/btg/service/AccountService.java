@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slim3.repackaged.org.json.JSONArray;
+import org.slim3.repackaged.org.json.JSONObject;
 
 import btg.dao.AccountDao;
 import btg.dao.CourseDao;
@@ -328,8 +329,7 @@ public class AccountService {
      * ARRANGE INDENTATION
      */
     
-        public void computeGPA(JSONArray gradesArray){
-            int ctr;
+        public void computeGPA(JSONObject jsonObject){
             AccountModel accountModel;
             GradeService gradeService;
             List<GradeModel> gradeModelList;
@@ -342,39 +342,38 @@ public class AccountService {
             courseDao = new CourseDao();
             gradeModelList = null;
             gradeService = new GradeService();
-            for(ctr=0; ctr < gradesArray.length(); ctr++){
-                accountModel = new AccountModel();
-                try {
-                    accountModel.setId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("accountId")));
-                    // Getting the account from the database
-                    accountModel = accountDao.getAccountById(accountModel);
-                    // Computing for the GPA of the account
-                    if(null != accountModel){
-                        // Getting all the grades of the account from the database
-                        gradeModelList = gradeService.getAllGradesByAccountId(accountModel);
-                        totalUnits = 0;
-                        cumulativeGrade = 0;
-                        for(GradeModel gradeModel : gradeModelList){
-                            // Getting the course units
-                            courseModel = new CourseModel();
-                            courseModel.setId(gradeModel.getCourseId());
-                            courseModel = courseDao.getCourseById(courseModel);
-                            // Adding the units to total units
-                            totalUnits += courseModel.getCourseUnits();
-                            // Computing the weight of the grade
-                            cumulativeGrade += (courseModel.getCourseUnits() * gradeModel.getGrade());                 
-                        }
-                        gpa = cumulativeGrade/totalUnits;
-                        // Storing the GPA to the account and updating the account.
-                        accountModel.setGpa(gpa);
-                        accountDao.updateAccount(accountModel);
+            accountModel = new AccountModel();
+            try {
+                accountModel.setId(Long.parseLong(jsonObject.getString("accountId")));
+                // Getting the account from the database
+                accountModel = accountDao.getAccountById(accountModel);
+                // Computing for the GPA of the account
+                if(null != accountModel){
+                    // Getting all the grades of the account from the database
+                    gradeModelList = gradeService.getAllGradesByAccountId(accountModel);
+                    totalUnits = 0;
+                    cumulativeGrade = 0;
+                    for(GradeModel gradeModel : gradeModelList){
+                        // Getting the course units
+                        courseModel = new CourseModel();
+                        courseModel.setId(gradeModel.getCourseId());
+                        courseModel = courseDao.getCourseById(courseModel);
+                        // Adding the units to total units
+                        totalUnits += courseModel.getCourseUnits();
+                        // Computing the weight of the grade
+                        cumulativeGrade += (courseModel.getCourseUnits() * gradeModel.getGrade());                 
                     }
-                } catch (Exception e){
-                    System.out.println("This exception is found in computeGPA in AccountService:");
-                    System.out.println(e.toString());
+                    gpa = cumulativeGrade/totalUnits;
+                    // Storing the GPA to the account and updating the account.
+                    accountModel.setGpa(gpa);
+                    accountDao.updateAccount(accountModel);
                 }
-                
+            } catch (Exception e){
+                System.out.println("This exception is found in computeGPA in AccountService:");
+                System.out.println(e.toString());
             }
+                
+            
         }
         
         

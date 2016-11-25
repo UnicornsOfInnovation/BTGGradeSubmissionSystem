@@ -4,6 +4,7 @@
  *     October 22, 2016 - created GradeDao File
  *                      - insertGrade(), getGradeById(), getAllGradesByCourse(), updateGrade() (Dave)
  *     October 23, 2016 - created getAllGradesByAccountId() (Dave)
+ *     November 25, 2016 - created getGradeByAccountAndCourse() (Dave)
  */
 
 package btg.dao;
@@ -121,5 +122,20 @@ public class GradeDao {
                         .asList();                      
                         
         return gradeModelList;        
+    }
+    
+                      
+    
+    public GradeModel getGradeByAccountAndCourse(GradeModel inputGrade){
+        GradeModelMeta gradeModelMeta;
+        GradeModel gradeModel;
+        
+        gradeModelMeta= GradeModelMeta.get();        
+        gradeModel = Datastore.query(gradeModelMeta)
+                        .filter(gradeModelMeta.accountId.equal(inputGrade.getAccountId()))
+                        .filter(gradeModelMeta.courseId.equal(inputGrade.getCourseId()))
+                        .asSingle();        
+        
+        return gradeModel;
     }
 }
