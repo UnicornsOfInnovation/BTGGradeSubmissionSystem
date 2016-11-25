@@ -93,6 +93,7 @@ public class GradeController extends Controller {
          */            
         public GradeDto submitGradeController(JSONObject jsonObject){
             GradeDto gradeDto;
+            GradeDto tempGradeDto;
             BestStudentDto bestStudentDto;
             BestStudentController bestStudentController;
             JSONArray gradesArray;
@@ -108,16 +109,17 @@ public class GradeController extends Controller {
                 gradesArray = jsonObject.getJSONArray("gradesArray");  
                
                 for(ctr=0; ctr < gradesArray.length(); ctr++){
-                    gradeDto = new GradeDto();
-                    gradeDto.setAccountId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("accountId")));
-                    gradeDto.setCourseId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("courseId")));
-                    gradeDto.setGrade(Double.parseDouble(gradesArray.getJSONObject(ctr).getString("grade")));
-                    gradeDto.setStatus(true);
+                    tempGradeDto = new GradeDto();
+                    tempGradeDto.setAccountId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("accountId")));
+                    tempGradeDto.setCourseId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("courseId")));
+                                        
                     //submits the grade one by one and not as a list
                     try{
-                        gradeService.insertGrade(gradeDto);
+                        gradeDto = gradeService.getGradeByAccountAndCourse(tempGradeDto);
+                        gradeDto.setGrade(Double.parseDouble(gradesArray.getJSONObject(ctr).getString("grade")));
+                        gradeService.updateGrade(gradeDto);
                         //computes GPA of students after every submit
-                        accountService.computeGPA(gradesArray);
+                        accountService.computeGPA(gradesArray.getJSONObject(ctr));
                     } catch (Exception e){
                         gradeDto.addError(e.toString());
                     }
@@ -182,7 +184,7 @@ public class GradeController extends Controller {
                     try{
                         gradeService.updateGrade(gradeDto);
                       //computes GPA of students after every submit
-                        accountService.computeGPA(gradesArray);
+                        accountService.computeGPA(gradesArray.getJSONObject(ctr));
                     } catch (Exception e){
                         gradeDto.addError(e.toString());
                     }
