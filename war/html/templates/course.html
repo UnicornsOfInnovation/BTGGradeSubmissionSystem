@@ -1,6 +1,6 @@
 <div class="col-lg-12">
 	<h1>Manage Courses <button style="float: right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerCourse" >ADD</button></h1>
-	
+	<input ng-model="search.courseName" class ="form-control" style="width:30%" placeholder="search...">
 </div>
 
 
@@ -22,7 +22,7 @@
                               	<div class="panel-group" id="accordion">
 	                               <div class="panel panel-default"  ng-repeat="courseModel in courseList | filter : {
 																							strand: 'Science and Technology, Engineering, and Mathematics'																							
-																							}">
+																							} | filter :search">
 	                               
 	                               
 	                                   <div class="panel-heading">
@@ -152,7 +152,7 @@
                               	<div class="panel-group" id="accordion">
 	                               <div class="panel panel-default"  ng-repeat="courseModel in courseList | filter : {
 																							strand: 'Accountancy, Business, and Management'																							
-																							}">
+																							} | filter :search" >
 	                               
 	                               
 	                                   <div class="panel-heading">
@@ -283,7 +283,7 @@
                               	<div class="panel-group" id="accordion">
 	                               <div class="panel panel-default"   ng-repeat="courseModel in courseList | filter : {
 																							strand: 'Humanities and Social Sciences'																							
-																							}">
+																							} | filter :search">
 	                               
 	                               
 	                                   <div class="panel-heading">
@@ -416,7 +416,7 @@
                               	<div class="panel-group" id="accordion">
 	                               <div class="panel panel-default"   ng-repeat="courseModel in courseList | filter : {
 																							courseType: 'Minor'																							
-																							}">
+																							} | filter :search">
 	                               
 	                               
 	                                   <div class="panel-heading">
