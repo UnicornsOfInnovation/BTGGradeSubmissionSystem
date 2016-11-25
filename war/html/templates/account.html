@@ -1,8 +1,10 @@
 <div class="col-lg-12">
 	<h1 class="Account">Manage Account
 	<button style="float: right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerAccount" ng-click="setStrand()">ADD</button>
-	
+	<input ng-model="search.$" class ="form-control" style="width:30%" placeholder="search...">
+
 	</h1>
+		
 	</div>
 <!-- /.col-lg-12 -->
 <div>
@@ -14,7 +16,7 @@
               <!-- /.panel-heading -->
               <div class="panel-body">
                               	<div class="panel-group" id="accordion">
-	                               <div class="panel panel-default"  ng-repeat="studentModel in studentList">
+	                               <div class="panel panel-default"  ng-repeat="studentModel in studentList | filter:search">
 	                                   <div class="panel-heading">
 	                                       <h4 class="panel-title">
 	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="false" class="" >{{studentModel.firstName +" "+ studentModel.lastName}}</a>
@@ -142,7 +144,7 @@
               <!-- /.panel-heading -->
               <div class="panel-body">
                               	<div class="panel-group" id="accordion">
-	                               <div class="panel panel-default"  ng-repeat="teacherModel in teacherList">
+	                               <div class="panel panel-default"  ng-repeat="teacherModel in teacherList | filter:search">
 	                                   <div class="panel-heading">
 	                                       <h4 class="panel-title">
 	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapsed{{$index}}" aria-expanded="false" class="" >{{teacherModel.firstName + " " + teacherModel.lastName}}</a>
