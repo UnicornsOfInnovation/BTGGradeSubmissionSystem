@@ -56,7 +56,7 @@
              
              <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                       Hello, "Name" <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                       Hello, {{studentAccount.firstName}} <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
@@ -82,10 +82,16 @@
                         </div>
                         <div class="panel-body">
                             <p></p>
-                             <label class="contentLabel"> Name:{{studentAccount.firstName + studentAccount.lastName}} </label><br>
-                             <label class="contentLabel"> School: </label><br>
-                             <label class="contentLabel"> Strand: </label><br>
-                             <label class="contentLabel"> Year Level: </label><br>
+                             <label class="contentLabel"> Name: {{studentAccount.firstName + studentAccount.lastName}} </label><br>
+                             <label class="contentLabel"> School: </label> 
+                             <label class="contentLabel" ng-bind="studentAccount.school"> </label>
+                             <br>
+                             <label class="contentLabel"> Strand: </label>
+                             <label class="contentLabel" ng-bind="studentAccount.strand"> </label>
+                             <br>
+                             <label class="contentLabel"> Year Level: </label>
+                             <label class="contentLabel" ng-bind="studentAccount.yearLevel"> </label>
+                             <br>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="initEdit(studentModel)" data-target="#editStudentAccount{{$index}}" >Download Grades</button>
                                 <div class="table table-striped table-bordered table-hover">
                                                     <table class="table">
@@ -134,7 +140,9 @@
     <!-- /#wrapper -->
    	<script src="../js/angular.js"></script>
 	<script src="../js/angular-route.js"></script>
+	<script src="../js/login.js"></script>
 	<script src="../js/student.js"></script>
+	<script src="../js/sharedService.js"></script>
     <!-- jQuery -->
     <script src="../bootstrap/vendor/jquery/jquery.min.js"></script>
 

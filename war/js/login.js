@@ -1,6 +1,6 @@
 var app = angular.module('loginApp',[]);
 
-app.controller('loginController', function($scope, $http, $location, $httpParamSerializer) {
+app.controller('loginController', function($scope, $http, $location, $httpParamSerializer, serviceShareData) {
 	
 	$scope.login = function(){
 		var loginCredentials = {
@@ -22,6 +22,8 @@ app.controller('loginController', function($scope, $http, $location, $httpParamS
 				var Redirect = document.createElement("form");
 				Redirect.setAttribute("method", "post");
 				Redirect.setAttribute("accountID", response.data.accountID);
+				serviceShareData.addData(response.data.accountID);
+				console.log("session->"+serviceShareData.getData());
 				Redirect.setAttribute("action", "studentPage");
 				Redirect.submit();
 			}

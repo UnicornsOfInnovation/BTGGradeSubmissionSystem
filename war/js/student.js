@@ -18,12 +18,12 @@
  * The angular module object.
  * @param pizzaTimeApp - the application name (refer to the 'ng-app' directive)
  */
-var app = angular.module('loginApp', []);
 
-app.controller('studentController', function($scope, $http, $httpParamSerializer) {
+
+angular.module('loginApp').controller('studentController', function($scope, $http, $httpParamSerializer, serviceShareData) {
 	console.log("studentController " + "start");
 	
-	$scope.studentIdFromLogin = "855";
+	$scope.studentIdFromLogin = serviceShareData.getData()[0];
 	$scope.studentAccount = null;
 	$scope.studentList = [];
 	$scope.courseList= [];
@@ -141,6 +141,11 @@ app.controller('studentController', function($scope, $http, $httpParamSerializer
 			if (response.data.errorList.length == 0) {
 				
 				$scope.gradeList = response.data.allGrades;
+				for(var x = 0; x <$scope.gradeList.length;x++){
+					if($scope.gradeList[x].grade==0){
+						$scope.gradeList[x].grade="NG";
+					}
+				}
 				$scope.processData();
 				console.log("GRADE LENGTH in process list Grades -->"+$scope.gradeList.length);
 				
@@ -198,6 +203,7 @@ app.controller('studentController', function($scope, $http, $httpParamSerializer
 	$scope.processData = function() {
 		console.log("studentController.listGrades " + "start");
 		console.log("GRADE LENGTH in process" +$scope.gradeList.length);
+
 		for(var x = 0;x<$scope.gradeList.length;x++){
 			if($scope.gradeList[x].accountId == $scope.studentIdFromLogin){
 				console.log("Index -- >" +x);
