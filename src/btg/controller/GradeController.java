@@ -151,8 +151,7 @@ public class GradeController extends Controller {
                 System.out.println("This is an exception in getAllStudentGradesByCourse");
                 System.out.println(e.toString());
             }
-            return studentGradeList;
-            
+            return studentGradeList;    
         }
         
         
