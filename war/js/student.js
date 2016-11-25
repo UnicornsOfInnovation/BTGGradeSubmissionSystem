@@ -32,6 +32,73 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	$scope.newCourseList=[];
 	$scope.newCourseCodeList=[];
 	
+	$scope.pass = {
+		oldPassword: "",
+		newPassword: "",
+		confirmNewPassword: ""
+	};
+	
+	clearPasswordFields = function(){
+		$scope.pass.oldPassword="";
+		$scope.pass.newPassword="";
+		$scope.pass.confirmNewPassword="";
+	}
+	
+	$scope.changePassword = function(){
+		console.log("student.changePassword " + "START");
+		
+		
+		console.log("account id: " + $scope.studentIdFromLogin);
+		console.log("old password: " + $scope.pass.oldPassword);
+		console.log("new password: " + $scope.pass.newPassword);
+		console.log("confirm new password: " + $scope.pass.confirmNewPassword);
+		
+		if($scope.pass.oldPassword != $scope.studentAccount.password){
+			alert("Access denied! Wrong password!");
+			clearPasswordFields();
+	    }else if ($scope.pass.newPassword != $scope.pass.confirmNewPassword){
+			alert("Your new password and confirm new password didn't match");
+			clearPasswordFields();
+		} else if ($scope.pass.newPassword == $scope.pass.oldPassword){
+			alert("Your old and new passwords match! Try a new combination.");
+			clearPasswordFields();
+		} else {
+			var changePassObject = {
+			   id: $scope.studentIdFromLogin,
+			   newPassword: $scope.pass.newPassword,
+			   action: "ChangePassword"
+			};
+			
+			$http.post("/account", $httpParamSerializer(changePassObject),
+					{// configuring the request not a JSON type.
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}
+			)
+			
+			.then(function(response) {
+				console.log("Error? " + response.data.errorList.length);
+				if (response.data.errorList.length == 0) {
+					//There were no errors.
+					alert("Changing password was successful.");
+					// initializing the contents of the ingredient screen.
+					$('#changePassword').modal('hide');
+					$('.modal-backdrop').hide();
+				} else {
+					// display the error messages.
+					var errorMessage = "";
+					alert("Changing password was NOT successful.");
+					for (var i = 0; i < response.data.errorList.length; i++) {
+						errorMessage += response.data.errorList[i];
+					}
+					alert(errorMessage);
+				}
+			}, function() {
+				alert("An error has occured");
+			})
+		}
+		console.log("student.changePassword " + "END");
+	}
+	
 	
 	
 	$scope.getStudentAccount = function() {

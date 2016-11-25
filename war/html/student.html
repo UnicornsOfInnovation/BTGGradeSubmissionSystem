@@ -59,7 +59,9 @@
                        Hello, {{studentAccount.firstName}} <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                      <!--   <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                        </li> -->
+                        <li> <a data-toggle="modal" data-target="#changePassword">Change Password</a>                       
                         </li>
                         <li class="divider"></li>
                         <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -138,6 +140,46 @@
         <!-- /#page-wrapper -->
 
     </div>
+    
+    
+    
+    
+      <!-- Modal Declaration here -->
+  		<div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                      <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+                  </div>
+                  <div class="modal-body" ng-form="changePasswordForm">
+                  		<label class="contentLabel"> Current Password: </label><br> 
+						<input class ="form-control" type="password" ng-model="pass.oldPassword" required><br>
+                    	<label class="contentLabel"> New Password: </label><br> 
+						<input class ="form-control" type="password" ng-model="pass.newPassword" required><br>
+                    	<label class="contentLabel"> Confirm New Password: </label><br> 
+                    	<input class ="form-control" type="password" ng-model="pass.confirmNewPassword" required><br>
+
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" ng-click="changePassword()" ng-disabled="changePasswordForm.$invalid"> Save Changes</button>
+                  </div>
+              </div>
+              <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+      </div>
+      
+      
+      
+      
+      
+    
+    
+    
+    
+    
     <!-- /#wrapper -->
    	<script src="../js/angular.js"></script>
 	<script src="../js/angular-route.js"></script>
