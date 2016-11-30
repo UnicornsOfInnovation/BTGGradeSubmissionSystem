@@ -87,7 +87,7 @@
                              <label class="contentLabel"> Course Title: {{courseDetails.courseName}} </label><br>
                              <label class="contentLabel"> Course Units: {{courseDetails.courseUnits}}</label><br>
                              
-                                <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="initEdit(studentModel)" data-target="#editStudentAccount{{$index}}" >Download Class List</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" >Download Class List</button>
                                 <div class="table table-striped table-bordered table-hover">
                                                 <table class="table table-striped table-bordered table-hover">
                                                         <tbody>
@@ -113,7 +113,8 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                        </div>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="initEdit(studentModel)" data-target="#editStudentAccount{{$index}}" >Edit Grades</button>
+                                               </div>
                         <div class="panel-footer">
                         </div>
                     </div>
