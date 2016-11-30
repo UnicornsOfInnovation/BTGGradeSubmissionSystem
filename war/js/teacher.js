@@ -23,12 +23,14 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 	
 	$scope.teacherIdFromLogin = serviceShareData.getData()[0];
 	$scope.teacherAccount = null;
+	$scope.courseDetails = null;
 	$scope.studentList = [];
 	$scope.courseList= [];
 	$scope.gradeList = [];
 	$scope.newGradeList=[];
 	$scope.newCourseList=[];
 	$scope.newCourseCodeList=[];
+	$scope.studentGradeList =[];
 	
 
 	$scope.pass = {
@@ -118,7 +120,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			if (response.data.errorList.length == 0) {
 				$scope.teacherAccount = response.data.account[0];
 				console.log("--->"+$scope.teacherAccount);
-
+				$scope.getCourseDetails();
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -133,7 +135,64 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		
 	}
 	
+	$scope.getCourseDetails = function(){
+		
+		var object = {
+				courseName: $scope.teacherAccount.courseCode,
+				action: "GetCourseByName"  //flag to determine which controller to use
+		}
+		console.log("ID--->"+$scope.teacherIdFromLogin);
+		$http.post("/Course",  $httpParamSerializer(object),
+				{// configuring the request not a JSON type.
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}
+		)
+		.then(function(response) {
+			if (response.data.errorList.length == 0) {
+				$scope.courseDetails = response.data.courseDto[0];
+				console.log("--->"+$scope.courseDetails.courseName);
+				$scope.getStudentGradeList();
+			} else {
+				var errorMessage = "";
+				for (var i = 0; i < response.data.errorList.length; i++) {
+					errorMessage += response.data.errorList[i];
+				}
+				alert(errorMessage);
+			}
+		}, function() {
+			alert("An error has occured");
+		});
+		
+	}
 	
+	
+	$scope.getStudentGradeList = function(){
+		
+		var object = {
+				courseId: $scope.courseDetails.id,
+				action: "ListStudentGradesByCourse"  //flag to determine which controller to use
+		}
+		$http.post("/Grade",  $httpParamSerializer(object),
+				{// configuring the request not a JSON type.
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}
+		)
+		.then(function(response) {
+			if (response.data.errorList.length == 0) {
+				$scope.studentGradeList = response.data.studentGradesList;
+				console.log("Inside--->"+$scope.studentGradeList[0].grade);
+			} else {
+				var errorMessage = "";
+				for (var i = 0; i < response.data.errorList.length; i++) {
+					errorMessage += response.data.errorList[i];
+				}
+				alert(errorMessage);
+			}
+		}, function() {
+			alert("An error has occured");
+		});
+		
+	}
 	
 	
 	
