@@ -10,6 +10,7 @@
  */
 package btg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slim3.controller.Controller;
@@ -99,36 +100,47 @@ public class GradeController extends Controller {
             JSONArray gradesArray;
             AccountService accountService;
             int ctr;
+            List<JSONObject> studentDtoList;
             
+            
+            studentDtoList = new ArrayList<JSONObject>();
+            gradesArray = null;
             accountService = new AccountService();
             gradeDto = null;
             bestStudentDto = null;
             bestStudentController = new BestStudentController();
             //The JSONArray is in reference to RegisterBentoController of 05_Quiz_Output
+
             try{
                 gradesArray = jsonObject.getJSONArray("gradesArray");  
-               
-                for(ctr=0; ctr < gradesArray.length(); ctr++){
+                
+                for (int i = 0; i < gradesArray.length(); i++){
+                    studentDtoList.add(gradesArray.getJSONObject(i));
+                }
+                
+                for(JSONObject studentDto : studentDtoList){
                     tempGradeDto = new GradeDto();
-                    tempGradeDto.setAccountId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("accountId")));
-                    tempGradeDto.setCourseId(Long.parseLong(gradesArray.getJSONObject(ctr).getString("courseId")));
-                                        
-                    //submits the grade one by one and not as a list
+                    tempGradeDto.setAccountId(Long.parseLong(studentDto.getString("accountId")));
+                    tempGradeDto.setCourseId(Long.parseLong(studentDto.getString("courseId")));
+                    
                     try{
                         gradeDto = gradeService.getGradeByAccountAndCourse(tempGradeDto);
-                        gradeDto.setGrade(Double.parseDouble(gradesArray.getJSONObject(ctr).getString("grade")));
+                        gradeDto.setGrade(Double.parseDouble(studentDto.getString("grade")));
                         gradeService.updateGrade(gradeDto);
-                        //computes GPA of students after every submit
-                        accountService.computeGPA(gradesArray.getJSONObject(ctr));
                     } catch (Exception e){
-                        gradeDto.addError(e.toString());
+                        System.out.println("Exception found in Submit Grade Controller!");
+                        e.printStackTrace();
+                        //accountService.computeGPA(gradesArray.getJSONObject(ctr));
                     }
-                } 
+
+                }
+
                 //it is assumed that the account id of the best student is submitted as well
                 //bestStudentDto = bestStudentController.insertBestStudentController(jsonObject);
             } catch(Exception e){
                 gradeDto = new GradeDto();
                 gradeDto.addError(e.toString());
+                e.printStackTrace();
             }
             
             return gradeDto;
