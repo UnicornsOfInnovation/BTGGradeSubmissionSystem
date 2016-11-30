@@ -9,6 +9,7 @@
  *     October 23, 2016 - created the getAllCoursesController() (Dave)
  *     October 26, 2016 - added "start" "end" in all methods (Dave)
  *                      - modified Error handling messages (Dave)
+ *     November 30, 2016 - getCourseByName(Dave)
  */
 
 package btg.controller;
@@ -74,6 +75,11 @@ public class CourseController extends Controller{
                     System.out.println("Course-->>"+course.getYearLevel());
                 }
                 jsonObject.put("courseDtoList", courseDtoList);
+            } else if(action.equals("GetCourseByName")){
+                courseDto = getCourseByNameController(jsonObject);
+                courseDtoList = new ArrayList<CourseDto>();
+                courseDtoList.add(courseDto);
+                jsonObject.put("courseDto", courseDtoList);
             }
             System.out.print(courseDto); 
         }catch (Exception e){
@@ -257,4 +263,21 @@ public class CourseController extends Controller{
         System.out.println("CourseController.getAllCoursesController():"+ "end");
         return courseDtoList;
     }
+    
+    
+    public CourseDto getCourseByNameController (JSONObject jsonObject){
+        CourseDto courseDto;
+        
+        courseDto = new CourseDto();        
+        
+        try{
+            courseDto.setCourseName(jsonObject.getString("courseName"));
+            courseDto = courseService.getCourseByName(courseDto);
+        } catch (Exception e){
+            System.out.println("Exception found in getCourseByNameController() in CourseController:");
+            e.printStackTrace();
+        }
+        return courseDto;
+    }
+    
 }

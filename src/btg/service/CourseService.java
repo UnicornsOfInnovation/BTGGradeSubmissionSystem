@@ -5,7 +5,7 @@
  *                      - Created the insertCourse(), updateCourse(), deleteCourse(), getCourseById() (Dave)
  *     October 23, 2016 - Created the getAllCourses() (Dave)
  *     November 18, 2016 - getAllCoursesByStrand() (Dave)
- * 
+ *     November 30, 2016 - getCourseByName(Dave)
  */
 
 package btg.service;
@@ -273,6 +273,35 @@ public class CourseService {
         }
         
         return courseDtoList;        
+    }
+    
+    
+    public CourseDto getCourseByName(CourseDto inputCourse){
+        CourseDto courseDto;
+        CourseModel courseModel;
+        CourseModel tempCourse;
+        
+        courseDto = null;
+        tempCourse = new CourseModel();
+        tempCourse.setCourseName(inputCourse.getCourseName());
+        
+        try{
+            courseModel = courseDao.getCourseByName(tempCourse);
+            courseDto = new CourseDto();
+            courseDto.setCourseCode(courseModel.getCourseCode());
+            courseDto.setCourseId(courseModel.getCourseId());
+            courseDto.setId(courseModel.getId());
+            courseDto.setCourseType(courseModel.getCourseType());
+            courseDto.setCourseName(courseModel.getCourseName());
+            courseDto.setStatus(courseModel.getStatus());
+            courseDto.setStrand(courseModel.getStrand());
+            courseDto.setCourseUnits(courseModel.getCourseUnits());
+            courseDto.setYearLevel(courseModel.getYearLevel()); 
+        } catch(Exception e){
+            System.out.println("Exception found in getCourseByName() in CourseService:");
+        }
+        
+        return courseDto;
     }
 
 }
