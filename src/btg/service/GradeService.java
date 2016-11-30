@@ -73,7 +73,6 @@ public class GradeService {
           studentGradeDtoList = new ArrayList<StudentGradeDto>();
           courseModel = new CourseModel();
           courseModel.setCourseId(inputCourseId);
-          courseModel = courseDao.getCourseById(courseModel);    
           gradeModelList = gradeDao.getAllGradesByCourse(courseModel);
           for(GradeModel gradeModel : gradeModelList){
               studentGradeDto = new StudentGradeDto();

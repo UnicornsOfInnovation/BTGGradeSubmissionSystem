@@ -79,7 +79,8 @@ public class GradeDao {
         GradeModelMeta gradeModelMeta;
         List<GradeModel> gradeModelList;
         
-        gradeModelMeta= GradeModelMeta.get();        
+        gradeModelMeta= GradeModelMeta.get();
+        System.out.println("Course Id in getAllGradesByCourse is " +inputCourse.getCourseId());
         gradeModelList= Datastore.query(gradeModelMeta)
                         .filter(gradeModelMeta.courseId.equal(inputCourse.getCourseId()))
                         .asList();                      

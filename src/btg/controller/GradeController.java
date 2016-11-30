@@ -150,8 +150,8 @@ public class GradeController extends Controller {
                 courseId = Long.parseLong(jsonObject.getString("courseId"));
                 studentGradeList = gradeService.getAllStudentGradesByCourse(courseId);    
             } catch (Exception e){
-                System.out.println("This is an exception in getAllStudentGradesByCourse");
-                System.out.println(e.toString());
+                System.out.println("This is an exception in getAllStudentGradesByCourseController in GradeController:");
+                e.printStackTrace();
             }
             return studentGradeList;    
         }
