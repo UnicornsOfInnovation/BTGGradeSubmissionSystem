@@ -59,8 +59,10 @@
                         Hello, {{teacherAccount.firstName}} <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                        <li><a href="#" data-toggle="modal" data-target="#changePassword"> <i class="fa fa-gear fa-fw"></i>Change Password</a>                       
                         </li>
+                        <li><a  ng-click="editable = true"><i class="fa fa-edit fa-fw"></i> Edit Grades</a>
+                        </li>                       
                         <li class="divider"></li>
                         <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
@@ -89,6 +91,7 @@
                              
                                 <button type="button" class="btn btn-primary" data-toggle="modal" >Download Class List</button>
                                 <div class="table table-striped table-bordered table-hover">
+                                               <form>
                                                 <table class="table table-striped table-bordered table-hover">
                                                         <tbody>
                                                             <tr >
@@ -99,22 +102,27 @@
                                                                 <label class="contentLabel"> FG </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr  ng-repeat="studentGradeModel in studentGradeList">
-                                                          	    <td width="30%" style="text-align:center;">
-                                                                <label class="contentLabel">{{studentGradeModel.firstName + studentGradeModel.lastName}} </label>
-                                                                </td>
-                                                                 <td width="15%" style="text-align:center;">
-                                                                <label class="contentLabel">{{studentGradeModel.grade}} </label>                 
-                                                                    
-                                                                </td>
-                                                            </tr>
+                                                            
+	                                                            <tr  ng-repeat="studentGradeModel in studentGradeList">
+	                                                          	    <td width="30%" style="text-align:center;">
+	                                                                <label class="contentLabel">{{studentGradeModel.firstName + studentGradeModel.lastName}} </label>
+	                                                                </td>
+	                                                                 <td width="15%" style="text-align:center;">
+	                                                                <input type="text" class="form-control" ng-model="studentGradeModel.grade" style="text-align:center" ng-disabled="editable == false"> </label>                 
+	                                                                    
+	                                                                </td>
+	                                                            </tr>
+                                                           
 							
                                                            
                                                         </tbody>
                                                     </table>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" ng-show="editable" ng-click="saveGrades()">Save Changes</button>
+                               						<button type="button" class="btn btn-primary" data-toggle="modal" ng-show="editable" ng-click="editable = false">Cancel</button>
+                               
+                                                    </form>
                                                 </div>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="initEdit(studentModel)" data-target="#editStudentAccount{{$index}}" >Edit Grades</button>
-                                               </div>
+                                                </div>
                         <div class="panel-footer">
                         </div>
                     </div>

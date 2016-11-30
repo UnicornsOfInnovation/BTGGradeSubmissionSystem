@@ -31,7 +31,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 	$scope.newCourseList=[];
 	$scope.newCourseCodeList=[];
 	$scope.studentGradeList =[];
-	
+	$scope.editable = false;
 
 	$scope.pass = {
 		oldPassword: "",
@@ -194,6 +194,39 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		
 	}
 	
+	
+	
+	$scope.saveGrades = function(){
+		for(var x = 0; x < $scope.studentGradeList.length; x++){
+			console.log(" INSIDE LIST --> "+$scope.studentGradeList[x].grade)
+		}
+		var object = {
+				gradesArray: $scope.studentGradeList,
+				action: "SubmitGrade"  //flag to determine which controller to use
+		}
+		console.log("ID--->"+$scope.teacherIdFromLogin);
+		$http.post("/Grade",  $httpParamSerializer(object),
+				{// configuring the request not a JSON type.
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}
+		)
+		.then(function(response){
+			if (response.data.errorList.length == 0) {
+				console.log("--->Success inserting grades");
+
+			} else {
+				var errorMessage = "";
+				for (var i = 0; i < response.data.errorList.length; i++) {
+					errorMessage += response.data.errorList[i];
+					console.log("--->Error Count"+i);
+				}
+				alert(errorMessage);
+			}
+		}, function() {
+			alert("An error has occured");
+		});
+		
+	}
 	
 	
 	$scope.getTeacherAccount();
