@@ -205,13 +205,13 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		for(var y = 0; y<$scope.studentGradeList.length;x++){
 			
 			var pushGrade = {
-					grade: $scope.studentGradeList[x].grade,
-					gradeId: $scope.studentGradeList[x].gradeId,
-					accountId: $scope.studentGradeList[x].accountId,
-					courseId: $scope.studentGradeList[x].courseId,
-					firstName: $scope.studentGradeList[x].firstName,
-					lastName: $scope.studentGradeList[x].lastName,
-					courseName: $scope.studentGradeList[x].courseName
+					grade: $scope.studentGradeList[y].grade,
+					gradeId: $scope.studentGradeList[y].gradeId,
+					accountId: $scope.studentGradeList[y].accountId,
+					courseId: $scope.studentGradeList[y].courseId,
+					firstName: $scope.studentGradeList[y].firstName,
+					lastName: $scope.studentGradeList[y].lastName,
+					courseName: $scope.studentGradeList[y].courseName
 			}
 			gradeList.push(pushGrade);
 		}
