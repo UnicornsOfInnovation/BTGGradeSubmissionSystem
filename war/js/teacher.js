@@ -200,10 +200,26 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		for(var x = 0; x < $scope.studentGradeList.length; x++){
 			console.log(" INSIDE LIST --> "+$scope.studentGradeList[x].grade)
 		}
+		
+		var gradeList = [];
+		for(var y = 0; y<$scope.studentGradeList.length;x++){
+			
+			var pushGrade = {
+					grade: $scope.studentGradeList[x].grade,
+					gradeId: $scope.studentGradeList[x].gradeId,
+					accountId: $scope.studentGradeList[x].accountId,
+					courseId: $scope.studentGradeList[x].courseId,
+					firstName: $scope.studentGradeList[x].firstName,
+					lastName: $scope.studentGradeList[x].lastName,
+					courseName: $scope.studentGradeList[x].courseName
+			}
+			gradeList.push(pushGrade);
+		}
 		var object = {
-				gradesArray: $scope.studentGradeList,
+				gradesArray: gradeList,
 				action: "SubmitGrade"  //flag to determine which controller to use
 		}
+
 		console.log("ID--->"+$scope.teacherIdFromLogin);
 		$http.post("/Grade",  $httpParamSerializer(object),
 				{// configuring the request not a JSON type.
