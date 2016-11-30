@@ -32,6 +32,7 @@ app.controller('loginController', function($scope, $http, $location, $httpParamS
 				console.log("NO error List");
 				Redirect.setAttribute("method", "post");
 				Redirect.setAttribute("accountID", response.data.accountID);
+				serviceShareData.addData(response.data.accountID);
 				Redirect.setAttribute("action", "teacherPage");
 				Redirect.submit();
 			}
