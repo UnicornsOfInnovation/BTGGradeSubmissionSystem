@@ -1,6 +1,6 @@
 package btg.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2016-11-30 14:29:23")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2016-12-06 19:24:53")
 /** */
 public final class AccountModelMeta extends org.slim3.datastore.ModelMeta<btg.model.AccountModel> {
 

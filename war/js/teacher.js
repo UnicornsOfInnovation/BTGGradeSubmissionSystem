@@ -202,7 +202,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		}
 		
 		var gradeList = [];
-		for(var y = 0; y<$scope.studentGradeList.length;x++){
+		for(var y = 0; y<$scope.studentGradeList.length;y++){
 			
 			var pushGrade = {
 					grade: $scope.studentGradeList[y].grade,
@@ -214,6 +214,10 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 					courseName: $scope.studentGradeList[y].courseName
 			}
 			gradeList.push(pushGrade);
+			
+		}
+		for(var y = 0; y<gradeList.length;y++){
+			console.log("-->>"+gradeList[y].firstName);
 		}
 		var object = {
 				gradesArray: gradeList,
@@ -229,7 +233,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		.then(function(response){
 			if (response.data.errorList.length == 0) {
 				console.log("--->Success inserting grades");
-
+				alert("Inserting grades was successful!");
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {

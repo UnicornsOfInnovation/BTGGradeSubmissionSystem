@@ -21,6 +21,7 @@ import org.slim3.util.RequestMap;
 
 
 import btg.common.GlobalConstants;
+import btg.dao.GradeDao;
 import btg.dto.BestStudentDto;
 import btg.dto.GradeDto;
 import btg.dto.StudentGradeDto;
@@ -53,6 +54,7 @@ public class GradeController extends Controller {
 
             try{
                 jsonObject = new JSONObject(new RequestMap(this.request));
+                System.out.println("REQUEST-->"+this.request);
                 action = jsonObject.getString("action");
                 if(action.equals("SubmitGrade")){
                     gradeDto = submitGradeController(jsonObject);                    
@@ -94,6 +96,7 @@ public class GradeController extends Controller {
          */            
         public GradeDto submitGradeController(JSONObject jsonObject){
             GradeDto gradeDto;
+            GradeDao gradeDao;
             GradeDto tempGradeDto;
             BestStudentDto bestStudentDto;
             BestStudentController bestStudentController;
@@ -101,31 +104,43 @@ public class GradeController extends Controller {
             AccountService accountService;
             int ctr;
             List<JSONObject> studentDtoList;
+            List<GradeDto> gradeDtoList;
             
             
+            gradeDao = new GradeDao();
+            gradeDtoList = new ArrayList<GradeDto>();
             studentDtoList = new ArrayList<JSONObject>();
             gradesArray = null;
             accountService = new AccountService();
             gradeDto = null;
             bestStudentDto = null;
             bestStudentController = new BestStudentController();
+            
             //The JSONArray is in reference to RegisterBentoController of 05_Quiz_Output
 
             try{
                 gradesArray = jsonObject.getJSONArray("gradesArray");  
-                
+                System.out.println("jsonarray-->>"+gradesArray.toString());
+                System.out.println("jsonarray2-->>"+gradesArray.getString(0));
                 for (int i = 0; i < gradesArray.length(); i++){
-                    studentDtoList.add(gradesArray.getJSONObject(i));
+                    JSONObject jo = new JSONObject(gradesArray.getString(i));
+                    GradeDto grade = new GradeDto();
+                    grade.setAccountId(jo.getLong("accountId"));
+                    grade.setCourseId(jo.getLong("courseId"));
+                    grade.setGrade(jo.getDouble("grade"));
+                    grade.setGradeId(jo.getLong("gradeId"));
+                    gradeDtoList.add(grade);
                 }
                 
-                for(JSONObject studentDto : studentDtoList){
+                for(GradeDto gradeEntry : gradeDtoList){
                     tempGradeDto = new GradeDto();
-                    tempGradeDto.setAccountId(Long.parseLong(studentDto.getString("accountId")));
-                    tempGradeDto.setCourseId(Long.parseLong(studentDto.getString("courseId")));
-                    
+                    tempGradeDto.setAccountId(gradeEntry.getAccountId());
+                    tempGradeDto.setCourseId(gradeEntry.getCourseId());
+                    tempGradeDto.setGradeId(gradeEntry.getGradeId());
+
                     try{
-                        gradeDto = gradeService.getGradeByAccountAndCourse(tempGradeDto);
-                        gradeDto.setGrade(Double.parseDouble(studentDto.getString("grade")));
+                        gradeDto = gradeService.getGradeById(tempGradeDto);
+                        gradeDto.setGrade(gradeEntry.getGrade());
                         gradeService.updateGrade(gradeDto);
                     } catch (Exception e){
                         System.out.println("Exception found in Submit Grade Controller!");

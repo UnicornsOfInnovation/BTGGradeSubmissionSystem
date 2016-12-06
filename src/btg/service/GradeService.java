@@ -106,14 +106,17 @@ public class GradeService {
           gradeModel = new GradeModel();
           gradeModel.setAccountId(inputGrade.getAccountId());
           gradeModel.setCourseId(inputGrade.getCourseId());
+          gradeModel.setGradeId(inputGrade.getGradeId());
           gradeModel.setGrade(inputGrade.getGrade());
-          gradeModel.setStatus(inputGrade.getStatus());
+          gradeModel.setStatus(true);
+          gradeModel.setId(inputGrade.getGradeId());
           try{
               temp = new GradeModel();
-              temp.setId(inputGrade.getId());
+              temp.setId(gradeModel.getGradeId());
               temp = gradeDao.getGradeById(temp);
               if (null != temp) {
                   try {
+                      gradeModel.setKey(temp.getKey());
                       gradeDao.updateGrade(gradeModel);
                   } catch (Exception e) {
                       inputGrade.addError(GlobalConstants.ERR_ENTRY_CANNOT_ADD);
@@ -195,4 +198,27 @@ public class GradeService {
           
           return gradeDto;
       }
+      
+      
+      public GradeDto getGradeById (GradeDto inputGrade){
+          GradeModel gradeModel;
+          GradeDto gradeDto;
+          
+          gradeDto = null;
+          gradeModel = new GradeModel();
+          gradeModel.setId(inputGrade.getGradeId());
+          try{
+              gradeModel = gradeDao.getGradeById(gradeModel);
+              gradeDto = new GradeDto();
+              gradeDto.setAccountId(gradeModel.getAccountId());
+              gradeDto.setCourseId(gradeModel.getCourseId());
+              gradeDto.setGrade(gradeModel.getGrade());
+              gradeDto.setGradeId(gradeModel.getGradeId());
+          } catch (Exception e){
+              e.printStackTrace();
+          }
+          
+          return gradeDto;
+      }
+      
 }
