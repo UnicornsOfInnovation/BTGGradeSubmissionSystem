@@ -214,8 +214,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 					}
 				}
 				$scope.processData();
-				console.log("GRADE LENGTH in process list Grades -->"+$scope.gradeList.length);
-				
+								
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -228,6 +227,36 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 		});
 		console.log("accountController.listAccounts " + "end");
 	}
+	
+	
+	
+	$scope.selectionSort = function(){
+	    var len = $scope.newCourseList.length, min;
+	    
+	    for (i=0; i < len; i++){
+	        //set minimum to this position
+	        min = i;
+
+	        //check the rest of the array to see if anything is smaller
+	        for (j=i+1; j < len; j++){
+	        	console.log("Course Id to swap: "+$scope.newCourseList[j].courseId);
+	        	console.log("Course Id to be swapped: "+ $scope.newCourseList[min].courseId);
+	            if ($scope.newCourseList[j].courseId < $scope.newCourseList[min].courseId){
+	                min = j;
+	                console.log("Swap happened");
+	            }
+	        }
+
+	        //if the minimum isn't in the position, swap it
+	        if (i != min){
+	            swap($scope.newCourseList, i, min);
+	        }
+	    }
+	    
+	    console.log("Finished swapping");
+	    
+	}
+	
 	
 	
 	$scope.getCourseById = function(courseId) {
@@ -243,8 +272,8 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 		)
 		.then(function(response) {
 			if (response.data.errorList.length == 0) {
-				console.log("HEHEHE->"+ response.data.courseDto[0].courseName);
-				$scope.newCourseList.push(response.data.courseDto[0]);
+				console.log("CourseDto[0]: "+response.data.courseDto[0].courseId);
+				$scope.newCourseList.push(response.data.courseDto[0]);				
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -269,18 +298,20 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	
 	$scope.processData = function() {
 		console.log("studentController.listGrades " + "start");
-		console.log("GRADE LENGTH in process" +$scope.gradeList.length);
 
 		for(var x = 0;x<$scope.gradeList.length;x++){
 			if($scope.gradeList[x].accountId == $scope.studentIdFromLogin){
-				console.log("Index -- >" +x);
 				$scope.newGradeList.push($scope.gradeList[x].grade);
+				console.log("AccountId: "+$scope.gradeList[x].accountId);
+				console.log("CourseId: "+$scope.gradeList[x].courseId);
+				console.log("Grade: "+$scope.gradeList[x].grade);
 				for(var y = 0; y<$scope.courseList.length;y++){
 					if($scope.gradeList[x].courseId==$scope.courseList[y].courseId){
-						console.log("CourseId-->> "+ $scope.gradeList[x].courseId);
+						console.log("CourseId from courseList: "+$scope.courseList[y].courseId);
 						$scope.getCourseById($scope.gradeList[x].courseId);
 					}
 				}
+				$scope.selectionSort();
 			}
 		}
 	}

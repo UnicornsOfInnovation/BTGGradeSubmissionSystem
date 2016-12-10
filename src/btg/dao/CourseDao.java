@@ -5,7 +5,7 @@
  *                      - Created the insertCourse(), updateCourse(), deleteCourse(), getCourseByName() (Dave)
  *     October 19, 2016 - Created the getCourseById() (Dave)
  *     October 23, 2016 - Created the getAllCourses() (Dave)
- *     November 18, 2016 - getAllCoursesByStrand() (Dave) More comment here
+ *     November 18, 2016 - getAllCoursesByStrand() (Dave)
  */
 
 
