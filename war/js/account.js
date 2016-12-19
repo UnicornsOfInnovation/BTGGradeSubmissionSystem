@@ -90,9 +90,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 		console.log("accountController.listAccounts " + "end");
 	}
 	
-	
-	
-	
+
 	
 	
 	
