@@ -197,6 +197,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	$scope.listGrades = function() {
 		console.log("accountController.listAccounts " + "start");
 		var grade = {
+				
 				action: "GetAllGrades" //flag to determine which controller to use
 		}
 		$http.post("/Grade",  $httpParamSerializer(grade),
@@ -308,10 +309,9 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 				for(var y = 0; y<$scope.courseList.length;y++){
 					if($scope.gradeList[x].courseId==$scope.courseList[y].courseId){
 						console.log("CourseId from courseList: "+$scope.courseList[y].courseId);
-						$scope.getCourseById($scope.gradeList[x].courseId);
+						$scope.newCourseList.push($scope.courseList[y]);	
 					}
 				}
-				$scope.selectionSort();
 			}
 		}
 	}
