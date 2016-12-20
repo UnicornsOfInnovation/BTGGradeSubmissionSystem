@@ -197,13 +197,18 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 	
 	
 	$scope.saveGrades = function(){
-		for(var x = 0; x < $scope.studentGradeList.length; x++){
-			console.log(" INSIDE LIST --> "+$scope.studentGradeList[x].grade)
+		var saveIt = true;
+		for(var i = 0; i < $scope.studentGradeList.length; i++){
+			if( 5.0 < parseFloat($scope.studentGradeList[i].grade) || 1.0 > parseFloat($scope.studentGradeList[i].grade )){
+				alert("Error grade! Please input from 1.0 to 5.0 in student "+(i+1));
+				saveIt = false;
+				break;
+			}
 		}
 		
 		var gradeList = [];
+		
 		for(var y = 0; y<$scope.studentGradeList.length;y++){
-			
 			var pushGrade = {
 					grade: $scope.studentGradeList[y].grade,
 					gradeId: $scope.studentGradeList[y].gradeId,
@@ -225,26 +230,29 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		}
 
 		console.log("ID--->"+$scope.teacherIdFromLogin);
-		$http.post("/Grade",  $httpParamSerializer(object),
-				{// configuring the request not a JSON type.
-					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		
+		if(saveIt == true){
+			$http.post("/Grade",  $httpParamSerializer(object),
+					{// configuring the request not a JSON type.
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}
+			)
+			.then(function(response){
+				if (response.data.errorList.length == 0) {
+					console.log("--->Success inserting grades");
+					alert("Inserting grades was successful!");
+				} else {
+					var errorMessage = "";
+					for (var i = 0; i < response.data.errorList.length; i++) {
+						errorMessage += response.data.errorList[i];
+						console.log("--->Error Count"+i);
+					}
+					alert(errorMessage);
 				}
-		)
-		.then(function(response){
-			if (response.data.errorList.length == 0) {
-				console.log("--->Success inserting grades");
-				alert("Inserting grades was successful!");
-			} else {
-				var errorMessage = "";
-				for (var i = 0; i < response.data.errorList.length; i++) {
-					errorMessage += response.data.errorList[i];
-					console.log("--->Error Count"+i);
-				}
-				alert(errorMessage);
-			}
-		}, function() {
-			alert("An error has occured");
-		});
+			}, function() {
+				alert("An error has occured");
+			});
+		}
 		
 	}
 	
