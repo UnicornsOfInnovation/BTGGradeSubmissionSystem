@@ -75,12 +75,12 @@
                                                                 </td>
                                                             </tr>
                                                             
-	                                                            <tr  ng-repeat="studentGradeModel in studentGradeList">
+	                                                            <tr  ng-repeat="studentGradeModel in studentGradeList | filter:courseModel.id">
 	                                                          	    <td width="30%" style="text-align:center;">
 	                                                                <label class="contentLabel">{{studentGradeModel.firstName + studentGradeModel.lastName}} </label>
 	                                                                </td>
 	                                                                 <td width="15%" style="text-align:center;">
-	                                                                <input type="text" class="form-control" ng-model="studentGradeModel.grade" style="text-align:center" ng-disabled="editable == false"> </label>                 
+	                                                                <label  class="form-control" ng-bind="studentGradeModel.grade"> </label>                 
 	                                                                    
 	                                                                </td>
 	                                                            </tr>
@@ -104,34 +104,7 @@
     </div>
     
     
-    
-    <!-- Modal Declaration here -->
-  		<div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                      <h4 class="modal-title" id="myModalLabel">Change Password</h4>
-                  </div>
-                  <div class="modal-body" ng-form="changePasswordForm">
-                  		<label class="contentLabel"> Current Password: </label><br> 
-						<input class ="form-control" type="password" ng-model="pass.oldPassword" required><br>
-                    	<label class="contentLabel"> New Password: </label><br> 
-						<input class ="form-control" type="password" ng-model="pass.newPassword" required><br>
-                    	<label class="contentLabel"> Confirm New Password: </label><br> 
-                    	<input class ="form-control" type="password" ng-model="pass.confirmNewPassword" required><br>
-
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" ng-click="changePassword()" ng-disabled="changePasswordForm.$invalid"> Save Changes</button>
-                  </div>
-              </div>
-              <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-      </div>
-    
+   
     
     
     
