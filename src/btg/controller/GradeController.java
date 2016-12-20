@@ -23,9 +23,12 @@ import org.slim3.util.RequestMap;
 import btg.common.GlobalConstants;
 import btg.dao.GradeDao;
 import btg.dto.BestStudentDto;
+import btg.dto.CourseDto;
 import btg.dto.GradeDto;
 import btg.dto.StudentGradeDto;
 import btg.service.AccountService;
+import btg.service.BestStudentService;
+import btg.service.CourseService;
 import btg.service.GradeService;
 
 public class GradeController extends Controller {
@@ -100,13 +103,16 @@ public class GradeController extends Controller {
             GradeDto tempGradeDto;
             BestStudentDto bestStudentDto;
             BestStudentController bestStudentController;
+            BestStudentService bestStudentService;
+            CourseDto courseDto;
+            CourseService courseService;
             JSONArray gradesArray;
             AccountService accountService;
             int ctr;
             List<JSONObject> studentDtoList;
             List<GradeDto> gradeDtoList;
             
-            
+            bestStudentService = new BestStudentService();
             gradeDao = new GradeDao();
             gradeDtoList = new ArrayList<GradeDto>();
             studentDtoList = new ArrayList<JSONObject>();
@@ -149,6 +155,23 @@ public class GradeController extends Controller {
                     }
 
                 }
+                
+                bestStudentDto = new BestStudentDto();
+                bestStudentDto.setBestStudentId(Long.parseLong(jsonObject.getString("bestStudentId")));
+                bestStudentDto.setAccountId(Long.parseLong(jsonObject.getString("accountId")));
+                bestStudentDto.setCourseId(Long.parseLong(jsonObject.getString("courseId")));                
+                courseDto = new CourseDto();
+                courseDto.setCourseId(Long.parseLong(jsonObject.getString("courseId")));
+                courseService = new CourseService();
+                courseDto = courseService.getCourseById(courseDto);
+                bestStudentDto.setCourseName(courseDto.getCourseName());
+                bestStudentDto.setFirstName(jsonObject.getString("firstName"));
+                bestStudentDto.setLastName(jsonObject.getString("lastName"));
+                bestStudentDto.setGrade(Double.parseDouble(jsonObject.getString("grade")));
+                bestStudentDto.setGradeId(Long.parseLong(jsonObject.getString("gradeId")));
+                
+                bestStudentService.updateBestStudent(bestStudentDto);
+                
 
                 //it is assumed that the account id of the best student is submitted as well
                 //bestStudentDto = bestStudentController.insertBestStudentController(jsonObject);

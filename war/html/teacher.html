@@ -117,12 +117,22 @@
                                                            
                                                         </tbody>
                                                     </table>
+                                                    <table>
+                                                    	<tr>
+                                                    		<td><label class="contentLabel"> Best Student: </label> </td>
+                                                    		<td><select style="margin-left:40px;" name="type" class="form-control" ng-model="bestStudent" ng-options="studentModel.firstName + ' ' +studentModel.lastName for studentModel in studentGradeList" required>
+										        				</select> </td>
+                                                    	</tr>
+                                                    </table>
+                                                    
+                                                   <br><br>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" ng-show="editable" ng-click="saveGrades()">Save Changes</button>
                                						<button type="button" class="btn btn-primary" data-toggle="modal" ng-show="editable" ng-click="editable = false">Cancel</button>
                                
                                                     </form>
-                                                </div>
-                                                </div>
+                                         </div>
+                                       
+                                  </div>
                         <div class="panel-footer">
                         </div>
                     </div>
