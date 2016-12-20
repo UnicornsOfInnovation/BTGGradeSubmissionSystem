@@ -11,6 +11,7 @@ import java.util.List;
 import btg.common.GlobalConstants;
 import btg.dao.BestStudentDao;
 import btg.dto.BestStudentDto;
+import btg.model.AccountModel;
 import btg.model.BestStudentModel;
 
 public class BestStudentService {
@@ -74,6 +75,50 @@ public class BestStudentService {
             }
         } catch (Exception e){
             inputBestStudent.addError(e.toString());
+        }
+        
+        return inputBestStudent;
+    }
+    
+    
+    public BestStudentDto updateBestStudent(BestStudentDto inputBestStudent){
+        BestStudentModel bestStudentModel;
+        BestStudentModel temp;
+        
+        
+        bestStudentModel = new BestStudentModel();
+        
+        bestStudentModel.setBestStudentId(inputBestStudent.getBestStudentId());
+        bestStudentModel.setAccountId(inputBestStudent.getAccountId());
+        bestStudentModel.setCourseId(inputBestStudent.getCourseId()); 
+        bestStudentModel.setCourseName(inputBestStudent.getCourseName());
+        bestStudentModel.setFirstName(inputBestStudent.getFirstName());
+        bestStudentModel.setLastName(inputBestStudent.getLastName());
+        bestStudentModel.setGrade(inputBestStudent.getGrade());
+        bestStudentModel.setGradeId(inputBestStudent.getGradeId());
+        bestStudentModel.setStatus(true);
+        
+        try {
+            temp = new BestStudentModel();
+            temp = bestStudentDao.getBestStudentByCourseId(bestStudentModel);
+            
+            if (null != temp) {
+                try {
+                    bestStudentModel.setKey(temp.getKey());
+                    bestStudentDao.updateBestStudent(bestStudentModel);
+                } catch (Exception e) {
+                    System.out.println("Exception in updateAccount() in AccountService: ");
+                    System.out.println(GlobalConstants.ERR_ENTRY_CANNOT_UPDATE);
+                    inputBestStudent.addError(GlobalConstants.ERR_ENTRY_CANNOT_UPDATE);
+                    System.out.println(e.toString());
+                }
+            } else {
+                bestStudentDao.insertBestStudent(bestStudentModel);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception in updateAccount() in AccountService: ");
+            e.printStackTrace();
+            inputBestStudent.addError(GlobalConstants.ERR_DB_EXCEPTION);
         }
         
         return inputBestStudent;
