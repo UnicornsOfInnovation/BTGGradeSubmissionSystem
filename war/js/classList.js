@@ -18,10 +18,10 @@
  * The angular module object.
  * @param pizzaTimeApp - the application name (refer to the 'ng-app' directive)
  */
-app.controller('teacherController', function($scope, $http, $httpParamSerializer) {
-	console.log("teacherController " + "start");
+app.controller('classListController', function($scope, $http, $httpParamSerializer) {
+	console.log("classListController " + "start");
 	
-	$scope.courseID = null;
+	$scope.courseID = 973;
 	$scope.teacherAccount = null;
 	$scope.courseDetails = null;
 	$scope.studentList = [];
@@ -31,7 +31,7 @@ app.controller('teacherController', function($scope, $http, $httpParamSerializer
 	$scope.newCourseList=[];
 	$scope.newCourseCodeList=[];
 	$scope.studentGradeList =[];
-
+	$scope.courseModel = null;
 	
 
 	
@@ -40,8 +40,7 @@ app.controller('teacherController', function($scope, $http, $httpParamSerializer
 	$scope.getStudentGradeList = function(){
 		
 		var object = {
-				courseId: $scope.courseID,
-				action: "ListStudentGradesByCourse"  //flag to determine which controller to use
+				action: "GetAllGrades"  //flag to determine which controller to use
 		}
 		$http.post("/Grade",  $httpParamSerializer(object),
 				{// configuring the request not a JSON type.
@@ -50,7 +49,7 @@ app.controller('teacherController', function($scope, $http, $httpParamSerializer
 		)
 		.then(function(response) {
 			if (response.data.errorList.length == 0) {
-				$scope.studentGradeList = response.data.studentGradesList;
+				$scope.studentGradeList = response.data.allGrades;
 				console.log("Inside--->"+$scope.studentGradeList[0].grade);
 			} else {
 				var errorMessage = "";
@@ -65,60 +64,36 @@ app.controller('teacherController', function($scope, $http, $httpParamSerializer
 		
 	}
 	
-	
-	
-	$scope.saveGrades = function(){
-		for(var x = 0; x < $scope.studentGradeList.length; x++){
-			console.log(" INSIDE LIST --> "+$scope.studentGradeList[x].grade)
+	$scope.listCourses = function() {
+		console.log("courseController.listCourses " + "start");
+		var course = {
+				action: "GetAllCourses" //flag to determine which controller to use
 		}
-		
-		var gradeList = [];
-		for(var y = 0; y<$scope.studentGradeList.length;y++){
-			
-			var pushGrade = {
-					grade: $scope.studentGradeList[y].grade,
-					gradeId: $scope.studentGradeList[y].gradeId,
-					accountId: $scope.studentGradeList[y].accountId,
-					courseId: $scope.studentGradeList[y].courseId,
-					firstName: $scope.studentGradeList[y].firstName,
-					lastName: $scope.studentGradeList[y].lastName,
-					courseName: $scope.studentGradeList[y].courseName
-			}
-			gradeList.push(pushGrade);
-			
-		}
-		for(var y = 0; y<gradeList.length;y++){
-			console.log("-->>"+gradeList[y].firstName);
-		}
-		var object = {
-				gradesArray: gradeList,
-				action: "SubmitGrade"  //flag to determine which controller to use
-		}
-
-		console.log("ID--->"+$scope.courseID);
-		$http.post("/Grade",  $httpParamSerializer(object),
+		$http.post("/course",  $httpParamSerializer(course),
 				{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}
 		)
-		.then(function(response){
+		.then(function(response) {
 			if (response.data.errorList.length == 0) {
-				console.log("--->Success inserting grades");
-				alert("Inserting grades was successful!");
+				$scope.courseList = response.data.courseDtoList;
+				$scope.courseModel = $scope.courseList[0];
+				console.log("-->>COURSE ID" + $scope.courseModel.id);
+				$scope.getStudentGradeList();
+				
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
 					errorMessage += response.data.errorList[i];
-					console.log("--->Error Count"+i);
 				}
 				alert(errorMessage);
 			}
 		}, function() {
 			alert("An error has occured");
 		});
-		
+		console.log("courseController.listCourses " + "end");
 	}
 	
+	$scope.listCourses();
 	
-	$scope.getTeacherAccount();
 });

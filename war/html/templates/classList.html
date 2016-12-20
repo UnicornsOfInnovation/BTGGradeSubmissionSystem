@@ -19,10 +19,11 @@
                                                             <tr >
                                                                 <td width="50%" style="text-align:left;">
                                                               
-                                                               <div class="panel panel-red" style="width:200px">
+                                                               <div class="panel panel-red" style="width:220px">
 											                        <div class="panel-heading">
 											                        
-											                           <label>Course:</label>   <select name="type"  class="form-control" ng-model="yearLevel" ng-options="year for year in yearArray" required>
+											                           <label>Course:</label>   <select name="type"  class="form-control" ng-model="courseModel"  ng-options="courseType.courseName for courseType in courseList" required>
+										        					
 										        						</select>
 											                        </div>
 											                       
@@ -30,7 +31,7 @@
                                                                
                                                                 </td>
                                                                 <td width="50%" style="text-align:left;">
-                                                                  <div class="panel panel-red" style="width:200px">
+                                                                  <div class="panel panel-red" style="width:220px">
 											                        <div class="panel-heading">
 											                            Teacher:  <label class="contentLabel">name here </label>
 											                            <br>
@@ -46,7 +47,7 @@
                                                             <tr>
                                                             
                                                                  <td width="100%" style="text-align:left;">
-                                                                   <div class="panel panel-red" style="width:200px" >
+                                                                   <div class="panel panel-red" style="width:220px" >
 											                        <div class="panel-heading">
 											                            Best Student:  <label class="contentLabel">name here </label>
 											                        </div>
@@ -54,7 +55,7 @@
 											                    </div></td>
                                                             </tr>
                                                             <tr>
-                                                            <td>  <button type="button" class="btn btn-primary" data-toggle="modal" style="float:left; width:200px;" >Download Class List</button></td>
+                                                            <td>  <button type="button" class="btn btn-primary" data-toggle="modal" style="float:left; width:220px;" >Download Class List</button></td>
                                                             </tr>
 							
                                                            
@@ -67,7 +68,7 @@
                                                         <tbody>
                                                             <tr >
                                                                 <td width="75%" style="text-align:center;">
-                                                                <label class="contentLabel"> Student Name </label>
+                                                                <label class="contentLabel"> Student Name {{courseModel.id}}</label>
                                                                 </td>
                                                                 <td width="25%" style="text-align:center;">
                                                                 <label class="contentLabel"> FG </label>
