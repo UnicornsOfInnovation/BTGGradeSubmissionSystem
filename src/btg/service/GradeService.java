@@ -221,4 +221,39 @@ public class GradeService {
           return gradeDto;
       }
       
+      
+      
+      public List<StudentGradeDto> getAllStudentGrades(){
+          List<StudentGradeDto> studentGradeDtoList;
+          List<GradeModel> gradeModelList;
+          CourseModel courseModel;
+          AccountModel accountModel;
+          StudentGradeDto studentGradeDto;
+          
+          studentGradeDtoList = new ArrayList<StudentGradeDto>();
+          gradeModelList = gradeDao.getAllGrades();
+          for(GradeModel gradeModel : gradeModelList){
+              studentGradeDto = new StudentGradeDto();
+              accountModel = new AccountModel();
+              accountModel.setId(gradeModel.getAccountId());
+              accountModel = accountDao.getAccountById(accountModel);
+              courseModel = new CourseModel();
+              courseModel.setId(gradeModel.getCourseId());
+              courseModel = courseDao.getCourseById(courseModel);
+              studentGradeDto.setAccountId(accountModel.getAccountId());
+              studentGradeDto.setCourseId(courseModel.getCourseId());
+              studentGradeDto.setCourseName(courseModel.getCourseName());
+              studentGradeDto.setFirstName(accountModel.getFirstName());
+              studentGradeDto.setLastName(accountModel.getLastName());
+              studentGradeDto.setGrade(gradeModel.getGrade());
+              studentGradeDto.setGradeId(gradeModel.getGradeId());
+              studentGradeDtoList.add(studentGradeDto);
+          }
+               
+          return studentGradeDtoList;
+           
+      }
+      
+      
+      
 }

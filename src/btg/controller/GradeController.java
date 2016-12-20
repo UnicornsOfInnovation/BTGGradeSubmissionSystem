@@ -66,9 +66,12 @@ public class GradeController extends Controller {
                     jsonObject.put("studentGradesList", studentGradeDto);
                 } else if(action.equals("UpdateGrade")){
                     gradeDto = updateGradeController(jsonObject);
-                } else if(action.equals("GetAllGrades")){
+                } else if(action.equals("GetAllGrades")){   //returns gradeDtoList
                     gradeDtoList = getAllGradesController();
-                    jsonObject.put("allGrades", gradeDtoList);
+                    jsonObject.put("allGrades", gradeDtoList); 
+                } else if(action.equals("GetAllStudentGrades")){ //returns studentGradeDtoList
+                    studentGradeDto = getAllStudentGrades();
+                    jsonObject.put("allStudentGrades", studentGradeDto);
                 }
             } catch (Exception e) {
                 // Adds an error message if there exists.
@@ -259,5 +262,18 @@ public class GradeController extends Controller {
            
         }
         
+        
+        public List<StudentGradeDto> getAllStudentGrades(){
+            List<StudentGradeDto> studentGradeList;
+            
+            studentGradeList = null;
+            try{
+                studentGradeList = gradeService.getAllStudentGrades();    
+            } catch (Exception e){
+                System.out.println("This is an exception in getAllStudentGradesByCourseController in GradeController:");
+                e.printStackTrace();
+            }
+            return studentGradeList;   
+        }
     
 }
