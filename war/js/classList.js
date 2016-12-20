@@ -40,7 +40,7 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 	$scope.getStudentGradeList = function(){
 		
 		var object = {
-				action: "GetAllGrades"  //flag to determine which controller to use
+				action: "GetAllStudentGrades"  //flag to determine which controller to use
 		}
 		$http.post("/Grade",  $httpParamSerializer(object),
 				{// configuring the request not a JSON type.
@@ -49,7 +49,7 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 		)
 		.then(function(response) {
 			if (response.data.errorList.length == 0) {
-				$scope.studentGradeList = response.data.allGrades;
+				$scope.studentGradeList = response.data.allStudentGrades;
 				console.log("Inside--->"+$scope.studentGradeList[0].grade);
 			} else {
 				var errorMessage = "";
