@@ -18,7 +18,7 @@ import btg.common.GlobalConstants;
 import btg.dto.BestStudentDto;
 import btg.service.BestStudentService;
 
-public class BestStudentController extends Controller {
+public class BestStudentsController extends Controller {
 
         BestStudentService bestStudentService = new BestStudentService();
         /*
@@ -33,7 +33,7 @@ public class BestStudentController extends Controller {
             List<BestStudentDto> bestStudentDtoList;
             BestStudentDto bestStudentDto;
             
-            bestStudentDto = null;
+            bestStudentDto = new BestStudentDto();
             jsonObject = null;
             bestStudentDtoList = null;
             try{
@@ -41,10 +41,16 @@ public class BestStudentController extends Controller {
                 action = jsonObject.getString("action");
                 if(action.equalsIgnoreCase("GetAllBestStudents")){
                     bestStudentDtoList = getAllBestStudentsController();
+                    System.out.println("test best1");
+                    for(BestStudentDto x : bestStudentDtoList){
+                        System.out.println("test best"+x.getLastName());
+                    }
                     jsonObject.put("bestStudentList", bestStudentDtoList);
                 } else if (action.equalsIgnoreCase("getBestStudentByCourseId")){
                     bestStudentDto = getBestStudentByCourseIdController(jsonObject);
-                }
+                }  else if (action.equalsIgnoreCase("insertBestStudent")){
+                    bestStudentDto = insertBestStudentController(jsonObject);
+                } 
             }catch(Exception e){
                 // Adds an error message if there exists.
                 bestStudentDto.addError(GlobalConstants.ERR_SERVER_CONTROLLER_PREFIX + e.getMessage());
@@ -72,6 +78,10 @@ public class BestStudentController extends Controller {
             bestStudentDtoList = null;
             try{
                 bestStudentDtoList = bestStudentService.getAllBestStudents();
+                for(BestStudentDto x : bestStudentDtoList){
+                    System.out.println("test best"+x.getLastName());
+                }
+                
             } catch (Exception e){
                 System.out.println("This error is in getAllBestStudents:");
                 System.out.println(e.toString());               
@@ -119,7 +129,7 @@ public class BestStudentController extends Controller {
 //                bestStudentDto.setGradeId(Long.parseLong(jsonObject.getString("gradeId")));
 //                bestStudentDto.setFirstName(jsonObject.getString("courseName"));
 //                bestStudentDto.setLastName(jsonObject.getString("courseName"));
-//                bestStudentDto.setGrade(jsonObject.getString("courseName"));
+//               bestStudentDto.setGrade(jsonObject.getString("courseName"));
 //                bestStudentDto.setId(jsonObject.getString("courseName"));
 //                bestStudentDto.setStatus(jsonObject.getString("courseName"));
 //                bestStudentDtoList.add(bestStudentDto);

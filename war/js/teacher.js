@@ -219,13 +219,12 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 					courseName: $scope.studentGradeList[y].courseName
 			}
 			gradeList.push(pushGrade);
-			
 		}
 		for(var y = 0; y<gradeList.length;y++){
 			console.log("-->>"+gradeList[y].firstName);
 		}
 		var object = {
-				bestStudentId: $scope.bestStudent.bestStudentId,
+				bestStudentId: $scope.bestStudent.accountId,
 				courseId: $scope.bestStudent.courseId  ,
 				gradeId: $scope.bestStudent.gradeId,
 				courseName: $scope.bestStudent.courseName,
@@ -236,7 +235,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 				gradesArray: gradeList,
 				action: "SubmitGrade"  //flag to determine which controller to use
 		}
-		console.log("Best Student is "+ object.gradeId);
+		console.log("Best Student is "+ object.bestStudentId);
 
 		console.log("ID--->"+$scope.teacherIdFromLogin);
 		

@@ -33,7 +33,7 @@
                                                                 <td width="50%" style="text-align:left;">
                                                                   <div class="panel panel-red" style="width:220px">
 											                        <div class="panel-heading">
-											                            Teacher:  <label class="contentLabel">name here </label>
+											                            Teacher:  <label class="contentLabel" ng-repeat="teacher in teacherList | filter:courseModel.courseName">{{teacher.firstName + " "+ teacher.lastName}} </label>
 											                            <br>
 											                            <br>
 											                            <br>
@@ -49,7 +49,7 @@
                                                                  <td width="100%" style="text-align:left;">
                                                                    <div class="panel panel-red" style="width:220px" >
 											                        <div class="panel-heading">
-											                            Best Student:  <label class="contentLabel">name here </label>
+											                            Best Student:  <label class="contentLabel" ng-repeat="student in bestStudentList | filter:courseModel.courseName">{{student.firstName + " " + student.lastName </label>
 											                        </div>
 											                       
 											                    </div></td>
