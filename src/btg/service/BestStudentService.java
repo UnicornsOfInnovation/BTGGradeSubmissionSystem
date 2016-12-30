@@ -88,7 +88,8 @@ public class BestStudentService {
         
         bestStudentModel = new BestStudentModel();
         
-        bestStudentModel.setBestStudentId(inputBestStudent.getBestStudentId());
+//        bestStudentModel.setBestStudentId(inputBestStudent.getBestStudentId());
+        bestStudentModel.setBestStudentId(null);
         bestStudentModel.setAccountId(inputBestStudent.getAccountId());
         bestStudentModel.setCourseId(inputBestStudent.getCourseId()); 
         bestStudentModel.setCourseName(inputBestStudent.getCourseName());
@@ -107,16 +108,14 @@ public class BestStudentService {
                     bestStudentModel.setKey(temp.getKey());
                     bestStudentDao.updateBestStudent(bestStudentModel);
                 } catch (Exception e) {
-                    System.out.println("Exception in updateAccount() in AccountService: ");
-                    System.out.println(GlobalConstants.ERR_ENTRY_CANNOT_UPDATE);
-                    inputBestStudent.addError(GlobalConstants.ERR_ENTRY_CANNOT_UPDATE);
-                    System.out.println(e.toString());
+                    System.out.println("Exception in updateBestStudent() in BestStudentService: ");
+                    e.printStackTrace();
                 }
             } else {
                 bestStudentDao.insertBestStudent(bestStudentModel);
             }
         } catch (Exception e) {
-            System.out.println("Exception in updateAccount() in AccountService: ");
+            System.out.println("Exception in updateBestStudent() in BestStudentService: ");
             e.printStackTrace();
             inputBestStudent.addError(GlobalConstants.ERR_DB_EXCEPTION);
         }

@@ -26,7 +26,7 @@ public class BestStudentDao {
         Key parentKey;
         Key key;
         // creating key and ID for the new entity
-        parentKey = KeyFactory.createKey("BestStudent", inputBestStudent.getCourseName());
+        parentKey = KeyFactory.createKey("BestStudent", inputBestStudent.getCourseName()+ inputBestStudent.getCourseId());
         key = Datastore.allocateId(parentKey, "BestStudentModel");
         
         // setting the 'key' and 'id' of the model

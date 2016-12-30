@@ -166,7 +166,8 @@ public class CourseService {
         } catch (Exception e){
             inputCourse.addError(GlobalConstants.ERR_DB_EXCEPTION);
             
-        }       
+        }   
+        System.out.println("In getCourseById: Course Name is: " + inputCourse.getCourseName());
         
         return inputCourse;
     }
