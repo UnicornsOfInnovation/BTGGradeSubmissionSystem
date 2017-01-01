@@ -83,7 +83,7 @@ $scope.getBestStudentList = function(){
 			if (response.data.errorList.length == 0) {
 				
 				$scope.bestStudentList = response.data.bestStudentList;
-				console.log("yolo->" + $scope.bestStudentList[1].lastName);
+				console.log("yolo->" + $scope.bestStudentList);
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {

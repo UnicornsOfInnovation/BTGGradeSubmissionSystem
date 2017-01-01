@@ -224,10 +224,10 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			console.log("-->>"+gradeList[y].firstName);
 		}
 		var object = {
-				bestStudentId: $scope.bestStudent.bestStudentId,
-				courseId: $scope.bestStudent.courseId ,
+
+				bestStudentId: null,
+				courseId: $scope.bestStudent.courseId  ,
 				gradeId: $scope.bestStudent.gradeId,
-				courseName: $scope.bestStudent.courseName,
 				accountId: $scope.bestStudent.accountId,
 				firstName: $scope.bestStudent.firstName,
 				lastName: $scope.bestStudent.lastName,

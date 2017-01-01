@@ -129,8 +129,6 @@ public class GradeController extends Controller {
 
             try{
                 gradesArray = jsonObject.getJSONArray("gradesArray");  
-                System.out.println("jsonarray-->>"+gradesArray.toString());
-                System.out.println("jsonarray2-->>"+gradesArray.getString(0));
                 for (int i = 0; i < gradesArray.length(); i++){
                     JSONObject jo = new JSONObject(gradesArray.getString(i));
                     GradeDto grade = new GradeDto();
@@ -159,15 +157,12 @@ public class GradeController extends Controller {
 
                 }
                 
+                System.out.println("I GOT IN HERE FOR BEST STUDENT!");
                 bestStudentDto = new BestStudentDto();
                 bestStudentDto.setBestStudentId(Long.parseLong(jsonObject.getString("bestStudentId")));
+                //bestStudentDto.setBestStudentId(null);
                 bestStudentDto.setAccountId(Long.parseLong(jsonObject.getString("accountId")));
-                bestStudentDto.setCourseId(Long.parseLong(jsonObject.getString("courseId")));                
-                courseDto = new CourseDto();
-                courseDto.setCourseId(Long.parseLong(jsonObject.getString("courseId")));
-                courseService = new CourseService();
-                courseDto = courseService.getCourseById(courseDto);
-                bestStudentDto.setCourseName(courseDto.getCourseName());
+                bestStudentDto.setCourseId(Long.parseLong(jsonObject.getString("courseId")));    
                 bestStudentDto.setFirstName(jsonObject.getString("firstName"));
                 bestStudentDto.setLastName(jsonObject.getString("lastName"));
                 bestStudentDto.setGrade(Double.parseDouble(jsonObject.getString("grade")));
