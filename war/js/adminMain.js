@@ -35,6 +35,10 @@ app.config(['$routeProvider', function($routeProvider) {
         templateUrl: '/html/templates/classList.html',
         controller: 'classListController'
       })
+      .when('/bestStudentScreen', {
+        templateUrl: '/html/templates/bestStudent.html',
+        controller: 'bestStudentController'
+      })
       .otherwise({
     	  templateUrl: '/html/templates/account.html',
           controller: 'accountController'
