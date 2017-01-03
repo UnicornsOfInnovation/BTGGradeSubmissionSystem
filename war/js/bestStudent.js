@@ -39,6 +39,16 @@ app.controller('bestStudentController', function($scope, $http, $httpParamSerial
 	}	
 	
 
+	$scope.callme = function (){
+		html2canvas(document.getElementById("class-list-primary"),{
+			onrendered: function (canvas){
+				var img = canvas.toDataURL("image/png");
+				var doc = new jsPDF();
+				doc.addImage(img, 'JPEG',20,20);
+				doc.save('test.pdf');
+			}
+		})
+	}
 	
 	
 	
@@ -84,7 +94,6 @@ $scope.getBestStudentList = function(){
 				$scope.courseList = response.data.courseDtoList;
 				$scope.courseModel = $scope.courseList[0];
 				console.log("-->>COURSE ID" + $scope.courseModel.id);
-				$scope.getStudentGradeList();
 				
 			} else {
 				var errorMessage = "";

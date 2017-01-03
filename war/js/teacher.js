@@ -32,7 +32,8 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 	$scope.newCourseCodeList=[];
 	$scope.studentGradeList =[];
 	$scope.editable = false;
-
+	$scope.bestStudentList = [];
+	
 	$scope.pass = {
 		oldPassword: "",
 		newPassword: "",
@@ -181,6 +182,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			if (response.data.errorList.length == 0) {
 				$scope.studentGradeList = response.data.studentGradesList;
 				console.log("Inside--->"+$scope.studentGradeList[0].grade);
+				$scope.getBestStudentList();
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -224,8 +226,8 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			console.log("-->>"+gradeList[y].firstName);
 		}
 		var object = {
-
 				bestStudentId: null,
+				courseName: $scope.courseDetails.courseName,
 				courseId: $scope.bestStudent.courseId  ,
 				gradeId: $scope.bestStudent.gradeId,
 				accountId: $scope.bestStudent.accountId,
@@ -264,6 +266,43 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		
 	}
 	
+	$scope.callme = function (){
+		html2canvas(document.getElementById("class-list-primary"),{
+			onrendered: function (canvas){
+				var img = canvas.toDataURL("image/png");
+				var doc = new jsPDF();
+				doc.addImage(img, 'JPEG',20,20);
+				doc.save('test.pdf');
+			}
+		})
+	}
+	
+	$scope.getBestStudentList = function(){
+			
+			var object = {
+					action: "GetAllBestStudents"  //flag to determine which controller to use
+			}
+			$http.post("/BestStudents",  $httpParamSerializer(object),
+					{// configuring the request not a JSON type.
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}
+			)
+			.then(function(response) {
+				if (response.data.errorList.length == 0) {
+					
+					$scope.bestStudentList = response.data.bestStudentList;
+					console.log("yolo->" + $scope.bestStudentList);
+				} else {
+					var errorMessage = "";
+					for (var i = 0; i < response.data.errorList.length; i++) {
+						errorMessage += response.data.errorList[i];
+					}
+					alert(errorMessage);
+				}
+			}, function() {
+				alert("An error has occured");
+			});
+		}
 	
 	$scope.getTeacherAccount();
 });
