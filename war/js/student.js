@@ -133,6 +133,13 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	}
 	
 
+	$scope.logOut = function(){
+		var Redirect = document.createElement("form");
+		Redirect.setAttribute("method", "post");
+		Redirect.setAttribute("action", "/");
+		Redirect.submit();
+		
+	}
 	
 	
 	$scope.listCourses = function() {
