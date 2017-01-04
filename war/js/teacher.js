@@ -33,6 +33,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 	$scope.studentGradeList =[];
 	$scope.editable = false;
 	$scope.bestStudentList = [];
+	$scope.bestStudentDetails = null;
 	
 	$scope.pass = {
 		oldPassword: "",
@@ -225,8 +226,19 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		for(var y = 0; y<gradeList.length;y++){
 			console.log("-->>"+gradeList[y].firstName);
 		}
+		
+		var bestStudent =0;
+		
+		for(var x = 0; x<$scope.bestStudentList.length;x++){
+			if($scope.courseDetails.courseId == $scope.bestStudentList[x].courseId){
+				bestStudent = $scope.bestStudentList[x].bestStudentId;
+			}
+		}
+
+		
+		
 		var object = {
-				bestStudentId: null,
+				bestStudentId: bestStudent,
 				courseName: $scope.courseDetails.courseName,
 				courseId: $scope.bestStudent.courseId  ,
 				gradeId: $scope.bestStudent.gradeId,

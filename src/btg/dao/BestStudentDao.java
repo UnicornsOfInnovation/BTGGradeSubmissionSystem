@@ -67,7 +67,7 @@ public class BestStudentDao {
         
         bestStudentModelMeta = BestStudentModelMeta.get();
         bestStudentModel = Datastore.query(bestStudentModelMeta)
-                    .filter(bestStudentModelMeta.id.equal(inputBestStudent.getId()))
+                    .filter(bestStudentModelMeta.courseId.equal(inputBestStudent.getCourseId()))
                     .asSingle();  
         
         return bestStudentModel;

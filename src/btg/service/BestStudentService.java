@@ -88,8 +88,7 @@ public class BestStudentService {
         
         bestStudentModel = new BestStudentModel();
         
-//        bestStudentModel.setBestStudentId(inputBestStudent.getBestStudentId());
-        bestStudentModel.setBestStudentId(null);
+        bestStudentModel.setBestStudentId(inputBestStudent.getBestStudentId());
         bestStudentModel.setAccountId(inputBestStudent.getAccountId());
         bestStudentModel.setCourseId(inputBestStudent.getCourseId()); 
         bestStudentModel.setCourseName(inputBestStudent.getCourseName());
@@ -102,7 +101,7 @@ public class BestStudentService {
         try {
             temp = new BestStudentModel();
             temp = bestStudentDao.getBestStudentByCourseId(bestStudentModel);
-            
+            System.out.println("The value of temp is: "+temp);
             if (null != temp) {
                 try {
                     bestStudentModel.setKey(temp.getKey());

@@ -159,7 +159,11 @@ public class GradeController extends Controller {
                 
                 System.out.println("I GOT IN HERE FOR BEST STUDENT!");
                 bestStudentDto = new BestStudentDto();
-                bestStudentDto.setBestStudentId(Long.parseLong(jsonObject.getString("bestStudentId")));
+                Long bestStudentId = Long.parseLong(jsonObject.getString("bestStudentId"));
+                if(bestStudentId == 0){
+                    bestStudentId = null;
+                }
+                bestStudentDto.setBestStudentId(bestStudentId);
                 //bestStudentDto.setBestStudentId(null);
                 bestStudentDto.setAccountId(Long.parseLong(jsonObject.getString("accountId")));
                 bestStudentDto.setCourseId(Long.parseLong(jsonObject.getString("courseId")));    
