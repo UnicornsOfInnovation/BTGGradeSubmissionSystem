@@ -44,7 +44,7 @@ app.controller('bestStudentController', function($scope, $http, $httpParamSerial
 			onrendered: function (canvas){
 				var img = canvas.toDataURL("image/png");
 				var doc = new jsPDF();
-				doc.addImage(img, 'JPEG',20,20);
+				doc.addImage(img, 'JPEG',0,0, 210, $scope.studentGradeList.length*5+150);
 				doc.save('test.pdf');
 			}
 		})
