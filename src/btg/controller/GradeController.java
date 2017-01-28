@@ -166,6 +166,7 @@ public class GradeController extends Controller {
                 bestStudentDto.setBestStudentId(bestStudentId);
                 //bestStudentDto.setBestStudentId(null);
                 bestStudentDto.setAccountId(Long.parseLong(jsonObject.getString("accountId")));
+                bestStudentDto.setCourseName(jsonObject.getString("courseName"));
                 bestStudentDto.setCourseId(Long.parseLong(jsonObject.getString("courseId")));    
                 bestStudentDto.setFirstName(jsonObject.getString("firstName"));
                 bestStudentDto.setLastName(jsonObject.getString("lastName"));

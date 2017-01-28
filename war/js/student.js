@@ -141,6 +141,16 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 		
 	}
 	
+	$scope.callme = function (){
+		html2canvas(document.getElementById("class-list-primary"),{
+			onrendered: function (canvas){
+				var img = canvas.toDataURL("image/png");
+				var doc = new jsPDF();
+				doc.addImage(img, 'JPEG',0,0, 210, $scope.newGradeList.length*5+150);
+				doc.save('BTGGrades.pdf');
+			}
+		})
+	}
 	
 	$scope.listCourses = function() {
 		console.log("courseController.listCourses " + "start");

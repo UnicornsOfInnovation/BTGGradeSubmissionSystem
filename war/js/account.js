@@ -449,7 +449,10 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			}	
 				
 				console.log("STRAND-->>>" + account.strand);
-				
+				var Redirect = document.createElement("form");
+				Redirect.setAttribute("method", "post");
+				Redirect.setAttribute("action", "");
+				Redirect.submit();
 				$http.post("/account", $httpParamSerializer(account),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -463,6 +466,8 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						// initializing the contents of the ingredient screen.
 						$('#registerStudentAccount').modal('hide');
 						$('.modal-backdrop').hide();
+						
+						
 						$scope.listStudentAccount();
 						$scope.initRegisterStudentModal();				
 					} else {

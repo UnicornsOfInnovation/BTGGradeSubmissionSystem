@@ -84,12 +84,78 @@
                         </div>
                         <div class="panel-body">
                             <p></p>
-                             <label class="contentLabel"> Name: {{teacherAccount.firstName + " " + teacherAccount.lastName}}</label><br>
-                             <label class="contentLabel"> Course Code: {{courseDetails.courseCode}}</label><br>
-                             <label class="contentLabel"> Course Title: {{courseDetails.courseName}} </label><br>
-                             <label class="contentLabel"> Course Units: {{courseDetails.courseUnits}}</label><br>
-                             
-                               <div class="table table-striped table-bordered table-hover">
+                            <table><tbody>
+                            	<tr>
+                            		<td width="50%" style="text-align:right;">
+                                                      
+			                          <div class="panel panel-info">
+				                        <div class="panel-heading"  style=" height:42px">
+				                          <label>Name:</label>   
+				                        </div>
+          							  </div> 
+			                	   </td>
+                                  <td width="50%" style="text-align:center;">
+                                      <div class="panel panel-danger" >
+				                        <div class="panel-heading" style="height:42px;">
+				                              {{teacherAccount.firstName + " " + teacherAccount.lastName}}
+				                        </div>
+				                    </div>
+                                   </td>
+                            	</tr>
+                            	<tr>
+                            		<td width="50%" style="text-align:right;">
+                                                      
+			                          <div class="panel panel-info">
+				                        <div class="panel-heading"  style=" height:42px">
+				                          <label>Course Code:</label>   
+				                        </div>
+          							  </div> 
+			                	   </td>
+                                  <td width="50%" style="text-align:center;">
+                                      <div class="panel panel-danger" >
+				                        <div class="panel-heading" style="height:42px;">
+				                              {{courseDetails.courseCode}}
+				                        </div>
+				                    </div>
+                                   </td>
+                            	</tr>
+                            	<tr>
+                            		<td width="50%" style="text-align:right;">
+                                                      
+			                          <div class="panel panel-info">
+				                        <div class="panel-heading"  style=" height:42px">
+				                          <label>Course Title:</label>   
+				                        </div>
+          							  </div> 
+			                	   </td>
+                                  <td width="50%" style="text-align:center;">
+                                      <div class="panel panel-danger" >
+				                        <div class="panel-heading" style="height:42px;">
+				                               {{courseDetails.courseName}} 
+				                        </div>
+				                    </div>
+                                   </td>
+                            	</tr>  
+                            	<tr>
+                            		<td width="50%" style="text-align:right;">
+                                                      
+			                          <div class="panel panel-info">
+				                        <div class="panel-heading"  style=" height:42px">
+				                          <label>Course Units:</label>   
+				                        </div>
+          							  </div> 
+			                	   </td>
+                                  <td width="50%" style="text-align:center;">
+                                      <div class="panel panel-danger" >
+				                        <div class="panel-heading" style="height:42px;">
+				                                {{courseDetails.courseUnits}}
+				                        </div>
+				                    </div>
+                                   </td>
+                            	</tr>                              
+                            </tbody>
+                            </table>
+                             <div class="table table-striped table-bordered table-hover">
                                                <form>
                                                 <table class="table table-striped table-bordered table-hover">
                                                         <tbody>
@@ -117,8 +183,15 @@
                                                         </tbody>
                                                     </table>
                                                     <table>
+                                                    
                                                     	<tr>
-                                                    		<td><label class="contentLabel"> Best Student: </label> </td>
+                                                    		<td width="50%" style="text-align:right;">         
+									                          <div class="panel panel-info">
+										                        <div class="panel-heading"  style=" height:42px">
+										                          <label class="contentLabel"> Best Student: </label>
+										                        </div>
+						          							  </div> 
+									                	   </td>
                                                     		<td>
                                                     			<div class="panel panel-danger" ng-hide="editable" >
 												                        <div class="panel-heading" style="height:42px">

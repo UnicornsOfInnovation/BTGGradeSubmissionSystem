@@ -54,6 +54,11 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 		.then(function(response) {
 			if (response.data.errorList.length == 0) {
 				$scope.studentGradeList = response.data.allStudentGrades;
+				for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
+					if($scope.studentGradeList[ctr].grade==0){
+						$scope.studentGradeList[ctr].grade="NG";
+					}
+				}
 				$scope.listTeacherAccount();
 				$scope.getBestStudentList();
 				console.log("Inside--->"+$scope.studentGradeList[0].grade);
@@ -194,8 +199,9 @@ $scope.getBestStudentList = function(){
 				onrendered: function (canvas){
 					var img = canvas.toDataURL("image/png");
 					var doc = new jsPDF();
-					doc.addImage(img, 'JPEG',0,0, 210, $scope.studentGradeList.length*5+150);
-					doc.save('test.pdf');
+					doc.addImage(img, 'JPEG',0,0, 210, $scope.studentGradeList.length*1+120);
+					var test = "classList - " + $scope.courseModel.courseName +".pdf";
+					doc.save(test);
 				}
 			})
 		}

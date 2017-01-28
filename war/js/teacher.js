@@ -183,6 +183,11 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			if (response.data.errorList.length == 0) {
 				$scope.studentGradeList = response.data.studentGradesList;
 				console.log("Inside--->"+$scope.studentGradeList[0].grade);
+				for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
+					if($scope.studentGradeList[ctr].grade==0){
+						$scope.studentGradeList[ctr].grade="NG";
+					}
+				}
 				$scope.getBestStudentList();
 			} else {
 				var errorMessage = "";
@@ -263,6 +268,10 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 				if (response.data.errorList.length == 0) {
 					console.log("--->Success inserting grades");
 					alert("Inserting grades was successful!");
+					var Redirect = document.createElement("form");
+					Redirect.setAttribute("method", "post");
+					Redirect.setAttribute("action", "");
+					Redirect.submit();
 				} else {
 					var errorMessage = "";
 					for (var i = 0; i < response.data.errorList.length; i++) {
@@ -284,7 +293,8 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 				var img = canvas.toDataURL("image/png");
 				var doc = new jsPDF();
 				doc.addImage(img, 'JPEG',0,0, 210, $scope.studentGradeList.length*5+150);
-				doc.save('test.pdf');
+				var test = "classList - " + $scope.courseDetails.courseName +".pdf";
+				doc.save(test);
 			}
 		})
 	}
