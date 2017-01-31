@@ -30,7 +30,7 @@
                                                                 <td width="50%" style="text-align:center;">
                                                                  <div class="panel panel-danger" >
 												                        <div class="panel-heading" style="height:47px;">
-												                               <select name="type"  class="form-control" ng-model="courseModel"  ng-options="courseType.courseName for courseType in courseList" required>
+												                               <select name="type"  class="form-control" ng-model="courseModel"  ng-options="courseType.courseName for courseType in courseList |orderBy:'courseName'" required>
 										        					
 										        						</select>
 												                        </div>
@@ -50,7 +50,7 @@
 											                      <td style="text-align:center;">
 											                       <div class="panel panel-danger">
 												                        <div class="panel-heading" style="height:42px">
-												                               &nbsp&nbsp&nbsp&nbsp <label class="contentLabel" ng-repeat="teacher in teacherList | filter:courseModel.courseName" style="font-weight: normal">{{teacher.firstName + " "+ teacher.lastName}} </label>
+												                               &nbsp&nbsp&nbsp&nbsp <label class="contentLabel" ng-repeat="teacher in teacherList  | filter:courseModel.courseName" style="font-weight: normal">{{teacher.firstName + " "+ teacher.lastName}} </label>
 												                        </div>
 												                    </div>
 											                    </td>
@@ -90,7 +90,7 @@
                                                                 </td>
                                                             </tr>
                                                             
-                                                            <tr  ng-repeat="studentGradeModel in studentGradeList | filter:courseModel.id">
+                                                            <tr  ng-repeat="studentGradeModel in studentGradeList|orderBy:'lastName' | filter:courseModel.id">
                                                           	    <td  style="text-align:center; width:50%;">
                                                                 {{studentGradeModel.firstName + studentGradeModel.lastName}} 
                                                                 </td>

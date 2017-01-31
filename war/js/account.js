@@ -57,7 +57,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			parentContact: "",
 			courseCode: ""
 	}
-	$scope.yearArray = ["10","11","12"];
+	$scope.yearArray = ["11","12"];
 	$scope.accountType = ["student", "teacher"];
 	
 	
