@@ -173,7 +173,7 @@
                                                                 <label class="contentLabel"> FG </label>                        
                                                                 </td>
                                                             </tr>
-                                                            <tr  ng-repeat="courseModel in newCourseList">
+                                                            <tr  ng-repeat="courseModel in newCourseList | orderBy:'courseCode'">
                                                           	    <td width="30%" style="text-align:center;">
                                                                 <label class="contentLabel" ng-bind="courseModel.courseCode"> </label>
                                                                 </td>
@@ -247,6 +247,8 @@
     <script src="../js/html2canvas.js"></script>
     
     <script src="../js/jspdf.js"></script>
+    <script src="../js/jspdf.min.js"></script>
+    <script src="../js/jspdf.plugin.autotable.js"></script>
    	<script src="../js/angular.js"></script>
 	<script src="../js/angular-route.js"></script>
 	<script src="../js/login.js"></script>

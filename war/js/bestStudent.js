@@ -32,20 +32,28 @@ app.controller('bestStudentController', function($scope, $http, $httpParamSerial
 	$scope.newCourseCodeList=[];
 	$scope.bestStudentList = [];
 	$scope.courseModel = null;
-	
+	$scope.myTableArray = [];
 	$scope.teacher = {
 			firstName: "",
 			lastName: "",
 	}	
-	
+
+	var columns = ['Course','Student Name'];
 
 	$scope.callme = function (){
 		html2canvas(document.getElementById("class-list-primary"),{
 			onrendered: function (canvas){
-				var img = canvas.toDataURL("image/png");
-				var doc = new jsPDF();
-				doc.addImage(img, 'JPEG',30,20, 150, $scope.bestStudentList.length*5+50);
-				doc.save('test.pdf');
+				for(var ctr = 0; ctr<$scope.bestStudentList.length;ctr++){
+					    var arrayOfThisRow = [];
+					    var studentName = $scope.bestStudentList[ctr].firstName + " " +$scope.bestStudentList[ctr].lastName;
+					    arrayOfThisRow.push($scope.bestStudentList[ctr].courseName);
+					    arrayOfThisRow.push(studentName);    
+					    
+					    $scope.myTableArray.push(arrayOfThisRow);
+				}
+			    var doc = new jsPDF('p', 'pt');
+			    doc.autoTable(columns, $scope.myTableArray);
+			    doc.save("Best-Student-List.pdf");
 			}
 		})
 	}

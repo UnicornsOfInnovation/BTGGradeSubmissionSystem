@@ -33,14 +33,14 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 	$scope.studentGradeList =[];
 	$scope.bestStudentList = [];
 	$scope.courseModel = null;
-	
+	$scope.myTableArray = [];
 	$scope.teacher = {
 			firstName: "",
 			lastName: "",
 	}	
 	
-
-	
+	var columns = ['Student Name','FG'];
+	var myTableArray = [];
 	$scope.getStudentGradeList = function(){
 		
 		var object = {
@@ -54,6 +54,7 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 		.then(function(response) {
 			if (response.data.errorList.length == 0) {
 				$scope.studentGradeList = response.data.allStudentGrades;
+				
 				for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
 					if($scope.studentGradeList[ctr].grade==0){
 						$scope.studentGradeList[ctr].grade="NG";
@@ -62,6 +63,7 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 				$scope.listTeacherAccount();
 				$scope.getBestStudentList();
 				console.log("Inside--->"+$scope.studentGradeList[0].grade);
+				
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -193,15 +195,38 @@ $scope.getBestStudentList = function(){
 
 	    return data;
 	}
-	
+
+
 	$scope.callme = function (){
 			html2canvas(document.getElementById("class-list-primary"),{
 				onrendered: function (canvas){
-					var img = canvas.toDataURL("image/png");
-					var doc = new jsPDF();
-					doc.addImage(img, 'JPEG',0,0, 210, $scope.studentGradeList.length*1+120);
-					var test = "classList - " + $scope.courseModel.courseName +".pdf";
-					doc.save(test);
+//					var img = canvas.toDataURL("image/png");
+//					var doc = new jsPDF();
+//					doc.addImage(img, 'JPEG',0,0, 210, $scope.studentGradeList.length*1+120);
+//					var test = "classList - " + $scope.courseModel.courseName +".pdf";
+//					doc.save(test);
+//					$("table#class-list").each(function() { 
+//					    var arrayOfThisRow = [];
+//					    var tableData = $(this).find('td');
+//					    if (tableData.length > 0) {
+//					        tableData.each(function() { arrayOfThisRow.push($(this).text()); });
+//					        myTableArray.push(arrayOfThisRow);
+//					    }
+//					    alert("inside");
+//					});
+					for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
+					
+						if($scope.studentGradeList[ctr].courseId == $scope.courseModel.id){ 
+						    var arrayOfThisRow = [];
+						    var studentName = $scope.studentGradeList[ctr].firstName + " " +$scope.studentGradeList[ctr].lastName;
+						    arrayOfThisRow.push(studentName);    
+						    arrayOfThisRow.push($scope.studentGradeList[ctr].grade);
+						    $scope.myTableArray.push(arrayOfThisRow);
+						}
+					}
+				    var doc = new jsPDF('p', 'pt');
+				    doc.autoTable(columns, $scope.myTableArray);
+				    doc.save("classList - " + $scope.courseModel.courseName +".pdf");
 				}
 			})
 		}

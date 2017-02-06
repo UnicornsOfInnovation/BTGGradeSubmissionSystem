@@ -32,7 +32,7 @@
 					                                    <tbody>
 					                                        <tr >
 					                                        	<td>
-					                                            <label class="contentLabel"> Username: </label>
+					                                            <label class="contentLabel"> Username:</label>
 					                                            <label ng-bind="studentModel.username"  style="font-weight:normal;"></label>
 					                                            </td>
 					                                            <td>
@@ -82,8 +82,9 @@
 					                                        </tr>
 					                                    </tbody>
 					                                </table>
-					                            </div>
-	                                       </div>
+					                            </div>	
+					                            
+					                                                       </div>
 	                                   </div>
                                  <div class="modal fade" id="editStudentAccount{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 						          <div class="modal-dialog">
@@ -95,15 +96,15 @@
 								                  <div class="modal-body">
 								                  	<div ng-form="editStudentForm" >
 								                  		<label class="contentLabel"> Username: </label><br> 
-														<input class ="form-control"  type="text" ng-pattern=".{11,}" ng-model="studentModel.username" required title="11 characters minimum"><br>
+														<input class ="form-control"  type="text" pattern=".{11,}" ng-model="studentModel.username" required title="11 characters minimum"><br>
 						                      			<label class="contentLabel"> Password: </label><br> 
-														<input class ="form-control"  type="text" ng-pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ng-model="studentModel.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br>
+														<input class ="form-control"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ng-model="studentModel.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br>
 						                      			<label class="contentLabel"> First Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.firstName" maxlength ="36" required><br>
 						                      			<label class="contentLabel"> Last Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.lastName" maxlength ="36" required><br>
 														<label class="contentLabel"> Contact Number: </label><br> 
-														<input class ="form-control" type="number" ng-model="studentModel.contactNumber" max="99999999999" required><br>
+														<input class ="form-control" type="text" ng-model="studentModel.contactNumber" maxlength="11" required><br>
 						                      			<label class="contentLabel"> Email Address: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.emailAddress" required><br>
 						                      			<label class="contentLabel"> Year Level: </label><br>
@@ -115,12 +116,12 @@
 								                  		<label class="contentLabel"> Parent Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.parentName" required><br>
 														<label class="contentLabel"> Parent Contact Number: </label><br> 
-														<input class ="form-control" type="number" ng-model="studentModel.parentContact" max="99999999999" required><br>
+														<input class ="form-control" type="text" ng-model="studentModel.parentContact" maxlength="11" required><br>
 								                 		<label class="contentLabel"> School: </label><br> 
-														<input class ="form-control" type="text" ng-pattern=".{24,}" ng-model="studentModel.school" required title="24 characters minimum"><br>
+														<input class ="form-control" pattern=".{24,}" ng-model="studentModel.school" required title="24 characters minimum"><br>
 								                  
 								                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								                      <button type="button" class="btn btn-primary" ng-click="updateStudentAccount(studentModel,yearLevel,strandEdit)" ng-disabled="editStudentForm.$invalid">Save changes</button>
+								                      <button type="button" class="btn btn-primary" ng-click="updateStudentAccount(studentModel,yearLevel,strandEdit)" >Save changes</button>
 								                    </div>
 								                  </div>
 								              </div>
@@ -253,9 +254,9 @@
                   </div>
                   <div class="modal-body">
                   		<label class="contentLabel"> Username: </label><br> 
-						<input class ="form-control" type="text" ng-pattern=".{11,}" ng-model="Account.username"  required title="11 characters minimum"><br>
+						<input class ="form-control" type="text" pattern=".{11,}" ng-model="Account.username"  required title="11 characters minimum"><br>
                     			<label class="contentLabel"> Password: </label><br> 
-						<input class ="form-control"  type="text" ng-pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ng-model="Account.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br>
+						<input class ="form-control"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ng-model="Account.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br>
                     			<label class="contentLabel"> First Name: </label><br> 
 						<input class ="form-control" type="text" ng-model="Account.firstName" maxlength ="36" required><br>
                     			<label class="contentLabel"> Last Name: </label><br> 
@@ -281,7 +282,7 @@
 																<label class="contentLabel"> Parent Contact Number: </label><br> 
 																<input class ="form-control" type="number" ng-model="Account.parentContact" max="99999999999" required><br>
 										                  		<label class="contentLabel"> School: </label><br> 
-																<input class ="form-control" type="text" ng-pattern=".{24,}" ng-model="Account.school" required title="24 characters minimum"><br>
+																<input class ="form-control" pattern=".{24,}" ng-model="Account.school" required title="24 characters minimum"><br>
 														     
 														      </div>
 														      <div class="animate-switch" ng-switch-when="teacher">
@@ -306,8 +307,6 @@
 														     
 														      </div>
 														</div>
-                    	
-                  
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -31,13 +31,14 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	$scope.newGradeList=[];
 	$scope.newCourseList=[];
 	$scope.newCourseCodeList=[];
-	
+	$scope.myTableArray = [];
 	$scope.pass = {
 		oldPassword: "",
 		newPassword: "",
 		confirmNewPassword: ""
 	};
-	
+	var columns = ['Course Code','Course Description', 'Units', 'FG'];
+	var myTableArray = [];
 	clearPasswordFields = function(){
 		$scope.pass.oldPassword="";
 		$scope.pass.newPassword="";
@@ -142,14 +143,23 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	}
 	
 	$scope.callme = function (){
-		html2canvas(document.getElementById("class-list-primary"),{
-			onrendered: function (canvas){
-				var img = canvas.toDataURL("image/png");
-				var doc = new jsPDF();
-				doc.addImage(img, 'JPEG',0,0, 210, $scope.newGradeList.length*5+150);
-				doc.save('BTGGrades.pdf');
-			}
-		})
+
+				for(var ctr = 0; ctr<$scope.newCourseList.length;ctr++){
+				
+					
+					    var arrayOfThisRow = [];
+					    arrayOfThisRow.push($scope.newCourseList[ctr].courseCode);   
+
+					    arrayOfThisRow.push($scope.newCourseList[ctr].courseName);    
+
+					    arrayOfThisRow.push($scope.newCourseList[ctr].courseUnits);    
+					    arrayOfThisRow.push($scope.newGradeList[ctr]);
+					    $scope.myTableArray.push(arrayOfThisRow);
+				}
+			    var doc = new jsPDF('p', 'pt');
+			    doc.autoTable(columns, $scope.myTableArray);
+			    doc.save("My-Grades.pdf");
+
 	}
 	
 	$scope.listCourses = function() {
