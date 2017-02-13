@@ -91,19 +91,19 @@
 						          <div class="modal-dialog">
 						              <div class="modal-content">
 						                  <div class="modal-header">
-						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 						                      <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
 						                  </div>
 								                  <div class="modal-body">
 								                  	<div ng-form="editCourseForm">
-								                  	
-								                  		<label class="contentLabel"> Course Name: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" required><br>
+								                  	<label class="contentLabel"> Course Name: </label><br> 
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" maxlength="36"required><br>
 						                      			<label class="contentLabel"> Course Code: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" maxlength="10" required><br>
 						                      			<label class="contentLabel"> Course Units: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" required><br>
-														<label class="contentLabel"> Course Type: </label><br> 
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" maxlength="1" name="courseUnits" ng-pattern="/^[1-5]+$/"required>
+														<span style="color:red" ng-show="editCourseForm.courseUnits.$error.pattern">*Accepted values are: 1-5</span><br>            			
+                    									<label class="contentLabel"> Course Type: </label><br> 
 						                      			<select name="type" class="form-control" ng-model="courseEdit" ng-options="type for type in courseType" required >
 											      		</select><br>
 								        				<div class="animate-switch-container" ng-switch on="courseEdit">
@@ -221,19 +221,20 @@
 						          <div class="modal-dialog">
 						              <div class="modal-content">
 						                  <div class="modal-header">
-						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 						                      <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
 						                  </div>
 								                  <div class="modal-body">
 								                  	<div ng-form="editCourseForm">
 								                  	
 								                  		<label class="contentLabel"> Course Name: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" maxlength="36"required><br>
 						                      			<label class="contentLabel"> Course Code: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" maxlength="10" required><br>
 						                      			<label class="contentLabel"> Course Units: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" required><br>
-														<label class="contentLabel"> Course Type: </label><br> 
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" maxlength="1" name="courseUnits" ng-pattern="/^[1-5]+$/"required>
+														<span style="color:red" ng-show="editCourseForm.courseUnits.$error.pattern">*Accepted values are: 1-5</span><br>            			
+                    									<label class="contentLabel"> Course Type: </label><br> 
 						                      			<select name="type" class="form-control" ng-model="courseEdit" ng-options="type for type in courseType" required >
 											      		</select><br>
 								        				<div class="animate-switch-container" ng-switch on="courseEdit">
@@ -353,19 +354,20 @@
 						          <div class="modal-dialog">
 						              <div class="modal-content">
 						                  <div class="modal-header">
-						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 						                      <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
 						                  </div>
 								                  <div class="modal-body">
 								                  	<div ng-form="editCourseForm">
 								                  	
 								                  		<label class="contentLabel"> Course Name: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" maxlength="36"required><br>
 						                      			<label class="contentLabel"> Course Code: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" maxlength="10" required><br>
 						                      			<label class="contentLabel"> Course Units: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" required><br>
-														<label class="contentLabel"> Course Type: </label><br> 
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" maxlength="1" name="courseUnits" ng-pattern="/^[1-5]+$/"required>
+														<span style="color:red" ng-show="editCourseForm.courseUnits.$error.pattern">*Accepted values are: 1-5</span><br>            			
+                    									<label class="contentLabel"> Course Type: </label><br> 
 						                      			<select name="type" class="form-control" ng-model="courseEdit" ng-options="type for type in courseType" required >
 											      		</select><br>
 								        				<div class="animate-switch-container" ng-switch on="courseEdit">
@@ -485,18 +487,20 @@
 						          <div class="modal-dialog">
 						              <div class="modal-content">
 						                  <div class="modal-header">
-						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 						                      <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
 						                  </div>
 								                  <div class="modal-body">
 								                  	<div ng-form="editCourseForm">
 								                  	
 								                  		<label class="contentLabel"> Course Name: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseName" maxlength="36"required><br>
 						                      			<label class="contentLabel"> Course Code: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseCode" maxlength="10" required><br>
 						                      			<label class="contentLabel"> Course Units: </label><br> 
-														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" required><br>
+														<input class ="form-control" type="text" ng-model="modelEditCourse.courseUnits" maxlength="1" name="courseUnits" ng-pattern="/^[1-5]+$/"required>
+														<span style="color:red" ng-show="editCourseForm.courseUnits.$error.pattern">*Accepted values are: 1-5</span><br>            			
+                    									
 														<label class="contentLabel"> Course Type: </label><br> 
 						                      			<select name="type" class="form-control" ng-model="courseEdit" ng-options="type for type in courseType" required >
 											      		</select><br>
@@ -549,19 +553,20 @@
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                       <h4 class="modal-title" id="myModalLabel">Add Course</h4>
                   </div>
                   <div class="modal-body" ng-form="registerCourseForm">
                   		<label class="contentLabel"> Course Name: </label><br> 
-						<input class ="form-control" type="text" ng-model="course.courseName" required><br>
+						<input class ="form-control" type="text" ng-model="course.courseName" maxlength="36" required><br>
                     	<label class="contentLabel"> Course Code: </label><br> 
-						<input class ="form-control" type="text" ng-model="course.courseCode" required><br>
+						<input class ="form-control" type="text" ng-model="course.courseCode" maxlength="10" required><br>
                     	<label class="contentLabel"> Course Units: </label><br> 
-                    	<input class ="form-control" type="text" ng-model="course.courseUnits" required><br>
+                    	<input class ="form-control" type="text" ng-model="course.courseUnits" maxlength="1" name="courseUnits" ng-pattern="/^[1-5]+$/"required><br>
+						<span style="color:red" ng-show="registerCourseForm.courseUnits.$error.pattern">*Accepted values are: 1-5</span>
 						<label class="contentLabel"> Course Type: </label><br> 
 						<select name="type" ng-init="course.courseType=courseType[1]" class="form-control" ng-model="course.courseType" ng-options="type for type in courseType" required>
-			      		</select>
+			      		</select>							
 			      		<br>
         				<div class="animate-switch-container" ng-switch on="course.courseType">
 						      <div class="animate-switch" ng-switch-when="Major">

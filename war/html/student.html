@@ -211,16 +211,16 @@
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                       <h4 class="modal-title" id="myModalLabel">Change Password</h4>
                   </div>
                   <div class="modal-body" ng-form="changePasswordForm">
                   		<label class="contentLabel"> Current Password: </label><br> 
-						<input class ="form-control" type="password" ng-model="pass.oldPassword" required><br>
+						<input class ="form-control" type="password" ng-model="pass.oldPassword" maxlength="12" required><br>
                     	<label class="contentLabel"> New Password: </label><br> 
-						<input class ="form-control" type="password" ng-model="pass.newPassword" required><br>
+						<input class ="form-control" type="password" ng-model="pass.newPassword" maxlength="12" required><br>
                     	<label class="contentLabel"> Confirm New Password: </label><br> 
-                    	<input class ="form-control" type="password" ng-model="pass.confirmNewPassword" required><br>
+                    	<input class ="form-control" type="password" ng-model="pass.confirmNewPassword" maxlength="12"required><br>
 
                   </div>
                   <div class="modal-footer">

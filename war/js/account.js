@@ -75,8 +75,6 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			if (response.data.errorList.length == 0) {
 				
 				$scope.studentList = response.data.studentAccounts;
-
-				
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {

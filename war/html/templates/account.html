@@ -88,25 +88,30 @@
 	                                   </div>
                                  <div class="modal fade" id="editStudentAccount{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 						          <div class="modal-dialog">
-						              <div class="modal-content" id="editStudentModal">
+						              <div class="modal-content" ng-form="editStudentForm" id="editStudentModal">
 						                  <div class="modal-header">
-						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�~</button>
+						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 						                      <h4 class="modal-title" id="myModalLabel">Edit Student</h4>
 						                  </div>
 								                  <div class="modal-body">
 								                  	<div ng-form="editStudentForm" >
 								                  		<label class="contentLabel"> Username: </label><br> 
-														<input class ="form-control"  type="text" ng-pattern="/.{11,}/" ng-model="studentModel.username" title="11 characters minimum"required ><br>
+														<input class ="form-control"  type="text" name="username"vng-pattern="/.{11,}/" ng-model="studentModel.username" maxlength="36" title="11 characters minimum"required >
+														<span style="color:red" ng-show="editStudentForm.username.$error.pattern">*Username should have a minimum of 11 characters</span><br>
 						                      			<label class="contentLabel"> Password: </label><br> 
-														<input class ="form-control"  type="text" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="studentModel.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"><br>
+														<input class ="form-control"  type="text" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="studentModel.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+														<span style="color:red" ng-show="editStudentForm.password.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
 						                      			<label class="contentLabel"> First Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.firstName" maxlength ="36" required><br>
 						                      			<label class="contentLabel"> Last Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.lastName" maxlength ="36" required><br>
 														<label class="contentLabel"> Contact Number: </label><br> 
-														<input class ="form-control" type="text" ng-model="studentModel.contactNumber" maxlength="11" required><br>
+														<input class ="form-control" type="text" name="studentContactNumber"ng-pattern="/^[0-9]+$/" ng-model="studentModel.contactNumber" maxlength="11" required>
+														<span style="color:red" ng-show="editStudentForm.studentContactNumber.$error.pattern">*Invalid input detected</span><br>    
 						                      			<label class="contentLabel"> Email Address: </label><br> 
-														<input class ="form-control" type="text" ng-model="studentModel.emailAddress" required><br>
+														<input class ="form-control" type="text" name="addEmail" ng-model="studentModel.emailAddress" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+						                      			<span style="color:red" ng-show="editStudentForm.addEmail.$error.pattern">*Wrong email format</span><br>
+						                      			
 						                      			<label class="contentLabel"> Year Level: </label><br>
 														<select name="type" class="form-control" ng-model="yearLevel" ng-options="year for year in yearArray" required>
 										        		</select><br>
@@ -116,12 +121,15 @@
 								                  		<label class="contentLabel"> Parent Name: </label><br> 
 														<input class ="form-control" type="text" ng-model="studentModel.parentName" required><br>
 														<label class="contentLabel"> Parent Contact Number: </label><br> 
-														<input class ="form-control" type="text" ng-model="studentModel.parentContact" maxlength="11" required><br>
+														<input class ="form-control" type="text" name="parentContactNumber" ng-pattern="/^[0-9]+$/" ng-model="studentModel.parentContact" maxlength="11" required>
+														<span style="color:red" ng-show="editStudentForm.parentContactNumber.$error.pattern">*Invalid input detected</span><br>            			
+                    											
 								                 		<label class="contentLabel"> School: </label><br> 
-														<input class ="form-control" type="text" ng-pattern="/.{24,}/" ng-model="studentModel.school" required title="24 characters minimum"><br>
-								                  
+														<input class ="form-control" type="text" name="school" ng-pattern="/.{24,}/" ng-model="studentModel.school" required title="24 characters minimum">
+								                	    <span style="color:red" ng-show="editStudentForm.school.$error.pattern">*minimum of 24 characters</span><br>            			
+                    											
 								                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								                      <button type="button" class="btn btn-primary" ng-click="updateStudentAccount(studentModel,yearLevel,strandEdit)" >Save changes</button>
+								                      <button type="button" class="btn btn-primary" ng-click="updateStudentAccount(studentModel,yearLevel,strandEdit)" ng-disabled="editStudentForm.$invalid">Save changes</button>
 								                    </div>
 								                  </div>
 								              </div>
@@ -205,23 +213,30 @@
 		                                  <div class="modal-dialog" id="editTeacherModal">
 		                                      <div class="modal-content" ng-form="editTeacherForm">
 		                                          <div class="modal-header">
-		                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�~</button>
+		                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 		                                              <h4 class="modal-title" id="myModalLabel">Edit Teacher</h4>
 		                                          </div>
 		                                          <div class="modal-body">
 		                                                <label class="contentLabel"> Username: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.username" required><br>
-		                                                <label class="contentLabel"> Password: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.password" required><br>
-		                                                <label class="contentLabel"> First Name: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.firstName" required><br>
-		                                                <label class="contentLabel"> Last Name: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.lastName" required><br>
-		                                                <label class="contentLabel"> Contact Number: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.contactNumber" required><br>
-		                                                <label class="contentLabel"> Email Address: </label><br> 
-		                                                <input class ="form-control" type="text" ng-model="teacherModel.emailAddress" required><br>
- 										                 <label class="contentLabel"> Course Name: </label><br> 
+		                                               <input class ="form-control"  type="text" name="username" ng-pattern="/.{11,}/" ng-model="teacherModel.username" maxlength="36" title="11 characters minimum"required >
+														<span style="color:red" ng-show="editTeacherForm.username.$error.pattern">*Username should have a minimum of 11 characters</span><br>
+						                      			
+						                      			<span style="color:red" ng-show="editTeacherForm.usernameExist.$error.pattern">*Username already Exist</span><br>
+						                      			
+						                      			<label class="contentLabel"> Password: </label><br> 
+														<input class ="form-control"  type="text" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="teacherModel.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+														<span style="color:red" ng-show="editTeacherForm.password.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
+						                      			<label class="contentLabel"> First Name: </label><br> 
+														<input class ="form-control" type="text" ng-model="teacherModel.firstName" maxlength ="36" required><br>
+						                      			<label class="contentLabel"> Last Name: </label><br> 
+														<input class ="form-control" type="text" ng-model="teacherModel.lastName" maxlength ="36" required><br>
+														<label class="contentLabel"> Contact Number: </label>
+														<input class ="form-control" type="text" name="teacherContactNumber"ng-pattern="/^[0-9]+$/" ng-model="teacherModel.contactNumber" maxlength="11" required>
+														<span style="color:red" ng-show="editTeacherForm.teacherContactNumber.$error.pattern">*Invalid input detected</span><br>    
+						                      			<label class="contentLabel"> Email Address: </label><br> 
+														<input class ="form-control" type="text" name="addEmail" ng-model="teacherModel.emailAddress" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+						                      			<span style="color:red" ng-show="editTeacherForm.addEmail.$error.pattern">*Wrong email format</span><br>
+						                      			  <label class="contentLabel"> Course Name: </label><br> 
 														<select name="type" class="form-control" ng-model="courseEdit" ng-options="course for course in courseNames" required>
 											      		</select><br>
 												  </div>
@@ -249,12 +264,12 @@
           <div class="modal-dialog" id="addStudentModal">
               <div class="modal-content" ng-form="addStudentForm" ng-submit="registerAccount()">
                   <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�~</button>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                       <h4 class="modal-title" id="myModalLabel">Add Account</h4>
                   </div>
                   <div class="modal-body">
                   		<label class="contentLabel"> Username: </label><br> 
-						<input class ="form-control" type="text" ng-pattern="/.{11,}/" ng-model="Account.username" name="username" required title="11 characters minimum">
+						<input class ="form-control" type="text" ng-pattern="/.{11,}/" maxlength="36"  ng-model="Account.username" name="username" required title="11 characters minimum">
                     			<span style="color:red" ng-show="addStudentForm.username.$error.pattern">*Username should have a minimum of 11 characters</span><br>
                     			<label class="contentLabel"> Password: </label><br> 
 						<input class ="form-control"  type="text" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" name="password" ng-model="Account.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
@@ -267,8 +282,10 @@
 						<input class ="form-control" type="text" ng-pattern="/^[0-9]+$/" name="studentContactNumber" maxlength ="11" ng-model="Account.contactNumber"  required>
                     			<span style="color:red" ng-show="addStudentForm.studentContactNumber.$error.pattern">*Invalid input detected</span><br>            			
                     			<label class="contentLabel"> Email Address: </label><br> 
-						<input class ="form-control" type="text" ng-model="Account.emailAddress" required><br>
-                    			<label class="contentLabel"> User Type: </label><br> 
+						<input class ="form-control" type="text" name="editEmail" ng-model="Account.emailAddress" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+						                      			<span style="color:red" ng-show="addStudentForm.editEmail.$error.pattern">*Wrong email format</span><br>
+						                      			
+								<label class="contentLabel"> User Type: </label><br> 
                     	<select name="type" ng-init="Account.userType=accountType[0]" class="form-control" ng-model="Account.userType" ng-options="type for type in accountType" required>
 											      		</select><br>
 								        				<div class="animate-switch-container" ng-switch on="Account.userType">
@@ -277,7 +294,7 @@
 																<select name="type" class="form-control" ng-init="Account.yearLevel=yearArray[selectedYear]" ng-model="Account.yearLevel" ng-options="year for year in yearArray" required>
 										        				</select><br>
 																<label class="contentLabel"> Strand: </label><br> 
-																<select name="type"  class="form-control" ng-model="Account.strand" ng-options="strand.strandName for strand in strandList track by strand.strandName" required>
+																<select name="type"  class="form-control"  ng-model="Account.strand" ng-options="strand.strandName for strand in strandList track by strand.strandName" required>
 													      			 <option value="">-- Select an option--</option>
 													      		</select><br>
 													      		<label class="contentLabel"> Parent Name: </label><br> 
