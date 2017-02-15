@@ -39,7 +39,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 		confirmNewPassword: ""
 	};
 
-	var columns = ['Course Code','Course Description', 'Units', 'FG'];
+	var columns = ['Course Code','Course Name', 'Units', 'FG'];
 	var myTableArray = [];
 	clearPasswordFields = function(){
 		$scope.pass.oldPassword="";
