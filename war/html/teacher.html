@@ -198,7 +198,7 @@
 												                               &nbsp&nbsp&nbsp&nbsp <label class="contentLabel" ng-repeat="bestStudentModel in bestStudentList | filter:courseDetails.courseId" style="font-weight: normal">{{bestStudentModel.firstName + " "+ bestStudentModel.lastName}} </label>
 												                        </div>
 												                    </div>	
-												                    <select ng-show="editable" style="margin-left:40px;" name="type" class="form-control" ng-model="bestStudent" ng-options="studentModel.firstName + ' ' +studentModel.lastName for studentModel in studentGradeList" required>
+												                    <select ng-show="editable"  name="type" class="form-control" ng-model="bestStudent" ng-options="studentModel.firstName + ' ' +studentModel.lastName for studentModel in studentGradeList" required>
 										        				</select> </td>
 										        		
                                                     	</tr>

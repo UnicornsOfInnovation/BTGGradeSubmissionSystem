@@ -270,6 +270,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 					console.log("--->Success inserting grades");
 					alert("Inserting grades was successful!");
 					var Redirect = document.createElement("form");
+					document.body.appendChild(Redirect);
 					Redirect.setAttribute("method", "post");
 					Redirect.setAttribute("action", "");
 					Redirect.submit();

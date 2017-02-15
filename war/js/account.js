@@ -600,7 +600,13 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 
 		}
 	}
-	
+	$scope.logOut = function(){
+		var Redirect = document.createElement("form");
+		document.body.appendChild(Redirect);
+		Redirect.setAttribute("method", "post");
+		Redirect.setAttribute("action", "/");
+		Redirect.submit();
+	}
 	$scope.setStrand = function(){
 		console.log("<<<--"+$scope.strandList[0].strandName);
 		$scope.Account.strand = $scope.strandList[0].strandName;

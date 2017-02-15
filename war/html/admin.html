@@ -49,15 +49,27 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand">BTG Grade Submission System</a>
+                
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
              
-                <li class="dropdown">
+             <li class="dropdown" ng-controller="accountController">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                       Hello, ADMIN! <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                      <!--   <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                        </li> -->
+                        <li><a href="#" data-toggle="modal" data-target="#changePassword"> <i class="fa fa-gear fa-fw"></i>Change Password</a>                       
+                        </li>
+                        <li class="divider"></li>
+                        <li><a ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
                     <!-- /.dropdown-user -->
                 </li>
-                <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
             <div class="navbar-default sidebar" role="navigation">
@@ -108,6 +120,30 @@
         <!-- /#page-wrapper -->
 
     </div>
+    <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                      <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+                  </div>
+                  <div class="modal-body" ng-form="changePasswordForm">
+                  		<label class="contentLabel"> Current Password: </label><br> 
+						<input class ="form-control" type="password" ng-model="pass.oldPassword" maxlength="12" required><br>
+                    	<label class="contentLabel"> New Password: </label><br> 
+						<input class ="form-control" type="password" ng-model="pass.newPassword" maxlength="12" required><br>
+                    	<label class="contentLabel"> Confirm New Password: </label><br> 
+                    	<input class ="form-control" type="password" ng-model="pass.confirmNewPassword" maxlength="12"required><br>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" ng-click="changePassword()" ng-disabled="changePasswordForm.$invalid"> Save Changes</button>
+                  </div>
+              </div>
+              <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+      </div>
     <!-- /#wrapper -->
     <script src="../js/jquery-2.1.3.js"></script>
     <script src="../js/html2canvas.js"></script>
