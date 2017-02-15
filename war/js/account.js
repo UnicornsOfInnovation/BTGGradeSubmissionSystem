@@ -459,6 +459,13 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 					flag = 1;
 				}
 			}
+			for(var x = 0; x <$scope.teacherList.length;x++){
+				if(account.courseCode == $scope.teacherList[x].courseCode){
+					alert("Course already has a teacher assigned!");
+					flag = 1;
+				
+				}
+			}
 			if(flag==0){
 				console.log("STRAND-->>>" + account.strand);
 				var Redirect = document.createElement("form");
@@ -478,7 +485,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						// initializing the contents of the ingredient screen.
 						$('#registerStudentAccount').modal('hide');
 						$('.modal-backdrop').hide();
-						
+						$route.reload();
 						
 						$scope.listStudentAccount();
 						$scope.initRegisterStudentModal();				
@@ -522,7 +529,15 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						action:"UpdateAccount"
 				}
 				console.log("-->>>"+student.strand+"<<<----")
-				$http.post("/account", $httpParamSerializer(student),
+				var flag=0;
+				for(var y = 0; y <$scope.studentList.length;y++){
+					if(student.username == $scope.studentList[y].username && student.id != $scope.studentList[y].id){
+						alert("username already exist");
+						flag = 1;
+					}
+				}
+				if(flag==0){
+					$http.post("/account", $httpParamSerializer(student),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}
@@ -548,7 +563,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 				}, function() {
 					alert("An error has occured");
 				})
-
+				}
 		}
 	}
 	
@@ -569,7 +584,14 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						status: Account.status,
 						action:"UpdateAccount"
 				}
-				
+				var flag=0;
+				for(var y = 0; y <$scope.teacherList.length;y++){
+					if(teacher.username == $scope.teacherList[y].username && teacher.id != $scope.teacherList[y].id){
+						alert("username already exist");
+						flag = 1;
+					}
+				}
+				if(flag==0){
 				$http.post("/account", $httpParamSerializer(teacher),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -597,7 +619,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 				}, function() {
 					alert("An error has occured");
 				})
-
+				}
 		}
 	}
 	$scope.logOut = function(){

@@ -51,8 +51,30 @@ app.controller('bestStudentController', function($scope, $http, $httpParamSerial
 					    
 					    $scope.myTableArray.push(arrayOfThisRow);
 				}
+				var columns2 = [" "," "];
+				var array2=[];
+				array2.push(["Best Student Table"," "]);
+
+				
+				
 			    var doc = new jsPDF('p', 'pt');
-			    doc.autoTable(columns, $scope.myTableArray);
+			    doc.autoTable(columns2, array2, {margin:{top:80}, theme: 'plain'});
+			    var header = function(data) {
+			        doc.setFontSize(18);
+			        doc.setTextColor(40);
+			        doc.setFontStyle('normal');
+			        //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+			        doc.text("Best Student List", data.settings.margin.left, 50);
+			      };
+		        var options = {
+		    		    beforePageContent: header,
+		    		    margin: {
+		    		      top: 160
+		    		    },
+		    		    startY: doc.autoTableEndPosY() + 20
+		    		  };
+		        doc.autoTable(columns, $scope.myTableArray, options);
+
 			    doc.save("Best-Student-List.pdf");
 			}
 		})

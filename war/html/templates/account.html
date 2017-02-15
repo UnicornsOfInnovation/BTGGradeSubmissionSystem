@@ -235,7 +235,7 @@
 														<input class ="form-control" type="text" name="addEmail" ng-model="teacherModel.emailAddress" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
 						                      			<span style="color:red" ng-show="editTeacherForm.addEmail.$error.pattern">*Wrong email format</span><br>
 						                      			  <label class="contentLabel"> Course Name: </label><br> 
-														<select name="type" class="form-control" ng-model="courseEdit" ng-options="course for course in courseNames" required>
+														<select ng-disabled="true" name="type" class="form-control" ng-model="courseEdit" ng-options="course for course in courseNames" required>
 											      		</select><br>
 												  </div>
 		                                          <div class="modal-footer">
@@ -321,7 +321,7 @@
 													      		<label class="contentLabel"> Parent Name: </label><br> 
 																<input class ="form-control" type="text" ng-model="Account.parentName" required><br>
 																<label class="contentLabel"> Parent Contact Number: </label><br> 
-																<input class ="form-control" type="text"  ng-pattern="/^[0-9]+$/" name="parentContactNumber" ng-model="Account.parentContact" required>
+																<input class ="form-control" type="text"  ng-pattern="/^[0-9]+$/" name="parentContactNumber" max-length="11" 	ng-model="Account.parentContact" required>
 										                  		<span style="color:red" ng-show="addStudentForm.parentContactNumber.$error.pattern">Invalid input detected</span><br>            			
                     											<label class="contentLabel"> School: </label><br> 
 																<input class ="form-control" type="text" ng-pattern="/.{24,}/" ng-model="Account.school" required><br>

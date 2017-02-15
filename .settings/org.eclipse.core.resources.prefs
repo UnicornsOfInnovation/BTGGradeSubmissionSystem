@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//war/html/templates/account.html=UTF-8
 encoding//war/html/templates/course.html=UTF-8
 encoding//war/js/adminMain.js=UTF-8
+encoding//war/js/angular-route.js=UTF-8
 encoding//war/js/bestStudent.js=UTF-8
 encoding//war/js/classList.js=UTF-8
 encoding//war/js/jspdf.min.js=UTF-8

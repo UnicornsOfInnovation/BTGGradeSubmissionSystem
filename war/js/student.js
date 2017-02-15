@@ -38,6 +38,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 		newPassword: "",
 		confirmNewPassword: ""
 	};
+
 	var columns = ['Course Code','Course Description', 'Units', 'FG'];
 	var myTableArray = [];
 	clearPasswordFields = function(){
@@ -147,16 +148,16 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	$scope.callme = function (){
 
 				for(var ctr = 0; ctr<$scope.newCourseList.length;ctr++){
-				
+					var gpa = parseFloat($scope.gpa);
 					
 					    var arrayOfThisRow = [];
 					    arrayOfThisRow.push($scope.newCourseList[ctr].courseCode);   
 					    arrayOfThisRow.push($scope.newCourseList[ctr].courseName);    
 					    arrayOfThisRow.push($scope.newCourseList[ctr].courseUnits);    
-					    arrayOfThisRow.push($scope.newGradeList[ctr]);
+					    arrayOfThisRow.push($scope.newCourseList[ctr].grade);
 					    $scope.myTableArray.push(arrayOfThisRow);
 				}
-				$scope.myTableArray.push([" ", " ", "GPA", $scope.gpa]);
+				$scope.myTableArray.push([" ", " ", "GPA", gpa.toFixed(2)]);
 				var columns2 = [" "," "];
 				var array2=[];
 				array2.push(["Student Name", $scope.studentAccount.firstName + $scope.studentAccount.lastName]);
@@ -351,33 +352,50 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	
 	$scope.processData = function() {
 		console.log("studentController.listGrades " + "start");
-
+		
 		for(var x = 0;x<$scope.gradeList.length;x++){
+			$scope.newGradeList2 = {
+					id:"",
+					courseName: "",
+					courseCode: "",
+					courseUnits: "",
+					grade: ""
+			};
 			if($scope.gradeList[x].accountId == $scope.studentIdFromLogin){
-				$scope.newGradeList.push($scope.gradeList[x].grade);
+				$scope.newGradeList2.grade=$scope.gradeList[x].grade;
 				console.log("AccountId: "+$scope.gradeList[x].accountId);
 				console.log("CourseId: "+$scope.gradeList[x].courseId);
 				console.log("Grade: "+$scope.gradeList[x].grade);
 				for(var y = 0; y<$scope.courseList.length;y++){
 					if($scope.gradeList[x].courseId==$scope.courseList[y].courseId){
 						console.log("CourseId from courseList: "+$scope.courseList[y].courseId);
-						$scope.newCourseList.push($scope.courseList[y]);	
+						$scope.newGradeList2.id = $scope.courseList[y].id;
+						$scope.newGradeList2.courseName = $scope.courseList[y].courseName;
+						$scope.newGradeList2.courseCode = $scope.courseList[y].courseCode;
+						$scope.newGradeList2.courseUnits = $scope.courseList[y].courseUnits;
+						$scope.newCourseList.push($scope.newGradeList2);
 					}
 				}
 			}
 		}
 		var calculate = 0;
 		var divide = 0;
-		for(var y =0; y<$scope.newGradeList.length;y++){
-			if($scope.newGradeList[y] != "NG"){
-			var multiply = $scope.newGradeList[y] * $scope.newCourseList[y].courseUnits;
-			console.log(" GRADE" + $scope.newGradeList[y] +" UNITS "+$scope.newCourseList[y].courseUnits);
-			calculate = calculate + multiply;
-			divide = divide + $scope.newCourseList[y].courseUnits;
-			console.log(y);
+		
+		for(var y =0; y<$scope.newCourseList.length;y++){
+			if($scope.newCourseList[y].grade != "NG"){
+				var multiply = $scope.newCourseList[y].grade * $scope.newCourseList[y].courseUnits;
+				console.log(" GRADE" + $scope.newCourseList[y].grade +" UNITS "+$scope.newCourseList[y].courseUnits);
+				calculate = calculate + multiply;
+				divide = divide + $scope.newCourseList[y].courseUnits;
+				console.log(y);
 			}
 		}
-		calculate = calculate / divide;
+		if(divide!=0){
+			calculate = calculate / divide;
+		}else if(divide==0){
+			calculate = "No GPA Available";
+		}
+		
 		console.log("CALCULATED GPA ->>"+calculate); 
 		
 		$scope.gpa = calculate;

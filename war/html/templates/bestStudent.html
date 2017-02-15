@@ -28,7 +28,7 @@
                                                                 </td>
                                                             </tr>
                                                             
-	                                                            <tr  ng-repeat="bestStudentModel in bestStudentList">
+	                                                            <tr  ng-repeat="bestStudentModel in bestStudentList | orderBy: 'courseName'">
 	                                                          	    <td  style="text-align:center;">
 	                                                                <label class="contentLabel"> {{bestStudentModel.courseName}}</label>
 	                                                                </td>

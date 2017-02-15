@@ -562,8 +562,8 @@
                     	<label class="contentLabel"> Course Code: </label><br> 
 						<input class ="form-control" type="text" ng-model="course.courseCode" maxlength="10" required><br>
                     	<label class="contentLabel"> Course Units: </label><br> 
-                    	<input class ="form-control" type="text" ng-model="course.courseUnits" maxlength="1" name="courseUnits" ng-pattern="/^[1-5]+$/"required><br>
-						<span style="color:red" ng-show="registerCourseForm.courseUnits.$error.pattern">*Accepted values are: 1-5</span>
+                    	<input class ="form-control" type="text" ng-model="course.courseUnits" maxlength="1" name="courseUnits" ng-pattern="/^[1-5]+$/"required>
+						<span style="color:red" ng-show="registerCourseForm.courseUnits.$error.pattern">*Accepted values are: 1-5</span><br>
 						<label class="contentLabel"> Course Type: </label><br> 
 						<select name="type" ng-init="course.courseType=courseType[1]" class="form-control" ng-model="course.courseType" ng-options="type for type in courseType" required>
 			      		</select>							
