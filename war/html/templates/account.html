@@ -221,8 +221,6 @@
 		                                               <input class ="form-control"  type="text" name="username" ng-pattern="/.{11,}/" ng-model="teacherModel.username" maxlength="36" title="11 characters minimum"required >
 														<span style="color:red" ng-show="editTeacherForm.username.$error.pattern">*Username should have a minimum of 11 characters</span><br>
 						                      			
-						                      			<span style="color:red" ng-show="editTeacherForm.usernameExist.$error.pattern">*Username already Exist</span><br>
-						                      			
 						                      			<label class="contentLabel"> Password: </label><br> 
 														<input class ="form-control"  type="text" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="teacherModel.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
 														<span style="color:red" ng-show="editTeacherForm.password.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>

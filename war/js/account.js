@@ -445,7 +445,21 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 						action:"InsertAccount"
 				}
 			}	
+			var flag=0;
+			for(var x = 0; x <$scope.teacherList.length;x++){
+				if(account.username == $scope.teacherList[x].username){
+					alert("username already exist");
+					flag = 1;
 				
+				}
+			}
+			for(var y = 0; y <$scope.studentList.length;y++){
+				if(account.username == $scope.studentList[y].username){
+					alert("username already exist");
+					flag = 1;
+				}
+			}
+			if(flag==0){
 				console.log("STRAND-->>>" + account.strand);
 				var Redirect = document.createElement("form");
 				Redirect.setAttribute("method", "post");
@@ -480,7 +494,8 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 				}, function() {
 					alert("An error has occured");
 				})
-
+				
+			}
 		}
 	}
 	

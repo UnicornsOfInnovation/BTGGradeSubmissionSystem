@@ -292,6 +292,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		html2canvas(document.getElementById("class-list-primary"),{
 			onrendered: function (canvas){
 //				
+				var bestStudentName = "";
 				for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
 				
 					
@@ -302,8 +303,37 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 					    $scope.myTableArray.push(arrayOfThisRow);
 					
 				}
+				for(var ctr = 0; ctr<$scope.bestStudentList.length;ctr++){
+					if($scope.bestStudentList[ctr].courseId == $scope.courseDetails.id){ 
+					    bestStudentName = $scope.bestStudentList[ctr].firstName + " " + $scope.bestStudentList[ctr].lastName;
+					}
+				}
+				var columns2 = [" "," "];
+				var array2=[];
+				array2.push(["Teacher Name", $scope.teacherAccount.firstName + $scope.teacherAccount.lastName]);
+				array2.push(["Course Code", $scope.courseDetails.courseCode]);
+				array2.push(["Course Title", $scope.courseDetails.courseName]);
+				array2.push(["Course Units", $scope.courseDetails.courseUnits]);
+				array2.push(["Best Student", bestStudentName]);
+				
+				
 			    var doc = new jsPDF('p', 'pt');
-			    doc.autoTable(columns, $scope.myTableArray);
+			    doc.autoTable(columns2, array2, {margin:{top:80}, theme: 'plain'});
+			    var header = function(data) {
+			        doc.setFontSize(18);
+			        doc.setTextColor(40);
+			        doc.setFontStyle('normal');
+			        //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+			        doc.text("Class List - " + $scope.courseDetails.courseName, data.settings.margin.left, 50);
+			      };
+		        var options = {
+		    		    beforePageContent: header,
+		    		    margin: {
+		    		      top: 160
+		    		    },
+		    		    startY: doc.autoTableEndPosY() + 20
+		    		  };
+		        doc.autoTable(columns, $scope.myTableArray, options);
 			    doc.save("classList - " + $scope.courseDetails.courseName +".pdf");
 			}
 		})
@@ -338,10 +368,10 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 	
 	$scope.logOut = function(){
 		var Redirect = document.createElement("form");
+		document.body.appendChild(Redirect);
 		Redirect.setAttribute("method", "post");
 		Redirect.setAttribute("action", "/");
 		Redirect.submit();
-		
 	}
 	
 	$scope.getTeacherAccount();

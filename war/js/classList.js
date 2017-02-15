@@ -214,8 +214,9 @@ $scope.getBestStudentList = function(){
 //					    }
 //					    alert("inside");
 //					});
+					var teacherName = " ";
+					var bestStudentName = " ";
 					for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
-					
 						if($scope.studentGradeList[ctr].courseId == $scope.courseModel.id){ 
 						    var arrayOfThisRow = [];
 						    var studentName = $scope.studentGradeList[ctr].firstName + " " +$scope.studentGradeList[ctr].lastName;
@@ -224,8 +225,41 @@ $scope.getBestStudentList = function(){
 						    $scope.myTableArray.push(arrayOfThisRow);
 						}
 					}
+					for(var ctr2 = 0; ctr2<$scope.teacherList.length;ctr2++){
+						if($scope.teacherList[ctr2].courseCode == $scope.courseModel.courseCode){ 
+						    teacherName = $scope.teacherList[ctr2].firstName + " " + $scope.teacherList[ctr2].lastName;
+						}
+					}
+					for(var ctr = 0; ctr<$scope.bestStudentList.length;ctr++){
+						if($scope.bestStudentList[ctr].courseId == $scope.courseModel.id){ 
+						    bestStudentName = $scope.bestStudentList[ctr].firstName + " " + $scope.bestStudentList[ctr].lastName;
+						}
+					}
+					var columns2 = [" "," "];
+					var array2=[];
+					array2.push(["Course",$scope.courseModel.courseName]);
+					array2.push(["Teacher", teacherName]);
+					array2.push(["Best Student", bestStudentName]);
+					
+					
 				    var doc = new jsPDF('p', 'pt');
-				    doc.autoTable(columns, $scope.myTableArray);
+				    doc.autoTable(columns2, array2, {margin:{top:80}, theme: 'plain'});
+				    var header = function(data) {
+				        doc.setFontSize(18);
+				        doc.setTextColor(40);
+				        doc.setFontStyle('normal');
+				        //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+				        doc.text("Class List - " + $scope.courseModel.courseName, data.settings.margin.left, 50);
+				      };
+			        var options = {
+			    		    beforePageContent: header,
+			    		    margin: {
+			    		      top: 160
+			    		    },
+			    		    startY: doc.autoTableEndPosY() + 20
+			    		  };
+			        doc.autoTable(columns, $scope.myTableArray, options);
+
 				    doc.save("classList - " + $scope.courseModel.courseName +".pdf");
 				}
 			})

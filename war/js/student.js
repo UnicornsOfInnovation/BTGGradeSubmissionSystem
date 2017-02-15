@@ -32,6 +32,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	$scope.newCourseList=[];
 	$scope.newCourseCodeList=[];
 	$scope.myTableArray = [];
+	$scope.gpa = "";
 	$scope.pass = {
 		oldPassword: "",
 		newPassword: "",
@@ -136,6 +137,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 
 	$scope.logOut = function(){
 		var Redirect = document.createElement("form");
+		document.body.appendChild(Redirect);
 		Redirect.setAttribute("method", "post");
 		Redirect.setAttribute("action", "/");
 		Redirect.submit();
@@ -149,15 +151,37 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 					
 					    var arrayOfThisRow = [];
 					    arrayOfThisRow.push($scope.newCourseList[ctr].courseCode);   
-
 					    arrayOfThisRow.push($scope.newCourseList[ctr].courseName);    
-
 					    arrayOfThisRow.push($scope.newCourseList[ctr].courseUnits);    
 					    arrayOfThisRow.push($scope.newGradeList[ctr]);
 					    $scope.myTableArray.push(arrayOfThisRow);
 				}
+				var columns2 = [" "," "];
+				var array2=[];
+				array2.push(["Student Name", $scope.studentAccount.firstName + $scope.studentAccount.lastName]);
+				array2.push(["School", $scope.studentAccount.school]);
+				array2.push(["Strand", $scope.studentAccount.strand]);
+				array2.push(["Year Level", $scope.studentAccount.yearLevel]);
+				
+				
 			    var doc = new jsPDF('p', 'pt');
-			    doc.autoTable(columns, $scope.myTableArray);
+			    doc.autoTable(columns2, array2, {margin:{top:80}, theme: 'plain'});
+			    var header = function(data) {
+			        doc.setFontSize(18);
+			        doc.setTextColor(40);
+			        doc.setFontStyle('normal');
+			        //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+			        doc.text("Student Information", data.settings.margin.left, 50);
+			      };
+		        var options = {
+		    		    beforePageContent: header,
+		    		    margin: {
+		    		      top: 160
+		    		    },
+		    		    startY: doc.autoTableEndPosY() + 20
+		    		  };
+		        doc.autoTable(columns, $scope.myTableArray, options);
+		        
 			    doc.save("My-Grades.pdf");
 
 	}
@@ -341,6 +365,21 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 				}
 			}
 		}
+		var calculate = 0;
+		var divide = 0;
+		for(var y =0; y<$scope.newGradeList.length;y++){
+			if($scope.newGradeList[y] != "NG"){
+			var multiply = $scope.newGradeList[y] * $scope.newCourseList[y].courseUnits;
+			console.log(" GRADE" + $scope.newGradeList[y] +" UNITS "+$scope.newCourseList[y].courseUnits);
+			calculate = calculate + multiply;
+			divide = divide + $scope.newCourseList[y].courseUnits;
+			console.log(y);
+			}
+		}
+		calculate = calculate / divide;
+		console.log("CALCULATED GPA ->>"+calculate); 
+		
+		$scope.gpa = calculate;
 	}
 	
 	

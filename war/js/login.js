@@ -3,10 +3,12 @@ var app = angular.module('loginApp',[]);
 app.controller('loginController', function($scope, $http, $location, $httpParamSerializer, serviceShareData) {
 	
 	$scope.login = function(){
+		var Redirect = document.createElement("form");
+		document.body.appendChild(Redirect);
 		if($scope.username == null || $scope.password == null){
 			alert("Please supply username or password.");
 		} else if($scope.username == "admin" && $scope.password == "admin"){
-			var Redirect = document.createElement("form");
+			
 			Redirect.setAttribute("method", "post");
 			Redirect.setAttribute("action", "adminPage");
 			Redirect.submit();
@@ -26,7 +28,7 @@ app.controller('loginController', function($scope, $http, $location, $httpParamS
 				if(response.data.accountLoggedIn == "student"){
 					$location.path("admin");
 					console.log("NO error List");
-					var Redirect = document.createElement("form");
+//					var Redirect = document.createElement("form");
 					Redirect.setAttribute("method", "post");
 					Redirect.setAttribute("accountID", response.data.accountID);
 					serviceShareData.addData(response.data.accountID);
@@ -35,7 +37,7 @@ app.controller('loginController', function($scope, $http, $location, $httpParamS
 					Redirect.submit();
 				}
 				else if(response.data.accountLoggedIn == "teacher"){
-					var Redirect = document.createElement("form");
+//					var Redirect = document.createElement("form");
 					console.log("NO error List");
 					Redirect.setAttribute("method", "post");
 					Redirect.setAttribute("accountID", response.data.accountID);
