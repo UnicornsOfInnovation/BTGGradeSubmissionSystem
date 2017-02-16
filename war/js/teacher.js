@@ -274,6 +274,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 					Redirect.setAttribute("method", "post");
 					Redirect.setAttribute("action", "");
 					Redirect.submit();
+					$route.reload();
 				} else {
 					var errorMessage = "";
 					for (var i = 0; i < response.data.errorList.length; i++) {
@@ -368,12 +369,15 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		}
 	
 	$scope.logOut = function(){
-		var Redirect = document.createElement("form");
-		document.body.appendChild(Redirect);
-		Redirect.setAttribute("method", "post");
-		Redirect.setAttribute("action", "/");
-		Redirect.submit();
+		serviceShareData.logout();
 	}
-	
-	$scope.getTeacherAccount();
+	$scope.checkAccess = function(){
+		if(serviceShareData.isLogged()){
+
+			$scope.getTeacherAccount();
+		}
+		
+	}
+	$scope.checkAccess();
+
 });

@@ -46,7 +46,6 @@ public class AccountDao {
         Datastore.put(inputAccount);
         
         tx.commit();
-        
     }
     
     

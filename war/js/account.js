@@ -1,4 +1,4 @@
-app.controller('accountController', function($scope, $http, $httpParamSerializer) {
+app.controller('accountController', function($scope,$route, $http, $httpParamSerializer, serviceShareData) {
 	console.log("accountController " + "start");
 	$scope.studentList = [];
 	$scope.teacherList = [];
@@ -107,7 +107,6 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 		.then(function(response) {
 			if (response.data.errorList.length == 0) {
 				$scope.courseList = response.data.courseDtoList;
-				console.log("Course-->>"+$scope.courseList[0].yearLevel);
 				for(var x = 0; x <$scope.courseList.length;x++){
 					$scope.courseNames.push($scope.courseList[x].courseName);
 					console.log("Course NAMES -->> " +$scope.courseList[x].courseName);
@@ -468,10 +467,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 			}
 			if(flag==0){
 				console.log("STRAND-->>>" + account.strand);
-				var Redirect = document.createElement("form");
-				Redirect.setAttribute("method", "post");
-				Redirect.setAttribute("action", "");
-				Redirect.submit();
+				$route.reload();
 				$http.post("/account", $httpParamSerializer(account),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -545,6 +541,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 				.then(function(response) {
 					console.log("Error? " + response.data.errorList.length);
 					if (response.data.errorList.length == 0) {
+						$route.reload();
 						//There were no errors.
 						alert("Updating student account was successful.");
 						// initializing the contents of the ingredient screen.
@@ -600,6 +597,7 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 				.then(function(response) {
 					console.log("Error? " + response.data.errorList.length);
 					if (response.data.errorList.length == 0) {
+						$route.reload();
 						//There were no errors.
 						alert("Updating teacher account was successful.");
 						// initializing the contents of the ingredient screen.
@@ -692,8 +690,18 @@ app.controller('accountController', function($scope, $http, $httpParamSerializer
 		$scope.teacherAccount.courseCode = "";
 		console.log("accountController.initTeacher " + "End");
 	}
-	$scope.initLists();
-	$scope.initRegisterAccountModal();
-	$scope.initRegisterStudentModal();
-	$scope.initRegisterTeacherModal();
+	
+	$scope.logOut = function(){
+		serviceShareData.logout();
+		
+	}
+	$scope.checkAccess = function(){
+		serviceShareData.isLogged();
+		$scope.initLists();
+		$scope.initRegisterAccountModal();
+		$scope.initRegisterStudentModal();
+		$scope.initRegisterTeacherModal();
+	}
+	$scope.checkAccess();
+
 });

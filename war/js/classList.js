@@ -18,7 +18,7 @@
  * The angular module object.
  * @param pizzaTimeApp - the application name (refer to the 'ng-app' directive)
  */
-app.controller('classListController', function($scope, $http, $httpParamSerializer) {
+app.controller('classListController', function($scope, $http, $httpParamSerializer, serviceShareData) {
 	console.log("classListController " + "start");
 	
 	$scope.courseID = 973;
@@ -62,7 +62,6 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 				}
 				$scope.listTeacherAccount();
 				$scope.getBestStudentList();
-				console.log("Inside--->"+$scope.studentGradeList[0].grade);
 				
 			} else {
 				var errorMessage = "";
@@ -90,7 +89,6 @@ $scope.getBestStudentList = function(){
 			if (response.data.errorList.length == 0) {
 				
 				$scope.bestStudentList = response.data.bestStudentList;
-				console.log("yolo->" + $scope.bestStudentList);
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -117,7 +115,6 @@ $scope.getBestStudentList = function(){
 			if (response.data.errorList.length == 0) {
 				$scope.courseList = response.data.courseDtoList;
 				$scope.courseModel = $scope.courseList[0];
-				console.log("-->>COURSE ID" + $scope.courseModel.id);
 				$scope.getStudentGradeList();
 				
 			} else {
@@ -264,7 +261,16 @@ $scope.getBestStudentList = function(){
 				}
 			})
 		}
+	
+	$scope.logOut = function(){
+		serviceShareData.logout();
 		
-	$scope.listCourses();
+	}
+	$scope.checkAccess = function(){
+		serviceShareData.isLogged();
+		$scope.listCourses();
+	}
+	$scope.checkAccess();	
+	
 	
 });

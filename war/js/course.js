@@ -1,7 +1,7 @@
-app.controller('courseController', function($scope, $http, $httpParamSerializer) {
+app.controller('courseController', function($scope, $http, $httpParamSerializer,serviceShareData) {
 	console.log("courseController " + "start");
 	$scope.strandList = [];
-	$scope.yearArray = ["10","11","12"];
+	$scope.yearArray = ["11","12"];
 	$scope.courseType = ["Major","Minor"];
 	$scope.selection = $scope.courseType[0];
 	$scope.selectedYear = 0;
@@ -48,8 +48,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 				console.log("-->>"+response.data.strandsList[0]);
 				for(var x = 0; x <$scope.strandList.length;x++){
 					$scope.strandNames.push($scope.strandList[x].strandName);
-					console.log("STRAND NAMES -->> " +$scope.strandList[x].strandName);
-				}
+					}
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -77,8 +76,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 		.then(function(response) {
 			if (response.data.errorList.length == 0) {
 				$scope.courseList = response.data.courseDtoList;
-				console.log("Course-->>"+$scope.courseList[0].yearLevel);
-			} else {
+				} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
 					errorMessage += response.data.errorList[i];
@@ -101,34 +99,27 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 			$scope.modelEditCourse.yearLevel = model.yearLevel;
 			$scope.modelEditCourse.strand = model.strand;
 		}
-		console.log("year level edited is" +model.yearLevel);
 		for(var x = 0; x<$scope.yearArray.length;x++){
 			if(model.yearLevel==$scope.yearArray[x]){
 				$scope.selectedYear = x;
 				$scope.course.yearLevel = $scope.yearArray[$scope.selectedYear];
 				$scope.yearLevel =  $scope.yearArray[$scope.selectedYear];
-				console.log("-->>>>>>"+$scope.course.yearLevel);
 			}
 		}
 		console.log("strand edited is" +model.strand);
 		for(var y = 0; y<$scope.strandNames.length;y++){
 			if(model.strand==$scope.strandNames[y]){
-				console.log("SELECTED STRAND IS -->> " +y);
 				$scope.selectedStrand = y;
 				$scope.course.strand = $scope.strandNames[$scope.selectedStrand];
 				$scope.strandEdit =  $scope.strandNames[$scope.selectedStrand];
-				console.log("STRAND-->>>>>>"+$scope.strandEdit);
-			}
+				}
 		}
-		console.log("course edited is" +model.courseType);
 		for(var z = 0; z<$scope.courseType.length;z++){
 			if(model.courseType==$scope.courseType[z]){
-				console.log("SELECTED COURSE TYPE IS -->> " +z);
 				$scope.selectedCourse = z;
 				$scope.course.courseType = $scope.courseType[$scope.selectedCourse];
 				$scope.courseEdit =  $scope.courseType[$scope.selectedCourse];
-				console.log("Course-->>>>>>"+$scope.courseEdit);
-			}
+				}
 		}
 
 		$scope.courseNameCurrent = model.courseName;
@@ -153,6 +144,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 				)
 				.then(function(response) {
 					if (response.data.errorList.length == 0) {
+						$route.reload();
 						//There were no errors.
 						alert("Deleting course was successful.");
 						
@@ -188,13 +180,14 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 					    yearLevel: $scope.course.yearLevel,
 						action:"InsertCourse"
 				}
-				
-				console.log(courseObject.courseName);
-				console.log(courseObject.courseCode);
-				console.log(courseObject.courseUnits);
-				console.log(courseObject.courseType);
-				console.log(courseObject.strand);
-				console.log(courseObject.yearLevel);
+				var flag=0;
+				for(var y = 0; y <$scope.courseList.length;y++){
+					if(courseObject.courseCode == $scope.courseList[y].courseCode){
+						alert("Course Code already exist");
+						flag = 1;
+					}
+				}
+				if(flag==0){
 				$http.post("/course", $httpParamSerializer(courseObject),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -203,6 +196,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 				.then(function(response) {
 					console.log("Error? " + response.data.errorList.length);
 					if (response.data.errorList.length == 0) {
+						$route.reload();
 						//There were no errors.
 						alert("Inserting course was successful.");
 					
@@ -219,7 +213,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 				}, function() {
 					alert("An error has occured");
 				})
-
+				}
 		}
 	}
 	
@@ -234,7 +228,6 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 	
 	$scope.updateCourse = function(course,yearLevel,strandEdit, courseEdit){
 		var confirmation = window.confirm("Are you sure you want to update this course?");
-		console.log("UPDATE COURSE-->>"+yearLevel+" STRAND EDIT"+strandEdit);
 		var cont = false;
 		var check = 0;
 		if (true == confirmation) {	
@@ -266,9 +259,15 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 					}
 				}
 				
-				console.log("UPDATE COURSE-->>"+course.strand);
+				var flag=0;
+				for(var y = 0; y <$scope.courseList.length;y++){
+					if(course.courseCode == $scope.courseList[y].courseCode && course.id != $scope.courseList[y].id){
+						alert("Course Code already exist");
+						flag = 1;
+					}
+				}
+				if(flag==0){
 				if(true == cont){
-					console.log("I have entered here! Im updating");
 					$http.post("/course", $httpParamSerializer(course),
 							{// configuring the request not a JSON type.
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -277,6 +276,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 					.then(function(response) {
 						console.log("Error? " + response.data.errorList.length);
 						if (response.data.errorList.length == 0) {
+							$route.reload();
 							//There were no errors.
 							alert("Updating course was successful.");
 							
@@ -296,7 +296,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 				} else {
 					alert("There is a course already having that name. Please use another course name.");
 				}		
-
+				}
 		}
 	}
 	
@@ -318,7 +318,15 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer)
 		console.log("courseController.initCourse " + "End");
 	}
 
-	
+	$scope.logOut = function(){
+		serviceShareData.logout();
+		
+	}
+	$scope.checkAccess = function(){
+		serviceShareData.isLogged();
+		
+	}
+	$scope.checkAccess();	
 	$scope.initRegisterCourseModal();
 	
 });

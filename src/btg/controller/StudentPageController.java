@@ -11,7 +11,6 @@ import org.slim3.controller.Navigation;
 public class StudentPageController extends Controller {
     @Override
     protected Navigation run(){
-        
         return forward("/html/student.html");
     }
 }

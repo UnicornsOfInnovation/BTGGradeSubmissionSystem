@@ -18,10 +18,10 @@
  * The angular module object.
  * @param pizzaTimeApp - the application name (refer to the 'ng-app' directive)
  */
-var app = angular.module('BTGapp', ['ngRoute']);
+//var app = angular.module('BTGapp', ['ngRoute']);
 
 
-app.config(['$routeProvider', function($routeProvider) {
+angular.module('loginApp').config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/accountScreen', {
         templateUrl: '/html/templates/account.html',

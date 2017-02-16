@@ -20,10 +20,12 @@
  */
 
 
-angular.module('loginApp').controller('studentController', function($scope, $http, $httpParamSerializer, serviceShareData) {
+angular.module('loginApp').controller('studentController', function($scope,$location, $http, $httpParamSerializer, serviceShareData) {
 	console.log("studentController " + "start");
 	
+
 	$scope.studentIdFromLogin = serviceShareData.getData()[0];
+	console.log(serviceShareData.getData()[0]);
 	$scope.studentAccount = null;
 	$scope.studentList = [];
 	$scope.courseList= [];
@@ -38,7 +40,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 		newPassword: "",
 		confirmNewPassword: ""
 	};
-
+	
 	var columns = ['Course Code','Course Name', 'Units', 'FG'];
 	var myTableArray = [];
 	clearPasswordFields = function(){
@@ -136,14 +138,7 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 	}
 	
 
-	$scope.logOut = function(){
-		var Redirect = document.createElement("form");
-		document.body.appendChild(Redirect);
-		Redirect.setAttribute("method", "post");
-		Redirect.setAttribute("action", "/");
-		Redirect.submit();
-		
-	}
+
 	
 	$scope.callme = function (){
 
@@ -400,7 +395,15 @@ angular.module('loginApp').controller('studentController', function($scope, $htt
 		
 		$scope.gpa = calculate;
 	}
-	
-	
-	$scope.getStudentAccount();
+	$scope.logOut = function(){
+		serviceShareData.logout();
+		
+	}
+	$scope.checkAccess = function(){
+		serviceShareData.isLogged();
+
+		$scope.getStudentAccount();
+	}
+	$scope.checkAccess();
+
 });

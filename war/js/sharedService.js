@@ -1,31 +1,52 @@
 
 
 angular.module('loginApp').factory('serviceShareData', function($window) {
-	
-    var KEY = 'keyGen';
+	var Redirect = document.createElement("form");
+	document.body.appendChild(Redirect);
+    var KEY = 'user';
     var addData = function(newObj) {
-    	sessionStorage.clear();
-    	var mydata = $window.sessionStorage.getItem(KEY);
+    	localStorage.clear();
+    	var mydata = $window.localStorage.getItem(KEY);
         if (mydata) {
-        	console.log("inside Session");
+        	console.log("inside local");
             mydata = JSON.parse(mydata);
-            
         } else {
             mydata = [];
         }
         mydata.push(newObj);
-        $window.sessionStorage.setItem(KEY, JSON.stringify(mydata));
+        $window.localStorage.setItem(KEY, JSON.stringify(mydata));
     };
 
     var getData = function(){
-        var mydata = $window.sessionStorage.getItem(KEY);
+        var mydata = $window.localStorage.getItem(KEY);
         if (mydata) {
             mydata = JSON.parse(mydata);
         }
         return mydata || [];
     };
 
+
+    
     return {
+        logout:function(){
+
+    		Redirect.setAttribute("method", "post");
+    		Redirect.setAttribute("action", "/");
+    		Redirect.submit();
+    		$window.localStorage.clear();
+    		//destroylocal
+        },
+        isLogged:function(){
+        	if(null==$window.localStorage.getItem("user")){
+        		Redirect.setAttribute("method", "post");
+        		Redirect.setAttribute("action", "/");
+        		Redirect.submit();
+        		return false;
+        	}else{
+        		return true;
+        	}
+    		//destroylocal
+        },
         addData: addData,
         getData: getData
     };
