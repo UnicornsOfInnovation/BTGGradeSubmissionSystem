@@ -1,4 +1,4 @@
-app.controller('courseController', function($scope, $http, $httpParamSerializer,serviceShareData) {
+app.controller('courseController', function($scope,$route, $http, $httpParamSerializer,serviceShareData) {
 	console.log("courseController " + "start");
 	$scope.strandList = [];
 	$scope.yearArray = ["11","12"];
@@ -145,6 +145,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer,
 				.then(function(response) {
 					if (response.data.errorList.length == 0) {
 						$route.reload();
+						$('.modal-backdrop').hide();
 						//There were no errors.
 						alert("Deleting course was successful.");
 						
@@ -196,6 +197,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer,
 				.then(function(response) {
 					console.log("Error? " + response.data.errorList.length);
 					if (response.data.errorList.length == 0) {
+						$('.modal-backdrop').hide();
 						$route.reload();
 						//There were no errors.
 						alert("Inserting course was successful.");
@@ -277,6 +279,7 @@ app.controller('courseController', function($scope, $http, $httpParamSerializer,
 						console.log("Error? " + response.data.errorList.length);
 						if (response.data.errorList.length == 0) {
 							$route.reload();
+							$('.modal-backdrop').hide();
 							//There were no errors.
 							alert("Updating course was successful.");
 							

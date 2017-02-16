@@ -18,7 +18,7 @@
  * The angular module object.
  * @param pizzaTimeApp - the application name (refer to the 'ng-app' directive)
  */
-app.controller('bestStudentController', function($scope, $http, $httpParamSerializer) {
+app.controller('bestStudentController', function($scope, $http, $httpParamSerializer,$route) {
 	console.log("bestStudentController " + "start");
 	
 	$scope.courseID = 973;
