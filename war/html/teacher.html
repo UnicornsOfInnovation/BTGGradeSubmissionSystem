@@ -170,7 +170,7 @@
                                                             
 	                                                            <tr  ng-repeat="studentGradeModel in studentGradeList">
 	                                                          	    <td width="30%" style="text-align:center;">
-	                                                                <label class="contentLabel">{{studentGradeModel.firstName + studentGradeModel.lastName}} </label>
+	                                                                <label class="contentLabel">{{studentGradeModel.firstName + " " + studentGradeModel.lastName}} </label>
 	                                                                </td>
 	                                                                 <td width="15%" style="text-align:center;">
 	                                                                <input type="text" class="form-control" ng-model="studentGradeModel.grade"  style="text-align:center" ng-disabled="editable == false"> </label>                 

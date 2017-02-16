@@ -135,8 +135,6 @@ $scope.getBestStudentList = function(){
 		});
 		console.log("courseController.listCourses " + "end");
 	}
-	
-		
 	$scope.listCourses();
 	$scope.getBestStudentList();
 });
