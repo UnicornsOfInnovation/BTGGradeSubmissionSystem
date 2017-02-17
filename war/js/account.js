@@ -83,7 +83,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 				alert(errorMessage);
 			}
 		}, function() {
-			alert("An error has occured");
+			 
 		});
 		console.log("accountController.listAccounts " + "end");
 	}
@@ -119,7 +119,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 				alert(errorMessage);
 			}
 		}, function() {
-			alert("An error has occured");
+			 
 		});
 		console.log("courseController.listCourses " + "end");
 	}
@@ -158,7 +158,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 				alert(errorMessage);
 			}
 		}, function() {
-			alert("An error has occured");
+			 
 		});
 		console.log("accountController.listAccounts " + "end");
 	}
@@ -208,7 +208,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 				alert(errorMessage);
 			}
 		}, function() {
-			alert("An error has occured");
+			 
 		});
 		console.log("accountController.listAccounts " + "end");
 	}
@@ -251,7 +251,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						alert(errorMessage);
 					}
 				}, function() {
-					alert("An error has occured");
+					 
 				})
 		
 		}
@@ -303,7 +303,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						alert(errorMessage);
 					}
 				}, function() {
-					alert("An error has occured");
+					 
 				})
 
 		}
@@ -350,7 +350,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						alert(errorMessage);
 					}
 				}, function() {
-					alert("An error has occured");
+					 
 				})
 
 		}
@@ -495,7 +495,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						alert(errorMessage);
 					}
 				}, function() {
-					alert("An error has occured");
+					 
 				})
 				
 			}
@@ -558,7 +558,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						alert(errorMessage);
 					}
 				}, function() {
-					alert("An error has occured");
+					 
 				})
 				}
 		}
@@ -615,7 +615,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						alert(errorMessage);
 					}
 				}, function() {
-					alert("An error has occured");
+					 
 				})
 				}
 		}

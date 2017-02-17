@@ -155,7 +155,7 @@ angular.module('loginApp').controller('studentController', function($scope,$loca
 				$scope.myTableArray.push([" ", " ", "GPA", gpa.toFixed(2)]);
 				var columns2 = [" "," "];
 				var array2=[];
-				array2.push(["Student Name", $scope.studentAccount.firstName + $scope.studentAccount.lastName]);
+				array2.push(["Student Name", $scope.studentAccount.firstName +" "+ $scope.studentAccount.lastName]);
 				array2.push(["School", $scope.studentAccount.school]);
 				array2.push(["Strand", $scope.studentAccount.strand]);
 				array2.push(["Year Level", $scope.studentAccount.yearLevel]);

@@ -92,7 +92,7 @@
                                                             
                                                             <tr  ng-repeat="studentGradeModel in studentGradeList|orderBy:'lastName' | filter:courseModel.id">
                                                           	    <td  style="text-align:center; width:50%;">
-                                                                {{studentGradeModel.firstName + studentGradeModel.lastName}} 
+                                                                {{studentGradeModel.firstName +" "+ studentGradeModel.lastName}} 
                                                                 </td>
                                                                  <td  style="text-align:center; width:50%;">
                                                                {{studentGradeModel.grade}}      
@@ -109,8 +109,8 @@
                         </div>
                     </div>
                   
-                    <button type="button" class="btn btn-primary" data-toggle="modal" style="float:center;" ng-click="callme()">Download Class List</button></td>
-                                                           
+                    <center><button type="button" class="btn btn-primary" data-toggle="modal"  ng-click="callme()">Download Class List</button></td>
+                            </center>                               
                 </div>
             
         </div>
