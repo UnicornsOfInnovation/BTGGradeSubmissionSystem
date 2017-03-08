@@ -41,6 +41,35 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 	
 	var columns = ['Student Name','FG'];
 	var myTableArray = [];
+	
+	$scope.listStudentAccount = function() {
+		console.log("accountController.listAccounts " + "start");
+		var object = {
+				action: "GetAllStudentAccounts" //flag to determine which controller to use
+		}
+		$http.post("/Account",  $httpParamSerializer(object),
+				{// configuring the request not a JSON type.
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}
+		)
+		.then(function(response) {
+			if (response.data.errorList.length == 0) {
+				$scope.studentList = response.data.studentAccounts;
+				$scope.getStudentGradeList();
+			} else {
+				var errorMessage = "";
+				for (var i = 0; i < response.data.errorList.length; i++) {
+					errorMessage += response.data.errorList[i];
+					
+				}
+				alert(errorMessage);
+			}
+		}, function() {
+			 
+		});
+		console.log("accountController.listAccounts " + "end");
+	}
+	
 	$scope.getStudentGradeList = function(){
 		
 		var object = {
@@ -55,9 +84,22 @@ app.controller('classListController', function($scope, $http, $httpParamSerializ
 			if (response.data.errorList.length == 0) {
 				$scope.studentGradeList = response.data.allStudentGrades;
 				
-				for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
+				for(var ctr=$scope.studentGradeList.length-1 ;  ctr >= 0;ctr--){
 					if($scope.studentGradeList[ctr].grade==0){
 						$scope.studentGradeList[ctr].grade="NG";
+					}
+					var checkFlag = 0;
+					for(var ctr2 = 0; ctr2<$scope.studentList.length;ctr2++){
+						if($scope.studentGradeList[ctr].accountId == $scope.studentList[ctr2].accountId){
+							checkFlag = 1;
+							console.log("STATUS-->>");
+							console.log($scope.studentList[ctr2].status);
+							
+						}
+					}
+					if(checkFlag == 0){
+						console.log("spliced!");
+						$scope.studentGradeList.splice(ctr,1);
 					}
 				}
 				$scope.listTeacherAccount();
@@ -89,6 +131,20 @@ $scope.getBestStudentList = function(){
 			if (response.data.errorList.length == 0) {
 				
 				$scope.bestStudentList = response.data.bestStudentList;
+				for(var ctr=$scope.bestStudentList.length-1 ;  ctr >= 0;ctr--){
+					var checkFlag = 0;
+					for(var ctr2 = 0; ctr2<$scope.studentList.length;ctr2++){
+						if($scope.bestStudentList[ctr].accountId == $scope.studentList[ctr2].accountId){
+							checkFlag = 1;
+							console.log("STATUS-->>");
+							console.log($scope.studentList[ctr2].status);
+						}
+					}
+					if(checkFlag == 0){
+						console.log("spliced!");
+						$scope.bestStudentList.splice(ctr,1);
+					}
+				}
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -115,7 +171,7 @@ $scope.getBestStudentList = function(){
 			if (response.data.errorList.length == 0) {
 				$scope.courseList = response.data.courseDtoList;
 				$scope.courseModel = $scope.courseList[0];
-				$scope.getStudentGradeList();
+				$scope.listStudentAccount();
 				
 			} else {
 				var errorMessage = "";
@@ -266,11 +322,16 @@ $scope.getBestStudentList = function(){
 		serviceShareData.logout();
 		
 	}
+
 	$scope.checkAccess = function(){
-		serviceShareData.isLogged();
-		$scope.listCourses();
+		if("admin"==serviceShareData.isLogged()){
+			$scope.listCourses();
+		}else{
+			serviceShareData.redirectToType();
+		}
 	}
-	$scope.checkAccess();	
+	
+	$scope.checkAccess();
 	
 	
 });

@@ -228,16 +228,16 @@
                   </div>
                   <div class="modal-body" ng-form="changePasswordForm">
                   		<label class="contentLabel"> Current Password: </label><br> 
-                  		<input class ="form-control" type="text" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.oldPassword" maxlength="12" required>
+                  		<input class ="form-control" type="password" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.oldPassword" maxlength="12" required>
                     	
                   		<span style="color:red" ng-show="changePasswordForm.password.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
 						                      			
 						<label class="contentLabel"> New Password: </label><br> 
-						<input class ="form-control" type="text" name="password2" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.newPassword" maxlength="12" required>
+						<input class ="form-control" type="password" name="password2" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.newPassword" maxlength="12" required>
                     	<span style="color:red" ng-show="changePasswordForm.password2.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
 						
                     	<label class="contentLabel"> Confirm New Password: </label><br> 
-                    	<input class ="form-control" type="text" name="password3" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.confirmNewPassword" maxlength="12"required>
+                    	<input class ="form-control" type="password" name="password3" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.confirmNewPassword" maxlength="12"required>
 						<span style="color:red" ng-show="changePasswordForm.password3.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
 						
                   </div>

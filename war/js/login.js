@@ -25,14 +25,23 @@ app.config(['$routeProvider', function($routeProvider) {
   }]);
 
 app.controller('loginController', function($scope, $http, $location, $httpParamSerializer, serviceShareData) {
+	$scope.checkAccess = function(){
+		if(false!=serviceShareData.isLogged()){
+			serviceShareData.redirectToType();
+		}
+	}
 	
 	$scope.login = function(){
+		if(false!=serviceShareData.isLogged()){
+			serviceShareData.redirectToType();
+			return true;
+		}
 		var Redirect = document.createElement("form");
 		document.body.appendChild(Redirect);
 		if($scope.username == null || $scope.password == null){
 			alert("Please supply username or password.");
 		} else if($scope.username == "admin" && $scope.password == "admin"){
-			serviceShareData.addData("admin");
+			serviceShareData.addData("admin","admin");
 			Redirect.setAttribute("method", "post");
 			Redirect.setAttribute("action", "adminPage");
 			Redirect.submit();
@@ -48,32 +57,37 @@ app.controller('loginController', function($scope, $http, $location, $httpParamS
 			)
 			.then(function(response) {
 				console.log(" --> "+response.data.accountLoggedIn);
-
-				if(response.data.accountLoggedIn == "student"){
-					$location.path("admin");
-					console.log("NO error List");
-//					var Redirect = document.createElement("form");
-					Redirect.setAttribute("method", "post");
-					Redirect.setAttribute("accountID", response.data.accountID);
-					serviceShareData.addData(response.data.accountID);
-					console.log("session->"+serviceShareData.getData());
-					Redirect.setAttribute("action", "studentPage");
-					Redirect.submit();
+				if(response.data.accountStatus!=false){
+					console.log(" STATUS "+response.data.accountStatus);
+					if(response.data.accountLoggedIn == "student"){
+						$location.path("admin");
+						console.log("NO error List");
+	//					var Redirect = document.createElement("form");
+						Redirect.setAttribute("method", "post");
+						Redirect.setAttribute("accountID", response.data.accountID);
+						serviceShareData.addData(response.data.accountID, "student");
+						//serviceShareData.addData1("student");
+						console.log("session->"+serviceShareData.getData());
+						Redirect.setAttribute("action", "studentPage");
+						Redirect.submit();
+					}
+					else if(response.data.accountLoggedIn == "teacher"){
+	//					var Redirect = document.createElement("form");
+						console.log("NO error List");
+						Redirect.setAttribute("method", "post");
+						Redirect.setAttribute("accountID", response.data.accountID);
+						serviceShareData.addData(response.data.accountID, "teacher");
+						//serviceShareData.addData2("teacher");
+						Redirect.setAttribute("action", "teacherPage");
+						Redirect.submit();
+					}
+					else if(response.data.accountLoggedIn == ""){
+						alert(response.data.errorList);
+						console.log("NO error List");
+					} 
+				}else{
+					alert("Account has been deactivated");
 				}
-				else if(response.data.accountLoggedIn == "teacher"){
-//					var Redirect = document.createElement("form");
-					console.log("NO error List");
-					Redirect.setAttribute("method", "post");
-					Redirect.setAttribute("accountID", response.data.accountID);
-					serviceShareData.addData(response.data.accountID);
-					Redirect.setAttribute("action", "teacherPage");
-					Redirect.submit();
-				}
-				else if(response.data.accountLoggedIn == ""){
-					alert(response.data.errorList);
-					console.log("NO error List");
-				} 
-				
 			}, function() {
 				alert("Wrong username and/or password! Try again.");
 				$scope.username = null;
@@ -84,7 +98,7 @@ app.controller('loginController', function($scope, $http, $location, $httpParamS
 		
 		
 	}// End of login
-
+	$scope.checkAccess();
 });
 
 

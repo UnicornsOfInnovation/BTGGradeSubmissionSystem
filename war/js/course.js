@@ -57,7 +57,6 @@ app.controller('courseController', function($scope,$route, $http, $httpParamSeri
 				alert(errorMessage);
 			}
 		}, function() {
-			alert("An error has occured");
 		});
 		console.log("accountController.listAccounts " + "end");
 	}
@@ -183,7 +182,7 @@ app.controller('courseController', function($scope,$route, $http, $httpParamSeri
 				}
 				var flag=0;
 				for(var y = 0; y <$scope.courseList.length;y++){
-					if(courseObject.courseCode == $scope.courseList[y].courseCode){
+					if(courseObject.courseCode.toUpperCase() == $scope.courseList[y].courseCode.toUpperCase()){
 						alert("Course Code already exist");
 						flag = 1;
 					}
@@ -199,6 +198,7 @@ app.controller('courseController', function($scope,$route, $http, $httpParamSeri
 					if (response.data.errorList.length == 0) {
 						$('.modal-backdrop').hide();
 						$route.reload();
+						$scope.refreshButton();
 						//There were no errors.
 						alert("Inserting course was successful.");
 					
@@ -249,7 +249,7 @@ app.controller('courseController', function($scope,$route, $http, $httpParamSeri
 				} else {
 					for(var x=0; x < $scope.courseList.length; x++){	
 						if(course.id != $scope.courseList[x].courseId){
-							if(course.courseName == $scope.courseList[x].courseName){
+							if(course.courseName.toUpperCase() == $scope.courseList[x].courseName.toUpperCase()){
 								check = 1;
 							}
 						}
@@ -263,7 +263,7 @@ app.controller('courseController', function($scope,$route, $http, $httpParamSeri
 				
 				var flag=0;
 				for(var y = 0; y <$scope.courseList.length;y++){
-					if(course.courseCode == $scope.courseList[y].courseCode && course.id != $scope.courseList[y].id){
+					if(course.courseCode.toUpperCase() == $scope.courseList[y].courseCode.toUpperCase() && course.id != $scope.courseList[y].id){
 						alert("Course Code already exist");
 						flag = 1;
 					}
@@ -280,6 +280,8 @@ app.controller('courseController', function($scope,$route, $http, $httpParamSeri
 						if (response.data.errorList.length == 0) {
 							$route.reload();
 							$('.modal-backdrop').hide();
+
+							$scope.refreshButton();
 							//There were no errors.
 							alert("Updating course was successful.");
 							
@@ -326,10 +328,19 @@ app.controller('courseController', function($scope,$route, $http, $httpParamSeri
 		
 	}
 	$scope.checkAccess = function(){
-		serviceShareData.isLogged();
-		
+		if("admin"==serviceShareData.isLogged()){
+			$scope.initRegisterCourseModal();
+		}else{
+			serviceShareData.redirectToType();
+		}
 	}
-	$scope.checkAccess();	
-	$scope.initRegisterCourseModal();
+	$scope.refreshButton =function(){
+		var Redirect = document.createElement("form");
+		document.body.appendChild(Redirect);
+		Redirect.setAttribute("method", "post");
+		Redirect.setAttribute("action", "");
+		Redirect.submit();
+	}
+	$scope.checkAccess();
 	
 });

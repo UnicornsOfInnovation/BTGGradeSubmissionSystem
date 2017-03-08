@@ -7,7 +7,7 @@
 		<p>Results: <label ng-model="filterCount">{{filteredResultsStudents.length + filteredResultsTeachers.length}} </label></p>
 		
 	</div>
-	
+                 	 
 	<br><br>
 <!-- /.col-lg-12 -->
 <div>
@@ -19,10 +19,10 @@
               <!-- /.panel-heading -->
               <div class="panel-body">
                               	<div class="panel-group" id="accordion">              
-	                               <div class="panel panel-default"  ng-repeat="studentModel in studentList| orderBy:'firstName' | filter:search as filteredResultsStudents ">
+	                               <div class="panel panel-default"  ng-repeat="studentModel in studentList| orderBy:'lastName' | filter:search as filteredResultsStudents ">
 	                                   <div class="panel-heading">
 	                                       <h4 class="panel-title">
-	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="false" class="" >{{studentModel.firstName +" "+ studentModel.lastName}}</a>
+	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="false" class="" >{{studentModel.lastName+ ", "+ studentModel.firstName }}</a>
 	                                       </h4>
 	                                   </div>
 	                                   <div id="collapse{{$index}}" class="panel-collapse collapse" aria-expanded="false">
@@ -90,13 +90,13 @@
 						          <div class="modal-dialog">
 						              <div class="modal-content" ng-form="editStudentForm" id="editStudentModal">
 						                  <div class="modal-header">
-						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+						                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">X</button>
 						                      <h4 class="modal-title" id="myModalLabel">Edit Student</h4>
 						                  </div>
 								                  <div class="modal-body">
 								                  	<div ng-form="editStudentForm" >
 								                  		<label class="contentLabel"> Username: </label><br> 
-														<input class ="form-control"  type="text" name="username"vng-pattern="/.{11,}/" ng-model="studentModel.username" maxlength="36" title="11 characters minimum"required >
+														<input class ="form-control"  type="text" name="username" ng-pattern="/.{11,}/" ng-model="studentModel.username" maxlength="36" title="11 characters minimum"required >
 														<span style="color:red" ng-show="editStudentForm.username.$error.pattern">*Username should have a minimum of 11 characters</span><br>
 						                      			<label class="contentLabel"> Password: </label><br> 
 														<input class ="form-control"  type="text" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="studentModel.password" required title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
@@ -125,10 +125,10 @@
 														<span style="color:red" ng-show="editStudentForm.parentContactNumber.$error.pattern">*Invalid input detected</span><br>            			
                     											
 								                 		<label class="contentLabel"> School: </label><br> 
-														<input class ="form-control" type="text" name="school" ng-pattern="/.{24,}/" ng-model="studentModel.school" required title="24 characters minimum">
+														<input class ="form-control" type="text" name="school" ng-pattern="/.{24,}/" ng-model="studentModel.school" maxlength="36"required title="24 characters minimum">
 								                	    <span style="color:red" ng-show="editStudentForm.school.$error.pattern">*minimum of 24 characters</span><br>            			
                     											
-								                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                      <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
 								                      <button type="button" class="btn btn-primary" ng-click="updateStudentAccount(studentModel,yearLevel,strandEdit)" ng-disabled="editStudentForm.$invalid">Save changes</button>
 								                    </div>
 								                  </div>
@@ -156,10 +156,10 @@
               <!-- /.panel-heading -->
               <div class="panel-body">
                               	<div class="panel-group" id="accordion">
-	                               <div class="panel panel-default"  ng-repeat="teacherModel in teacherList| orderBy:'firstName' | filter:search as filteredResultsTeachers">
+	                               <div class="panel panel-default"  ng-repeat="teacherModel in teacherList| orderBy:'lastName' | filter:search as filteredResultsTeachers">
 	                                   <div class="panel-heading">
 	                                       <h4 class="panel-title">
-	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapsed{{$index}}" aria-expanded="false" class="" >{{teacherModel.firstName + " " + teacherModel.lastName}}</a>
+	                                           <a data-toggle="collapse" data-parent="#accordion" data-target="#collapsed{{$index}}" aria-expanded="false" class="" >{{teacherModel.lastName+ ", "+ teacherModel.firstName  }}</a>
 	                                       </h4>
 	                                   </div>
 	                                   <div id="collapsed{{$index}}" class="panel-collapse collapse" aria-expanded="false">
@@ -213,7 +213,7 @@
 		                                  <div class="modal-dialog" id="editTeacherModal">
 		                                      <div class="modal-content" ng-form="editTeacherForm">
 		                                          <div class="modal-header">
-		                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+		                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">X</button>
 		                                              <h4 class="modal-title" id="myModalLabel">Edit Teacher</h4>
 		                                          </div>
 		                                          <div class="modal-body">
@@ -239,7 +239,7 @@
 											      		</select><br>
 												  </div>
 		                                          <div class="modal-footer">
-		                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                                              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
 		                                              <button type="button" class="btn btn-primary" ng-click="updateTeacherAccount(teacherModel,courseEdit)" ng-disabled="editTeacherForm.$invalid"">Save changes</button>
 		                                          </div>
 		                                      </div>
@@ -262,7 +262,7 @@
           <div class="modal-dialog" id="addStudentModal">
               <div class="modal-content" ng-form="addStudentForm" ng-submit="registerAccount()">
                   <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">X</button>
                       <h4 class="modal-title" id="myModalLabel">Add Account</h4>
                   </div>
                   <div class="modal-body">
@@ -301,7 +301,7 @@
 																<input class ="form-control" type="text"  ng-pattern="/^[0-9]+$/" maxlength="11" name="parentContactNumber" ng-model="Account.parentContact" required>
 										                  		<span style="color:red" ng-show="addStudentForm.parentContactNumber.$error.pattern">*Invalid input detected</span><br>            			
                     											<label class="contentLabel"> School: </label><br> 
-																<input class ="form-control" type="text" ng-pattern="/.{24,}/" name="school" ng-model="Account.school" required title="24 characters minimum">
+																<input class ="form-control" type="text" ng-pattern="/.{12,}/" maxlength="36" name="school" ng-model="Account.school" required title="24 characters minimum">
 														     	<span style="color:red" ng-show="addStudentForm.school.$error.pattern">*minimum of 24 characters</span><br>            			
                     											
 														      </div>
@@ -324,13 +324,13 @@
 																<input class ="form-control" type="text"  ng-pattern="/^[0-9]+$/" name="parentContactNumber" maxlength="11" 	ng-model="Account.parentContact" required>
 										                  		<span style="color:red" ng-show="addStudentForm.parentContactNumber.$error.pattern">Invalid input detected</span><br>            			
                     											<label class="contentLabel"> School: </label><br> 
-																<input class ="form-control" type="text" ng-pattern="/.{24,}/" ng-model="Account.school" required><br>
+																<input class ="form-control" type="text" ng-pattern="/.{12,}/" maxlength="36"ng-model="Account.school" required><br>
 														     
 														      </div>
 														</div>
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
                       <button type="button" class="btn btn-primary" ng-click="registerAccount()" ng-disabled="addStudentForm.$invalid">Add</button>
                  	 
                   </div>

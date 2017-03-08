@@ -291,6 +291,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						// initializing the contents of the ingredient screen.
 						$('#registerStudentAccount').modal('hide');
 						$('.modal-backdrop').hide();
+					
 						$scope.listStudentAccount();
 						$scope.initRegisterStudentModal();				
 					} else {
@@ -446,20 +447,28 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 			}	
 			var flag=0;
 			for(var x = 0; x <$scope.teacherList.length;x++){
-				if(account.username == $scope.teacherList[x].username){
+				if(account.username.toUpperCase() == $scope.teacherList[x].username.toUpperCase()){
 					alert("username already exist");
 					flag = 1;
-				
+				}
+				if(account.emailAddress.toUpperCase() == $scope.teacherList[x].emailAddress.toUpperCase()){
+					alert("Email already in use!");
+					flag = 1;
 				}
 			}
 			for(var y = 0; y <$scope.studentList.length;y++){
-				if(account.username == $scope.studentList[y].username){
+				if(account.username.toUpperCase() == $scope.studentList[y].username.toUpperCase()){
 					alert("username already exist");
+					flag = 1;
+				}
+				console.log(account.emailAddress.toUpperCase()+"   "+$scope.studentList[y].emailAddress.toUpperCase())
+				if(account.emailAddress.toUpperCase() == $scope.studentList[y].emailAddress.toUpperCase()){
+					alert("Email already in use!");
 					flag = 1;
 				}
 			}
 			for(var x = 0; x <$scope.teacherList.length;x++){
-				if(account.courseCode == $scope.teacherList[x].courseCode){
+				if(account.courseCode.toUpperCase() == $scope.teacherList[x].courseCode.toUpperCase()){
 					alert("Course already has a teacher assigned!");
 					flag = 1;
 				
@@ -467,7 +476,6 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 			}
 			if(flag==0){
 				console.log("STRAND-->>>" + account.strand);
-				$route.reload();
 				$http.post("/account", $httpParamSerializer(account),
 						{// configuring the request not a JSON type.
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -481,10 +489,7 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						// initializing the contents of the ingredient screen.
 						$('#registerStudentAccount').modal('hide');
 						$('.modal-backdrop').hide();
-						$route.reload();
-						
-						$scope.listStudentAccount();
-						$scope.initRegisterStudentModal();				
+						$scope.refreshButton();
 					} else {
 						// display the error messages.
 						var errorMessage = "";
@@ -527,10 +532,17 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 				console.log("-->>>"+student.strand+"<<<----")
 				var flag=0;
 				for(var y = 0; y <$scope.studentList.length;y++){
-					if(student.username == $scope.studentList[y].username && student.id != $scope.studentList[y].id){
-						alert("username already exist");
-						flag = 1;
+					if(student.id != $scope.studentList[y].id){
+						if(student.username.toUpperCase() == $scope.studentList[y].username.toUpperCase()){
+							alert("username already exist");
+							flag = 1;
+						}
+						if(student.emailAddress.toUpperCase() == $scope.studentList[y].emailAddress.toUpperCase()){
+							alert("Email already in use!");
+							flag = 1;
+						}
 					}
+					
 				}
 				if(flag==0){
 					$http.post("/account", $httpParamSerializer(student),
@@ -541,13 +553,16 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 				.then(function(response) {
 					console.log("Error? " + response.data.errorList.length);
 					if (response.data.errorList.length == 0) {
-						$route.reload();
 						//There were no errors.
 						alert("Updating student account was successful.");
 						// initializing the contents of the ingredient screen.
 						$('#editStudentModal').modal('hide');
 						$('.modal-backdrop').hide();
-						$scope.listStudentAccount();
+						var Redirect = document.createElement("form");
+						document.body.appendChild(Redirect);
+						Redirect.setAttribute("method", "post");
+						Redirect.setAttribute("action", "");
+						Redirect.submit();
 					} else {
 						// display the error messages.
 						var errorMessage = "";
@@ -583,10 +598,19 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 				}
 				var flag=0;
 				for(var y = 0; y <$scope.teacherList.length;y++){
-					if(teacher.username == $scope.teacherList[y].username && teacher.id != $scope.teacherList[y].id){
-						alert("username already exist");
-						flag = 1;
+					var name1 = teacher.username;
+					var name2 = $scope.teacherList[y].username;
+					if(teacher.id != $scope.teacherList[y].id){
+						if(name1.toUpperCase() === name2.toUpperCase() ){
+							alert("username already exist");
+							flag = 1;
+						}
+						if(teacher.emailAddress.toUpperCase() == $scope.teacherList[y].emailAddress.toUpperCase()){
+							alert("Email already in use!");
+							flag = 1;
+						}	
 					}
+					
 				}
 				if(flag==0){
 				$http.post("/account", $httpParamSerializer(teacher),
@@ -603,7 +627,12 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 						// initializing the contents of the ingredient screen.
 						$('#editTeacherModal').modal('hide');
 						$('.modal-backdrop').hide();
-						$scope.listTeacherAccount();
+						var Redirect = document.createElement("form");
+						document.body.appendChild(Redirect);
+						Redirect.setAttribute("method", "post");
+						Redirect.setAttribute("action", "");
+						Redirect.submit();
+						$route.reload();
 						
 					} else {
 						// display the error messages.
@@ -690,17 +719,34 @@ app.controller('accountController', function($scope,$route, $http, $httpParamSer
 		$scope.teacherAccount.courseCode = "";
 		console.log("accountController.initTeacher " + "End");
 	}
-	
+	$scope.cancel = function(){
+		$scope.initLists();
+		$scope.initRegisterAccountModal();
+		$scope.initRegisterStudentModal();
+		$scope.initRegisterTeacherModal();
+	}
 	$scope.logOut = function(){
 		serviceShareData.logout();
 		
 	}
 	$scope.checkAccess = function(){
-		serviceShareData.isLogged();
-		$scope.initLists();
-		$scope.initRegisterAccountModal();
-		$scope.initRegisterStudentModal();
-		$scope.initRegisterTeacherModal();
+		if("admin"==serviceShareData.isLogged()){
+			$scope.initLists();
+			$scope.initRegisterAccountModal();
+			$scope.initRegisterStudentModal();
+			$scope.initRegisterTeacherModal();
+		}else{
+			serviceShareData.redirectToType();
+		}
+
+	}
+	$scope.refreshButton =function(){
+		var Redirect = document.createElement("form");
+		document.body.appendChild(Redirect);
+		Redirect.setAttribute("method", "post");
+		Redirect.setAttribute("action", "");
+		Redirect.submit();
+		$route.reload();
 	}
 	$scope.checkAccess();
 

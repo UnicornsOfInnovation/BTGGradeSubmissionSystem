@@ -40,6 +40,7 @@ public class LoginController extends Controller{
             accountDto = accountController.getAccountByUsernamePasswordController(jsonObject);
             System.out.println(accountDto.getEmailAddress());
             jsonObject.put("accountLoggedIn", accountDto.getUserType());
+            jsonObject.put("accountStatus", accountDto.getStatus());
             jsonObject.put("accountID", accountDto.getAccountId());
         } catch (Exception e){
             System.out.println("Exception Found in run() in LoginController:");

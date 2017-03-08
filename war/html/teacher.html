@@ -168,12 +168,12 @@
                                                                 </td>
                                                             </tr>
                                                             
-	                                                            <tr  ng-repeat="studentGradeModel in studentGradeList">
+	                                                            <tr  ng-repeat="studentGradeModel in studentGradeList | orderBy:'lastName'">
 	                                                          	    <td width="30%" style="text-align:center;">
-	                                                                <label class="contentLabel">{{studentGradeModel.firstName + " " + studentGradeModel.lastName}} </label>
+	                                                                <label class="contentLabel">{{studentGradeModel.lastName+ ", "+ studentGradeModel.firstName  }} </label>
 	                                                                </td>
 	                                                                 <td width="15%" style="text-align:center;">
-	                                                                <input type="text" class="form-control" ng-model="studentGradeModel.grade"  style="text-align:center" ng-disabled="editable == false"> </label>                 
+	                                                                <input type="number" class="form-control" ng-model="studentGradeModel.grade"  style="text-align:center" ng-disabled="editable == false"> </label>                 
 	                                                                    
 	                                                                </td>
 	                                                            </tr>
@@ -195,7 +195,7 @@
                                                     		<td>
                                                     			<div class="panel panel-danger" ng-hide="editable" >
 												                        <div class="panel-heading" style="height:42px">
-												                               &nbsp&nbsp&nbsp&nbsp <label class="contentLabel" ng-repeat="bestStudentModel in bestStudentList | filter:courseDetails.courseId" style="font-weight: normal">{{bestStudentModel.firstName + " "+ bestStudentModel.lastName}} </label>
+												                               &nbsp&nbsp&nbsp&nbsp <label class="contentLabel" ng-repeat="bestStudentModel in bestStudentList | filter:courseDetails.courseId" style="font-weight: normal">{{bestStudentModel.lastName + ", " + bestStudentModel.firstName }} </label>
 												                        </div>
 												                    </div>	
 												                    <select ng-show="editable"  name="type" class="form-control" ng-model="bestStudent" ng-options="studentModel.firstName + ' ' +studentModel.lastName for studentModel in studentGradeList" required>
@@ -206,7 +206,7 @@
                                                     
                                                    <br><br>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" ng-show="editable" ng-click="saveGrades()">Save Changes</button>
-                               						<button type="button" class="btn btn-primary" data-toggle="modal" ng-show="editable" ng-click="editable = false">Cancel</button>
+                               						<button type="button" class="btn btn-primary" data-toggle="modal" ng-show="editable" ng-click="cancel()">Cancel</button>
                                
                                                     </form>
                                          </div>
@@ -215,7 +215,7 @@
                         <div class="panel-footer">
                         </div>
                     </div>
-                     <button type="button" class="btn btn-primary" data-toggle="modal" ng-click="callme()">Download Class List</button>
+                     <button type="button" class="btn btn-primary" data-toggle="modal"style="position:relative;left: 43%;" ng-click="callme()">Download Class List</button>
                                 
                 </div>
             
@@ -236,16 +236,16 @@
                   </div>
                   <div class="modal-body" ng-form="changePasswordForm">
                   		<label class="contentLabel"> Current Password: </label><br> 
-                  		<input class ="form-control" type="text" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.oldPassword" maxlength="12" required>
+                  		<input class ="form-control" type="password" name="password" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.oldPassword" maxlength="12" required>
                     	
                   		<span style="color:red" ng-show="changePasswordForm.password.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
 						                      			
 						<label class="contentLabel"> New Password: </label><br> 
-						<input class ="form-control" type="text" name="password2" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.newPassword" maxlength="12" required>
+						<input class ="form-control" type="password" name="password2" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.newPassword" maxlength="12" required>
                     	<span style="color:red" ng-show="changePasswordForm.password2.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
 						
                     	<label class="contentLabel"> Confirm New Password: </label><br> 
-                    	<input class ="form-control" type="text" name="password3" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.confirmNewPassword" maxlength="12"required>
+                    	<input class ="form-control" type="password" name="password3" ng-pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" ng-model="pass.confirmNewPassword" maxlength="12"required>
 						<span style="color:red" ng-show="changePasswordForm.password3.$error.pattern">*Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</span><br>
 						
                   </div>

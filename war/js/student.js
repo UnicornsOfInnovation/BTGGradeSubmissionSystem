@@ -57,6 +57,7 @@ angular.module('loginApp').controller('studentController', function($scope,$loca
 		console.log("old password: " + $scope.pass.oldPassword);
 		console.log("new password: " + $scope.pass.newPassword);
 		console.log("confirm new password: " + $scope.pass.confirmNewPassword);
+		console.log("students Password: "+$scope.studentAccount.password);
 		
 		if($scope.pass.oldPassword != $scope.studentAccount.password){
 			alert("Access denied! Wrong password!");
@@ -86,8 +87,15 @@ angular.module('loginApp').controller('studentController', function($scope,$loca
 					//There were no errors.
 					alert("Changing password was successful.");
 					// initializing the contents of the ingredient screen.
+					
 					$('#changePassword').modal('hide');
 					$('.modal-backdrop').hide();
+					var Redirect = document.createElement("form");
+					document.body.appendChild(Redirect);
+					Redirect.setAttribute("method", "post");
+					Redirect.setAttribute("action", "");
+					Redirect.submit();
+					$route.reload();
 				} else {
 					// display the error messages.
 					var errorMessage = "";
@@ -400,9 +408,11 @@ angular.module('loginApp').controller('studentController', function($scope,$loca
 		
 	}
 	$scope.checkAccess = function(){
-		serviceShareData.isLogged();
-
-		$scope.getStudentAccount();
+		if("student"==serviceShareData.isLogged()){
+			$scope.getStudentAccount();
+		}else{
+			serviceShareData.redirectToType();
+		}
 	}
 	$scope.checkAccess();
 

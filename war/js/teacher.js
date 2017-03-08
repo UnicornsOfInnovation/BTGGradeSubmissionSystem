@@ -58,6 +58,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 		console.log("old password: " + $scope.pass.oldPassword);
 		console.log("new password: " + $scope.pass.newPassword);
 		console.log("confirm new password: " + $scope.pass.confirmNewPassword);
+		console.log("teacherAccountPassword: "+ $scope.teacherAccount.password);
 		
 		if($scope.pass.oldPassword != $scope.teacherAccount.password){
 			alert("Access denied! Wrong password!");
@@ -89,6 +90,12 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 					// initializing the contents of the ingredient screen.
 					$('#changePassword').modal('hide');
 					$('.modal-backdrop').hide();
+					var Redirect = document.createElement("form");
+					document.body.appendChild(Redirect);
+					Redirect.setAttribute("method", "post");
+					Redirect.setAttribute("action", "");
+					Redirect.submit();
+					$route.reload();
 				} else {
 					// display the error messages.
 					var errorMessage = "";
@@ -154,7 +161,7 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			if (response.data.errorList.length == 0) {
 				$scope.courseDetails = response.data.courseDto[0];
 				console.log("--->"+$scope.courseDetails.courseName);
-				$scope.getStudentGradeList();
+				$scope.listStudentAccount();
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -166,6 +173,36 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			alert("An error has occured");
 		});
 		
+	}
+	
+	
+
+	$scope.listStudentAccount = function() {
+		console.log("accountController.listAccounts " + "start");
+		var object = {
+				action: "GetAllStudentAccounts" //flag to determine which controller to use
+		}
+		$http.post("/Account",  $httpParamSerializer(object),
+				{// configuring the request not a JSON type.
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}
+		)
+		.then(function(response) {
+			if (response.data.errorList.length == 0) {
+				$scope.studentList = response.data.studentAccounts;
+				$scope.getStudentGradeList();
+			} else {
+				var errorMessage = "";
+				for (var i = 0; i < response.data.errorList.length; i++) {
+					errorMessage += response.data.errorList[i];
+					
+				}
+				alert(errorMessage);
+			}
+		}, function() {
+			 
+		});
+		console.log("accountController.listAccounts " + "end");
 	}
 	
 	
@@ -184,9 +221,19 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 			if (response.data.errorList.length == 0) {
 				$scope.studentGradeList = response.data.studentGradesList;
 				console.log("Inside--->"+$scope.studentGradeList[0].grade);
-				for(var ctr = 0; ctr<$scope.studentGradeList.length;ctr++){
-					if($scope.studentGradeList[ctr].grade==0){
-						$scope.studentGradeList[ctr].grade="NG";
+				for(var ctr=$scope.studentGradeList.length-1 ;  ctr >= 0;ctr--){
+					var checkFlag = 0;
+					for(var ctr2 = 0; ctr2<$scope.studentList.length;ctr2++){
+						if($scope.studentGradeList[ctr].accountId == $scope.studentList[ctr2].accountId){
+							checkFlag = 1;
+							console.log("STATUS-->>");
+							console.log($scope.studentList[ctr2].status);
+							
+						}
+					}
+					if(checkFlag == 0){
+						console.log("spliced!");
+						$scope.studentGradeList.splice(ctr,1);
 					}
 				}
 				$scope.getBestStudentList();
@@ -207,11 +254,17 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 	
 	$scope.saveGrades = function(){
 		var saveIt = true;
+		
 		for(var i = 0; i < $scope.studentGradeList.length; i++){
+			if(null==$scope.studentGradeList[i].grade){
+				alert("EMPTY FIELD! Please fill up all fields");
+				saveIt = false;
+				return false;
+			}
 			if( 5.0 < parseFloat($scope.studentGradeList[i].grade) || 1.0 > parseFloat($scope.studentGradeList[i].grade )){
 				alert("Error grade! Please input from 1.0 to 5.0 in student "+(i+1));
 				saveIt = false;
-				break;
+				return false;
 			}
 		}
 		
@@ -355,7 +408,20 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 				if (response.data.errorList.length == 0) {
 					
 					$scope.bestStudentList = response.data.bestStudentList;
-					console.log("yolo->" + $scope.bestStudentList);
+					for(var ctr=$scope.bestStudentList.length-1 ;  ctr >= 0;ctr--){
+						var checkFlag = 0;
+						for(var ctr2 = 0; ctr2<$scope.studentList.length;ctr2++){
+							if($scope.bestStudentList[ctr].accountId == $scope.studentList[ctr2].accountId){
+								checkFlag = 1;
+								console.log("STATUS-->>");
+								console.log($scope.studentList[ctr2].status);
+							}
+						}
+						if(checkFlag == 0){
+							console.log("spliced!");
+							$scope.bestStudentList.splice(ctr,1);
+						}
+					}
 				} else {
 					var errorMessage = "";
 					for (var i = 0; i < response.data.errorList.length; i++) {
@@ -367,14 +433,18 @@ angular.module('loginApp').controller('teacherController', function($scope, $htt
 				alert("An error has occured");
 			});
 		}
-	
+	$scope.cancel = function(){
+		$scope.editable=false;
+		$scope.getStudentGradeList();
+	}
 	$scope.logOut = function(){
 		serviceShareData.logout();
 	}
 	$scope.checkAccess = function(){
-		if(serviceShareData.isLogged()){
-
+		if("teacher"==serviceShareData.isLogged()){
 			$scope.getTeacherAccount();
+		}else{
+			serviceShareData.redirectToType();
 		}
 		
 	}

@@ -18,7 +18,7 @@
  * The angular module object.
  * @param pizzaTimeApp - the application name (refer to the 'ng-app' directive)
  */
-app.controller('bestStudentController', function($scope, $http, $httpParamSerializer,$route) {
+app.controller('bestStudentController', function($scope, $http, $httpParamSerializer,$route,serviceShareData) {
 	console.log("bestStudentController " + "start");
 	
 	$scope.courseID = 973;
@@ -80,7 +80,33 @@ app.controller('bestStudentController', function($scope, $http, $httpParamSerial
 		})
 	}
 	
-	
+	$scope.listStudentAccount = function() {
+		console.log("accountController.listAccounts " + "start");
+		var object = {
+				action: "GetAllStudentAccounts" //flag to determine which controller to use
+		}
+		$http.post("/Account",  $httpParamSerializer(object),
+				{// configuring the request not a JSON type.
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}
+		)
+		.then(function(response) {
+			if (response.data.errorList.length == 0) {
+				$scope.studentList = response.data.studentAccounts;
+				$scope.getBestStudentList();
+			} else {
+				var errorMessage = "";
+				for (var i = 0; i < response.data.errorList.length; i++) {
+					errorMessage += response.data.errorList[i];
+					
+				}
+				alert(errorMessage);
+			}
+		}, function() {
+			 
+		});
+		console.log("accountController.listAccounts " + "end");
+	}
 	
 $scope.getBestStudentList = function(){
 		
@@ -96,6 +122,20 @@ $scope.getBestStudentList = function(){
 			if (response.data.errorList.length == 0) {
 				
 				$scope.bestStudentList = response.data.bestStudentList;
+				for(var ctr=$scope.bestStudentList.length-1 ;  ctr >= 0;ctr--){
+					var checkFlag = 0;
+					for(var ctr2 = 0; ctr2<$scope.studentList.length;ctr2++){
+						if($scope.bestStudentList[ctr].accountId == $scope.studentList[ctr2].accountId){
+							checkFlag = 1;
+							console.log("STATUS-->>");
+							console.log($scope.studentList[ctr2].status);
+						}
+					}
+					if(checkFlag == 0){
+						console.log("spliced!");
+						$scope.bestStudentList.splice(ctr,1);
+					}
+				}
 			} else {
 				var errorMessage = "";
 				for (var i = 0; i < response.data.errorList.length; i++) {
@@ -135,6 +175,21 @@ $scope.getBestStudentList = function(){
 		});
 		console.log("courseController.listCourses " + "end");
 	}
-	$scope.listCourses();
-	$scope.getBestStudentList();
+	
+	$scope.logOut = function(){
+		serviceShareData.logout();
+		
+	}
+
+	$scope.checkAccess = function(){
+		if("admin"==serviceShareData.isLogged()){
+			$scope.listCourses();
+			$scope.listStudentAccount();
+		}else{
+			serviceShareData.redirectToType();
+		}
+	}
+	
+	$scope.checkAccess();
+
 });
